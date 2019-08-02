@@ -1,0 +1,51 @@
+{% if assets %}
+    {% from "helpers/simple_form_macro.html" import render_field %}
+    {% from "helpers/display_macro.html" import display_img, img_link, pdf_link, svg_link, textfield %}
+    {% for asset in assets %}
+        <div class="tr off">
+            <div data-name="{{ asset.png_name }}">
+                {{ loop.index }}. {{ textfield(asset.png_name) }}
+                {{ display_img(dirname, asset.png_name) }}
+                {% if asset.svg_name %}
+                    <div class="bt">
+                        {{ svg_link(dirname, asset.svg_name) }}
+                    </div>
+                {% else %}
+                    <form class="file-form" method=post enctype=multipart/form-data>
+                        <input class="choose-svg" type=file name=svg>
+                        <button class="up-svg" type="button">Submit</button>
+                    </form>
+                {% endif %}
+                {% if asset.pdf_name %}
+                    <div class="bt">
+                        {{ pdf_link(dirname, asset.pdf_name) }}
+                    </div>
+                {% else %}
+                    <form class="file-form" method=post enctype=multipart/form-data>
+                        <input class="choose-pdf" type=file name=pdf>
+                        <button class="up-pdf" type="button">Submit</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div>
+                {{ render_field(dirform.path_select) }}<br/>
+                <div class="red-bt del-all">Delete all</div>
+                <div class="red-bt del-svg">Delete .svg</div>
+                <div class="red-bt del-pdf">Delete .pdf</div>
+            </div>
+        </div>
+    {% endfor %}
+{% elif zip_names %}
+    {% for zip_name in zip_names %}
+        <div class="tr off">
+            <div data-name="{{ zip_name }}">
+                <a href="{{ url_for("static", filename="asset/" + dirname + "/" + zip_name) }}">
+                    {{ zip_name }}
+                </a>
+            </div>
+            <div>
+                <div class="red-bt del-zip">Delete</div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

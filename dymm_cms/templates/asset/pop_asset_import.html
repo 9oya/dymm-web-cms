@@ -1,0 +1,31 @@
+<!doctype html>
+<head>
+    <title>Upload file</title>
+</head>
+<body>
+{% if target == 'images' %}
+    <div class="title">Choose .png files for upload</div>
+    <form action="/api/asset/import/{{ dirname }}/{{ target }}" method=post enctype=multipart/form-data><p>
+        <input type=file name=files multiple>
+        <input type=submit value=Upload>
+    </form>
+{% elif target == 'pdf' %}
+    <div class="title">Choose a .pdf file for upload</div>
+    <form action="/api/asset/import/{{ dirname }}/{{ target }}/{{ tag_id }}" method=post enctype=multipart/form-data><p>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+{% elif target == 'svg' %}
+    <div class="title">Choose a .pdf file for upload</div>
+    <form action="/api/asset/import/{{ dirname }}/{{ target }}/{{ tag_id }}" method=post enctype=multipart/form-data><p>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+{% elif target == 'png' %}
+    <div class="title">Choose a .png file for upload</div>
+    <form action="/api/asset/import/{{ dirname }}/{{ target }}/{{ tag_id }}" method=post enctype=multipart/form-data><p>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+{% endif %}
+</body>

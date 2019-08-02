@@ -1,0 +1,26 @@
+div#admin-div {
+    text-align: center;
+    display: block;
+    overflow: scroll;
+    margin-top: 10%;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+form#admin-form {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+img.loading {
+    max-width: 80px;
+    max-height: 80px;
+    -webkit-animation: rotation 5s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
+}

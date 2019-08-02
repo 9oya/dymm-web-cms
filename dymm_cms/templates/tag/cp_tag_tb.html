@@ -1,0 +1,118 @@
+{% if tags %}
+    {% for tag in tags %}
+        <div
+                class="tr off"
+                data-has-sub="{{ tag.has_low_div|e }}"
+                data-id="{{ tag.id|e }}"
+        >
+            <div>{{ tag.tag_type or "" }}</div>
+            <div>
+                {% if tag.is_active %}
+                    <span class="true">{{ tag.is_active }}</span>
+                {% else %}
+                    <span class="false">{{ tag.is_active }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if tag.has_set %}
+                    <span class="true">{{ tag.has_set }}</span>
+                {% else %}
+                    <span class="false">{{ tag.has_set }}</span>
+                {% endif %}
+            </div>
+            <div>{{ tag.eng_name|e }}</div>
+            <div>{{ tag.kor_name or '' }}</div>
+            <div>{{ tag.jpn_name or '' }}</div>
+            <div>
+                {{ tag.class1 }}
+                ({{ tag.division1|e }}-{{ tag.division2|e }}-{{ tag.division3|e }}-{{ tag.division4|e }}-{{ tag.division5|e }})
+            </div>
+            <div class="bt tr-flip">
+                {% if tag.has_low_div %}
+                    Spread
+                {% else %}
+                    <span class="false">{{ tag.has_low_div }}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% elif tags_w_add %}
+    {% for tag in tags_w_add %}
+        <div
+                class="tr off"
+                data-has-sub="{{ tag.has_low_div|e }}"
+                data-id="{{ tag.id|e }}"
+        >
+            <div>
+                {% if tag.has_set %}
+                    <span class="true">{{ tag.has_set }}</span>
+                {% else %}
+                    <span class="false">{{ tag.has_set }}</span>
+                {% endif %}
+            </div>
+            <div>{{ tag.eng_name|e }}</div>
+            <div>{{ tag.kor_name or '' }}</div>
+            <div>{{ tag.jpn_name or '' }}</div>
+            <div>
+                {{ tag.class1 }}
+                ({{ tag.division1|e }}-{{ tag.division2|e }}-{{ tag.division3|e }}-{{ tag.division4|e }}-{{ tag.division5|e }})
+            </div>
+            <div class="bt tr-flip">
+                {% if tag.has_low_div %}
+                    Spread
+                {% else %}
+                    <span class="false">{{ tag.has_low_div }}</span>
+                {% endif %}
+            </div>
+            <div class="bt tr-add">+Add</div>
+        </div>
+    {% endfor %}
+{% elif tag_sets %}
+    {% for tag_set in tag_sets %}
+        <div
+                class="tr off"
+                data-id="{{ tag_set.id|e }}"
+                data-tag-id="{{ tag_set.sub_id }}"
+        >
+            {% if tag_set.is_active %}
+                <div class="green-bt is-active">{{ tag_set.is_active }}</div>
+            {% else %}
+                <div class="salmon-bt is-active">{{ tag_set.is_active }}</div>
+            {% endif %}
+            <div>
+                {% if tag_set.sub.has_set %}
+                    <span class="true">{{ tag_set.sub.has_set }}</span>
+                {% else %}
+                    <span class="false">{{ tag_set.sub.has_set }}</span>
+                {% endif %}
+            </div>
+            <div class="red-bt tr-up">&#10224;</div>
+            <div class="bt tr-down">&#10225;</div>
+            {% if tag_set.score %}
+                <div class="red-bt tr-score">{{ tag_set.score }} &#10007;</div>
+            {% else %}
+                <div class="bt tr-set">+ Set</div>
+            {% endif %}
+            <div class="bt tr-name">{{ tag_set.sub.eng_name or '' }}</div>
+            <div>{{ tag_set.sub.kor_name or '' }}</div>
+            <div>{{ tag_set.sub.jpn_name or '' }}</div>
+            <div class="bt tr-division">
+                Search
+            </div>
+            <div class="red-bt tr-del">{{ tag_set.sub_id }} &#10007;</div>
+            {% if tag_set.sub.has_icon %}
+                <a href="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}" target="_blank">
+                    <img class="tb-img"
+                         src="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}">
+                </a>
+            {% else %}
+                <div>
+                    <form class="file-form" method=post enctype=multipart/form-data>
+                        <input class="choose-png" type=file name=png>
+                        <button class="up-img" type="button">Submit</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endif %}

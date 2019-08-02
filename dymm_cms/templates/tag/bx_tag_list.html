@@ -1,0 +1,45 @@
+<div class="delegate-item">Tag - List</div>
+<div class="picked-item">
+    <br/>
+    <select class="select-option">
+        <option value="limit" selected>{{ tags_cnt }} tags</option>
+        <option value="all">All tags</option>
+    </select>
+    &nbsp;&nbsp;
+    <div class="bt bt-export"><a href="/api/tag/export/limit" download>Export.xlsx</a></div>
+</div>
+<div class="message-fail"></div>
+<div class="message-success"></div>
+<ul class="wrap-bt">
+    <li class="bt bt-reset">Reset</li>
+    <li>
+        <div>
+            <form class="file-form" method=post enctype=multipart/form-data>
+                <input class="up-csv" type=file name=csv>
+                <button class="up-file" type="button">Submit</button>
+            </form>
+        </div>
+    </li>
+    <li>
+        <div>
+            <form class="file-form" method=post enctype=multipart/form-data>
+                <input class="mod-csv" type=file name=csv>
+                <button class="mod-file" type="button">Submit</button>
+            </form>
+        </div>
+    </li>
+</ul>
+
+<section class="tb">
+    <header>
+        <div>TagType</div>
+        <div>IsActive</div>
+        <div>HasSet</div>
+        <div>EngName</div>
+        <div>KorName</div>
+        <div>JpnName</div>
+        <div>Division</div>
+        <div>HasLow</div>
+    </header>
+    {% include 'tag/cp_tag_tb.html' %}
+</section>

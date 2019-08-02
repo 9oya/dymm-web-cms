@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+/dymm_cms.egg-info/
+/dymm_cms/config.py
+/dymm_cms/static/jquery.form.min.js
+/dymm_cms/static/moment-timezone-with-data.min.js
+/dymm_cms/static/jquery-3.3.1.min.js
+/dymm_cms/static/moment.min.js
+/dymm_cms/static/jquery.countdown.min.js
+/venv/
+/.idea/
+/build/
+/dist/
+/dymm_cms/static/asset/

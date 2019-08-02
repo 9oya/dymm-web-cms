@@ -1,0 +1,22 @@
+{% if tag %}
+    <div class="delegate-item" data-id="{{ tag.id|e }}">
+        {{ tag.eng_name }} - Detail
+    </div>
+{% else %}
+    <div class="create-new">Create New</div>
+{% endif %}
+<div class="message-fail"></div>
+<div class="message-success"></div>
+<ul class="wrap-bt off">
+    {% if tag %}
+        <li class="bt bt-reset selected">Reset</li>
+        <li class="bt bt-new">New</li>
+        <li class="red-bt bt-delete">Delete</li>
+        <li class="bt bt-update">Update</li>
+    {% else %}
+        <li class="bt bt-reset new">Reset</li>
+        <li class="bt bt-create">Create</li>
+    {% endif %}
+</ul>
+
+{% include "tag/cp_tag_form.html" %}

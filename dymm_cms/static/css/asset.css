@@ -1,0 +1,93 @@
+.img-tb {
+    display: table;
+    margin: auto;
+    text-align: center;
+    font-size: 12px;
+}
+
+.img-tb > header {
+    display: table-row;
+}
+
+.img-tb > div.tr {
+    display: table-row;
+}
+
+.img-tb > header > div {
+    display: table-cell;
+
+}
+
+.img-tb > div.tr > div {
+    display: table-cell;
+    border: 1px solid lightgray;
+    padding: 5px 10px 5px 10px;
+}
+
+div.img-display {
+    margin-top: 2px;
+    border: 1px solid lightgray;
+    padding: 5px 0 5px 0;
+    background-color: Lavender;
+}
+
+img.img-display {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+img.img-display:hover {
+    background-color: lightgray !important;
+}
+
+div.edit-asset {
+    margin-top: 2px;
+    border: 1px solid lightgray;
+    padding: 0 0 0 5px;
+    background-color: ghostwhite;
+}
+
+.file-form button {
+    padding: 5px 5px;
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.file-form button:hover {
+    background-color: white;
+    color: dodgerblue;
+}
+
+.choose-svg, .choose-pdf {
+    max-width: 150px;
+}
+
+.choose-svg::-webkit-file-upload-button,
+.choose-pdf::-webkit-file-upload-button,
+.choose-imgs::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.choose-svg::before {
+    content: 'Choose.svg';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.choose-pdf::before {
+    content: 'Choose.pdf';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.choose-imgs::before {
+    content: 'Choose images';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.choose-svg:hover::before, .choose-pdf:hover::before,
+.choose-imgs:hover::before {
+    color: gold;
+}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Asset - Flava CMS{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href=
+            "{{ url_for('static', filename='css/asset.css') }}">
+    <script src="{{ url_for('static', filename='js/asset.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <section class="wrap-box">
+        <div class="box" id="bx-asset-list">
+            {% include 'asset/bx_asset_list.html' %}
+        </div>
+    </section>
+{% endblock %}

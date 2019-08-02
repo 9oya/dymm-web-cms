@@ -1,0 +1,18 @@
+<option value="0">----</option>
+{% if (target == "division1") %}
+    {% for tag in tags %}
+        <option value="{{ tag.division1 }}">{{ tag.division1 }} {{ tag.eng_name }}</option>
+    {% endfor %}
+{% elif (target == "division2") %}
+    {% for tag in tags %}
+        <option value="{{ tag.division2 }}">{{ tag.division2 }} {{ tag.eng_name }}</option>
+    {% endfor %}
+{% elif (target == "division3") %}
+    {% for tag in tags %}
+        <option value="{{ tag.division3 }}">{{ tag.division3 }} {{ tag.eng_name }}</option>
+    {% endfor %}
+{% elif (target == "division4") %}
+    {% for tag in tags %}
+        <option value="{{ tag.division4 }}">{{ tag.division4 }} {{ tag.eng_name }}</option>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,30 @@
+<div class="delegate-item" data-id="{{ super_tag.id|e }}">
+    {{ super_tag.eng_name }} - Set
+</div>
+<form class="picked-item"></form>
+<div class="message-fail"></div>
+<div class="message-success"></div>
+<ul class="wrap-bt off">
+    <li class="red-bt bt-close">Close</li>
+    <li class="bt bt-reset">Reset</li>
+    <li class="bt bt-search">Search</li>
+    <li>{{ form.sort_select }}</li>
+    <li>{{ form.delete_key }}</li>
+</ul>
+
+<section class="tb">
+    <header>
+        <div>IsActive</div>
+        <div>HasSet</div>
+        <div> </div>
+        <div> </div>
+        <div>Score</div>
+        <div>Detail</div>
+        <div>KorName</div>
+        <div>JpnName</div>
+        <div>LowDiv</div>
+        <div>TagId</div>
+        <div class="cnt" style="min-width: 10px !important;">{{ tag_set_cnt }}</div>
+    </header>
+    {% include 'tag/cp_tag_tb.html' %}
+</section>

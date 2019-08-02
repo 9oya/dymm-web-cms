@@ -1,0 +1,53 @@
+{% if detail_form %}
+    {% from "helpers/detail_form_macro.html" import render_field %}
+    <form>
+        <div class="tb">
+            <div class="form-tr">
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.id) }}<br/>
+                    {{ render_field(detail_form.type_select) }}<br/>
+                    <div>{{ detail_form.class1.label }}</div>
+                    <div class="form-ul">{{ detail_form.class1_select }}</div>
+                    <div class="form-ul">{{ detail_form.class1 }}</div>
+                    <br/>
+                    <div>{{ detail_form.division1.label }}</div>
+                    <div class="form-ul">{{ detail_form.division1_select }}</div>
+                    <div class="form-ul">{{ detail_form.division1 }}</div>
+                    <br/>
+                    <div>{{ detail_form.division2.label }}</div>
+                    <div class="form-ul">{{ detail_form.division2_select }}</div>
+                    <div class="form-ul">{{ detail_form.division2 }}</div>
+                    <br/>
+                </div>
+                <div>
+                    <br/>
+                    <div>{{ detail_form.division3.label }}</div>
+                    <div class="form-ul">{{ detail_form.division3_select }}</div>
+                    <div class="form-ul">{{ detail_form.division3 }}</div>
+                    <br/>
+                    <div>{{ detail_form.division4.label }}</div>
+                    <div class="form-ul">{{ detail_form.division4_select }}</div>
+                    <div class="form-ul">{{ detail_form.division4 }}</div><br/>
+                    {{ render_field(detail_form.is_division_modified) }}<br/>
+                    {{ render_field(detail_form.division5) }}<br/>
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.is_active) }}
+                    {{ render_field(detail_form.has_set) }}
+                    {{ render_field(detail_form.has_low_div) }}
+                    {{ render_field(detail_form.has_icon) }}
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.eng_name) }}<br/>
+                    {{ render_field(detail_form.kor_name) }}<br/>
+                    {{ render_field(detail_form.jpn_name) }}<br/>
+                    {{ render_field(detail_form.delete_key) }}<br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endif %}

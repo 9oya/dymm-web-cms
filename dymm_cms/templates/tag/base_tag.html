@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Tag - Flava CMS{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href=
+            "{{ url_for('static', filename='css/tag.css') }}">
+    <script src="{{ url_for('static', filename='js/tag.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <section class="wrap-box">
+        <div class="box" id="bx-tag-list">
+            {% include 'tag/bx_tag_list.html' %}
+        </div>
+        <div class="box" id="bx-tag-detail">
+            {% include 'tag/bx_tag_detail.html' %}
+        </div>
+        <div class="box off" id="bx-tag-set" style="display: none;"></div>
+        <div class="box off" id="bx-tag-add" style="display: none;">
+            {% include 'tag/bx_tag_add.html' %}
+        </div>
+    </section>
+{% endblock %}

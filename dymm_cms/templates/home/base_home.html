@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Home - Flava CMS{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important {
+            color: #336699;
+        }
+    </style>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <section class="wrap-box">
+        <div class="box" id="bx-home-front">
+            {% include 'home/bx_home_front.html' %}
+        </div>
+    </section>
+{% endblock %}

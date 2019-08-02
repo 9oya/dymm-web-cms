@@ -1,0 +1,373 @@
+/*=============================================================================
+Start base layout style
+*/
+
+/* Navigation Bar
+-----------------------------------------------------------------------------*/
+ul#navigation-bar {
+    list-style-type: none;
+    margin: 0 5px 0 5px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #44487C;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+ul#navigation-bar > li {
+    float: left;
+}
+
+ul#navigation-bar > li > a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+}
+
+ul#navigation-bar > li > a:hover {
+    background-color: white;
+    color: #44487C;
+}
+
+/* Loading img
+-----------------------------------------------------------------------------*/
+img.loading {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    z-index: 2;
+    max-width: 80px;
+    max-height: 80px;
+    -webkit-animation: rotation 5s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+/* Content Block
+-----------------------------------------------------------------------------*/
+div#content {
+    margin-bottom: 20px;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+/* Footer Block
+-----------------------------------------------------------------------------*/
+div#footer {
+    background-color: ghostwhite;
+    min-height: 80px;
+    font-family: 'Nanum Gothic', sans-serif;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+p#txt-footer {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+/* Box Blocks
+-----------------------------------------------------------------------------*/
+section.bx-wrap {
+    margin-right: 10px;
+}
+
+.box {
+    display: block;
+    overflow: scroll;
+    padding: 10px 10px 10px 10px;
+    margin: 10px 5px 10px 5px;
+    border-style: solid;
+    border-color: darkgrey;
+    border-width: 1px;
+}
+
+/* Delegate Item Element
+-----------------------------------------------------------------------------*/
+.delegate-item, .title {
+    text-align: center;
+    font-size: 17px;
+}
+
+.create-new {
+    text-align: center;
+    font-size: 17px;
+    color: lightsteelblue;
+}
+
+/* Picked Item Elements
+-----------------------------------------------------------------------------*/
+.picked-item {
+    margin: auto;
+    text-align: center;
+    font-size: 13px;
+}
+
+.picked-item > div {
+    display: inline;
+    margin-right: 10px;
+    color: Orange;
+}
+
+/* Table Elements
+-----------------------------------------------------------------------------*/
+.tb {
+    display: table;
+    margin: auto;
+    text-align: left;
+    font-size: 11px;
+}
+
+.tb > header {
+    display: table-row;
+}
+
+.tb > div.tr {
+    display: table-row;
+}
+
+.tb > header > div {
+    display: table-cell;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+.tb > div.tr > div {
+    display: table-cell;
+    padding-right: 20px;
+}
+
+.tb > div.tr:hover {
+    background-color: aliceblue !important;
+}
+
+.tb > div.tr:active {
+    background-color: beige;
+}
+
+/* Button elements
+-----------------------------------------------------------------------------*/
+ul.wrap-admin-bt {
+    list-style-type: none;
+    overflow: hidden;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+ul.wrap-admin-bt > li {
+    float: right;
+    margin-right: 20px;
+    font-size: 13px;
+}
+
+.admin-bt, .admin-bt > a {
+    color: dodgerblue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.admin-bt:hover, .admin-bt > a:hover {
+    color: gold;
+}
+
+ul.wrap-bt {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+ul.wrap-bt > li {
+    float: right;
+    margin-right: 20px;
+    font-size: 13px;
+}
+
+.bt, .bt > a {
+    color: dodgerblue !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bt:hover, .bt > a:hover {
+    color: gold !important;
+}
+
+.red-bt {
+    color: tomato;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.red-bt:hover {
+    color: gold;
+}
+
+.green-bt, .bt > a {
+    color: MediumSeaGreen;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.green-bt:hover {
+    color: Salmon;
+}
+
+.salmon-bt {
+    color: Salmon;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.salmon-bt:hover {
+    color: MediumSeaGreen;
+}
+
+.gray-bt, .bt > a {
+    color: lightsteelblue;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.gray-bt:hover, .bt > a:hover {
+    color: gold;
+}
+
+ul.wrap-log {
+    text-align: center;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+ul.wrap-log > li {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 12px;
+}
+
+/* File elements
+-----------------------------------------------------------------------------*/
+.up-csv, .mod-csv {
+    max-width: 150px;
+}
+
+.up-csv::-webkit-file-upload-button, .mod-csv::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.up-csv::before {
+    content: 'Upload.csv';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.mod-csv::before {
+    content: 'Update.csv';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.up-csv:hover::before, .mod-csv:hover::before {
+    color: gold;
+}
+
+.file-form button {
+    /*padding: 5px 5px;*/
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.file-form button:hover {
+    background-color: white;
+    color: dodgerblue;
+}
+
+/* Bool Element
+-----------------------------------------------------------------------------*/
+span.true {
+    color: MediumSeaGreen !important;
+}
+
+span.false {
+    color: lightsteelblue !important;
+}
+
+/* Count Element
+-----------------------------------------------------------------------------*/
+.cnt {
+    color: orangered !important;
+}
+
+/* Message Elements
+-----------------------------------------------------------------------------*/
+div.message-fail {
+    text-align: center;
+    color: orangered;
+    font-size: 13px;
+}
+
+div.message-success {
+    text-align: center;
+    color: limegreen;
+    font-size: 13px;
+}
+
+/* Option Elements
+-----------------------------------------------------------------------------*/
+div.option {
+    margin: auto;
+    text-align: center;
+    font-size: 13px;
+}
+
+div.option > div {
+    display: inline;
+    margin-right: 10px;
+}
+
+/* Form Elements
+-----------------------------------------------------------------------------*/
+div.form-tr {
+    display: table-row;
+}
+
+div.form-tr > div {
+    display: table-cell;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-width: 120px;
+}
+
+div.form-tr > div:hover {
+    background-color: aliceblue !important;
+}
+
+div.form-ul > ul {
+    list-style: none;
+    text-align: left;
+}
+
+ul.errors > li {
+    color: orangered;
+}
+
+input[type=text].narrow {
+    width: 60px;
+}
+
+/* Img Elements
+-----------------------------------------------------------------------------*/
+img.tb-img {
+    max-width: 15px;
+    max-height: 15px;
+}
+
+/*
+End Base layout style
+=============================================================================*/

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+    <link rel="stylesheet" href=
+            "{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href=
+            "{{ url_for('static', filename='css/admin.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.JQuery || document.write('<script src="{{
+        url_for('static', filename='jquery-3.3.1.min.js') }}">\x3C/script>')</script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <title>Admin</title>
+</head>
+<body>
+{% from "helpers/detail_form_macro.html" import render_field %}
+<div id="admin-div">
+    <img class="loading" src="{{ url_for('static', filename='img/loading2.png') }}" style="display: none;">
+    <div class="message-fail"></div><br/>
+    <form id="admin-form">
+        {% if pattern == "sign-in" %}
+            {{ render_field(form.email) }}<br/>
+            {{ render_field(form.password) }}<br/>
+            <div class="bt bt-sign-in">SUBMIT</div>
+        {% elif pattern == "sign-up" %}
+            {{ render_field(form.first_name) }}<br/>
+            {{ render_field(form.last_name) }}<br/>
+            {{ render_field(form.email) }}<br/>
+            {{ render_field(form.password) }}<br/>
+            {{ render_field(form.password_confirm) }}<br/>
+            {{ render_field(form.master_key) }}<br/>
+            <div class="bt bt-sign-up">SUBMIT</div>
+        {% endif %}
+    </form>
+</div>
+</body>
+</html>

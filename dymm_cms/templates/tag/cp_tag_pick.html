@@ -1,0 +1,13 @@
+<div class="picked-item" data-id="{{ tag.id }}">
+    <br/>
+    <div>{{ tag.eng_name }}</div>
+    <select class="select-option">
+        <option value="limit" selected>{{ tags_cnt }} low tags</option>
+        <option value="all">All low tags</option>
+        {% if tag.division1 == 0 %}
+            <option value="div3">All div3 {{ tag.eng_name }} tags</option>
+        {% endif %}
+    </select>
+    &nbsp;&nbsp;
+    <div class="bt bt-export"><a href="/api/tag/{{ tag.id }}/export/limit" download>Export.xlsx</a></div>
+</div>

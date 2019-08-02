@@ -1,0 +1,29 @@
+.choose-png {
+    max-width: 150px;
+}
+
+.choose-png::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.choose-png::before {
+    content: 'Upload.png';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.choose-png:hover::before {
+    color: gold;
+}
+
+.file-form button {
+    /*padding: 5px 5px;*/
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.file-form button:hover {
+    background-color: white;
+    color: dodgerblue;
+}

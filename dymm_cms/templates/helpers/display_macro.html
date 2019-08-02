@@ -1,0 +1,35 @@
+{% macro display_img(dirname, filename) %}
+    <div class="img-display">
+        <a href="{{ url_for('static', filename="asset/" + dirname + "/png/" + filename) }}" target="_blank">
+            <img class="img-display" src="{{ url_for('static', filename="asset/" + dirname + "/png/" + filename) }}">
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro img_link(dirname, filename) %}
+    <div class="bt">
+        <a href="{{ url_for('static', filename="asset/" + dirname + "/png/" + filename) }}" target="_blank">
+            {{ filename }}
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro svg_link(dirname, filename) %}
+    <div class="bt">
+        <a href="{{ url_for('static', filename="asset/" + dirname + "/svg/" + filename) }}" target="_blank">
+            {{ filename }}
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro pdf_link(dirname, filename) %}
+    <div class="bt">
+        <a href="{{ url_for('static', filename="asset/" + dirname + "/pdf/" + filename) }}" target="_blank">
+            {{ filename }}
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro textfield(text) %}
+    <input class="asset-name" type="text" value="{{ text or '' }}">
+{% endmacro %}

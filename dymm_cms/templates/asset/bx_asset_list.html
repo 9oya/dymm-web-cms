@@ -1,0 +1,28 @@
+<div class="delegate-item">iOS Assets</div>
+<div class="picked-item">
+    <br/>
+    {% from "helpers/simple_form_macro.html" import render_field %}
+    {{ render_field(dirform.dir_select) }}
+    <div>Total &nbsp;{{ imgs_cnt }}</div>
+    {% if dirname == 'archive' %}
+    {% else %}
+        <div class="bt zip-png">Archive.png</div>
+        <div class="bt zip-svg">Archive.svg</div>
+        <div class="bt zip-pdf">Archive.pdf</div>
+        <form class="file-form" method=post enctype=multipart/form-data>
+            <br/>
+            <input class="choose-imgs" type=file name=files multiple>
+            <button class="up-imgs" type=button>Submit</button>
+        </form>
+    {% endif %}
+</div>
+<div class="message-fail"></div>
+<div class="message-success"></div>
+<br/>
+<section class="img-tb">
+    <header>
+        <div></div>
+        <div></div>
+    </header>
+    {% include 'asset/cp_asset_tb.html' %}
+</section>
