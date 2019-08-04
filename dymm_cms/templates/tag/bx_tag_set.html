@@ -1,19 +1,21 @@
 <div class="delegate-item" data-id="{{ super_tag.id|e }}">
     {{ super_tag.eng_name }} - Set
 </div>
-<form class="picked-item"></form>
 <div class="message-fail"></div>
 <div class="message-success"></div>
+{% from "helpers/simple_form_macro.html" import render_field %}
 <ul class="wrap-bt off">
-    <li class="red-bt bt-close">Close</li>
+    <li class="gray-bt bt-close">Close</li>
     <li class="bt bt-reset">Reset</li>
     <li class="bt bt-search">Search</li>
-    <li>{{ form.sort_select }}</li>
-    <li>{{ form.delete_key }}</li>
+    <li>{{ render_field(form.sort_select) }}</li>
+    <li>{{ render_field(form.delete_key) }}</li>
+    <li class="gray-bt bt-del">Delete-all</li>
 </ul>
 
 <section class="tb">
     <header>
+        <div>ID</div>
         <div>IsActive</div>
         <div>HasSet</div>
         <div> </div>
@@ -23,8 +25,7 @@
         <div>KorName</div>
         <div>JpnName</div>
         <div>LowDiv</div>
-        <div>TagId</div>
-        <div class="cnt" style="min-width: 10px !important;">{{ tag_set_cnt }}</div>
+        <div><a href="/api/tag/set/{{ super_tag.id|e }}/export" download>{{ tag_set_cnt }}.xlsx</a></div>
     </header>
     {% include 'tag/cp_tag_tb.html' %}
 </section>

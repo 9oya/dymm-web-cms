@@ -30,15 +30,21 @@ def export_tags_file(tag_id=None, option=None):
         elif option == 'limit':
             tags = TagHelper.get_low_div_tags(tag_id)
             file_name = 'tag_' + tag.eng_name.lower()
-        elif option == 'div3':
+        else:
             tag = TagHelper.get_a_tag(tag_id)
             tags = TagHelper.get_specific_div_tags(tag, option)
             file_name = 'tag_{}_{}'.format(tag.eng_name, option)
-        else:
-            return bad_req(_m.BAD_PARAM.format('option'))
-    file = TagHelper.create_tags_file(tags, file_name)
+    file = TagHelper.get_tags_file(tags, file_name)
     if not file:
         return bad_req(_m.BAD_PARAM)
+    return file
+
+
+@tag_api.route('/set/<int:tag_id>/export', methods=['GET'])
+def export_tag_sets_file(tag_id=None):
+    tag_sets = TagHelper.get_tag_sets(tag_id)
+    file_name = 'tag{}_set'.format(tag_id)
+    file = TagHelper.get_tag_sets_file(tag_sets, file_name)
     return file
 
 
@@ -124,20 +130,44 @@ def fetch_tag_sets(super_id=None, sort_type=None):
                            tag_set_cnt=len(tag_sets))
 
 
+@tag_api.route('/step/<int:tag_id>', methods=['GET'])
+def fetch_tag_step(tag_id=None):
+    if tag_id is None:
+        return bad_req(_m.EMPTY_PARAM.format('tag_id'))
+    tag = TagHelper.get_a_tag(tag_id)
+    return render_template('tag/cp_tag_item.html', tag=tag)
+
+
 # POST services
 # -----------------------------------------------------------------------------
-@tag_api.route('/import/<target>', methods=['POST'])
-def import_tag_list_file(target=None):
-    if target == 'up':
+@tag_api.route('/import/<option>', methods=['POST'])
+def import_tag_list_file(option=None):
+    if option == 'gen-tag':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
-        cnt = TagHelper.create_tag_w_dicts(dicts)
+        cnt = TagHelper.create_tags_w_dicts(dicts)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
-    elif target == 'mod':
+    elif option == 'mod-tag':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
         cnt = TagHelper.update_tags_w_dicts(dicts)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-set-low':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_tag_sets_w_dicts(dicts, option)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'mod-set-id':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.update_tag_sets_w_dicts(dicts, option)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-set-eng':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_tag_sets_w_dicts(dicts, option)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'mod-set-eng':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.update_tag_sets_w_dicts(dicts, option)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     else:
-        return bad_req(_m.BAD_PARAM.format('target'))
+        return bad_req(_m.BAD_PARAM.format('option'))
 
 
 @tag_api.route('/form', methods=['POST'])
@@ -267,3 +297,14 @@ def delete_a_tag_set(tag_set_id=None):
         return forbidden(_m.NONEXISTENT.format(str(tag_set_id)))
     deleted_name = TagHelper.delete_a_tag_set(tag_set)
     return ok(_m.OK_DELETE.format(deleted_name))
+
+
+@tag_api.route('/<int:tag_id>/set', methods=['DELETE'])
+def delete_tag_sets(tag_id=None):
+    if request.values.get('del_key') != app.config['DELETE_KEY']:
+        return unauthorized(_m.UN_AUTH.format('del_key'))
+    if tag_id is None:
+        return bad_req(_m.EMPTY_PARAM.format('tag_id'))
+    tag_sets = TagHelper.get_tag_sets(tag_id)
+    cnt = TagHelper.delete_tag_sets(tag_sets)
+    return ok(_m.OK_DELETE.format(cnt))

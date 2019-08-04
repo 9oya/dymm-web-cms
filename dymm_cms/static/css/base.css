@@ -105,16 +105,16 @@ section.bx-wrap {
 
 /* Picked Item Elements
 -----------------------------------------------------------------------------*/
-.picked-item {
-    margin: auto;
+.picked-item, .up-file, .msg {
+    /*margin: auto;*/
+    margin-top: 10px;
     text-align: center;
-    font-size: 13px;
+    font-size: 12.5px;
 }
 
-.picked-item > div {
+.picked-item > div, .up-file > form {
     display: inline;
     margin-right: 10px;
-    color: Orange;
 }
 
 /* Table Elements
@@ -185,7 +185,7 @@ ul.wrap-bt {
 ul.wrap-bt > li {
     float: right;
     margin-right: 20px;
-    font-size: 13px;
+    font-size: 12.5px;
 }
 
 .bt, .bt > a {
@@ -214,10 +214,6 @@ ul.wrap-bt > li {
     cursor: pointer;
 }
 
-.green-bt:hover {
-    color: Salmon;
-}
-
 .salmon-bt {
     color: Salmon;
     text-decoration: none;
@@ -234,17 +230,21 @@ ul.wrap-bt > li {
     cursor: pointer;
 }
 
-.gray-bt:hover, .bt > a:hover {
+.bt > a:hover {
     color: gold;
 }
 
-ul.wrap-log {
+.gray-bt:hover, .green-bt:hover {
+    color: salmon;
+}
+
+ul.wrap-step {
     text-align: center;
     list-style-type: none;
     overflow: hidden;
 }
 
-ul.wrap-log > li {
+ul.wrap-step > li {
     display: inline-block;
     margin-right: 15px;
     font-size: 12px;
@@ -252,27 +252,21 @@ ul.wrap-log > li {
 
 /* File elements
 -----------------------------------------------------------------------------*/
-.up-csv, .mod-csv {
-    max-width: 150px;
+.up-csv {
+    max-width: 160px;
 }
 
-.up-csv::-webkit-file-upload-button, .mod-csv::-webkit-file-upload-button {
+.up-csv::-webkit-file-upload-button {
     visibility: hidden;
 }
 
 .up-csv::before {
-    content: 'Upload.csv';
+    content: 'Choose.csv';
     cursor: pointer;
     color: lightsteelblue;
 }
 
-.mod-csv::before {
-    content: 'Update.csv';
-    cursor: pointer;
-    color: lightsteelblue;
-}
-
-.up-csv:hover::before, .mod-csv:hover::before {
+.up-csv:hover::before {
     color: gold;
 }
 

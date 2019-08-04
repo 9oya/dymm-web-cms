@@ -7,8 +7,8 @@ from blueprint import register_blueprint
 from database import db_session
 
 app = Flask('dymm_cms')
-# app.config.from_object('dymm_cms.config.ProductionConfig')
-app.config.from_object('dymm_cms.config.DevelopmentConfig')
+app.config.from_object('dymm_cms.config.ProductionConfig')
+# app.config.from_object('dymm_cms.config.DevelopmentConfig')
 
 b_crypt = Bcrypt(app)
 mail = Mail(app)

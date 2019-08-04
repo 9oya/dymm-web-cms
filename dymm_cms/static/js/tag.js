@@ -8,6 +8,7 @@ $(document).ready(function () {
         _loadingImg = $("img.loading"),
         _tagListEle = $("div#bx-tag-list"),
         _tagDetailEle = $("div#bx-tag-detail"),
+        _tagStepEle = $("div#bx-tag-step"),
         _tagSetEle = $("div#bx-tag-set"),
         _tagAddEle = $("div#bx-tag-add");
 
@@ -19,7 +20,7 @@ $(document).ready(function () {
         },
         detail: function () {
         },
-        fact: function () {
+        step: function () {
         },
         set: function () {
         },
@@ -27,10 +28,14 @@ $(document).ready(function () {
         }
     };
 
-    _tag.list.prototype.upLoadSingleFile = function (currEle, target) {
-        let _form = currEle.parent(),
-            _uri = _u.api.tag + "/import/{0}".format(target);
+    _tag.list.prototype.uploadOptSelected = function (currEle) {
+        let _form = _tagListEle.find("form.file-form"),
+            _option = currEle.find("option:selected").val(),
+            _uri = _u.api.tag + "/import/{0}".format(_option);
         _form.attr("action", _uri);
+    };
+    _tag.list.prototype.upLoadSingleFile = function (currEle) {
+        let _form = currEle.parent();
         _loadingImg.show();
         _form.ajaxSubmit(function () {
             location.reload();
@@ -41,7 +46,7 @@ $(document).ready(function () {
         let _pickedEle = _tagListEle.find(".picked-item");
         $.get(_u.api.tag + "/pick/" + tagId)
             .done(function (response, textStatus, jqXHR) {
-                _pickedEle.replaceWith(response);
+                _pickedEle.replaceWith(response)
             })
             .fail(function (response) {
                 _f.alertFailResponse(response);
@@ -55,6 +60,7 @@ $(document).ready(function () {
         _tag.list.prototype.getPickTagTemplate(_tagId);
         _tag.detail.prototype.getDetailFormWithValue(_tagId);
         _tag.set.prototype.getSetOfTags(_tagId);
+        _tag.step.prototype.closeBtnTapped();
     };
     _tag.list.prototype.resetBtnTapped = function () {
         let _tableHeader = _tagListEle.find("section.tb > header");
@@ -122,7 +128,7 @@ $(document).ready(function () {
     };
     _tag.detail.prototype.deleteBtnTapped = function () {
         let _tagId = _tagDetailEle.find(".delegate-item").data("id"),
-            _del_key = _tagDetailEle.find("input#del_key").val(),
+            _del_key = _tagDetailEle.find("input#delete_key").val(),
             _param = $.param({del_key: _del_key});
         $.delete(_u.api.tag + "/" + _tagId, _param)
             .done(function (response, textStatus, jqXHR) {
@@ -227,6 +233,35 @@ $(document).ready(function () {
             _tagDetailEle.find("input#division5").val(0);
         }
     };
+    _tag.step.prototype.logStep = function () {
+        let _tagId = _tagSetEle.find(".delegate-item").data("id");
+        $.get(_u.api.tag + "/step/" + _tagId)
+            .done(function (response, textStatus, jqXHR) {
+                _tagStepEle.find(".wrap-step").append(response);
+            })
+            .fail(function (response) {
+                _f.alertFailResponse(response);
+            });
+        if (_tagStepEle.is(".off")) {
+            _tagStepEle.show();
+            _tagStepEle.removeClass("off").addClass("on");
+        }
+    };
+    _tag.step.prototype.itemBtnTapped = function (currEle) {
+        let _tagId = currEle.data("id"),
+            _sortType = _tagSetEle.find("select#sort_select").val();
+        _tag.set.prototype.getSetOfTags(_tagId, _sortType);
+        _tag.detail.prototype.getDetailFormWithValue(_tagId);
+        currEle.nextAll().remove();
+        currEle.remove();
+    };
+    _tag.step.prototype.closeBtnTapped = function () {
+        _tagStepEle.find(".bt-close").nextAll().remove();
+        if (_tagStepEle.is(".on")) {
+            _tagStepEle.hide();
+            _tagStepEle.removeClass("on").addClass("off");
+        }
+    };
     _tag.set.prototype.getSetOfTags = function (superId, sortType) {
         sortType = sortType || "score";
         $.get(_u.api.tag + "/" + superId + "/set/" + sortType)
@@ -243,6 +278,7 @@ $(document).ready(function () {
     };
     _tag.set.prototype.tableRowNameTapped = function (currEle) {
         let _tagId = currEle.parent().data("tagId");
+        _tag.step.prototype.logStep();
         _tag.detail.prototype.getDetailFormWithValue(_tagId);
         _tag.set.prototype.getSetOfTags(_tagId);
     };
@@ -384,6 +420,19 @@ $(document).ready(function () {
                 _f.alertFailResponse(response);
             });
     };
+    _tag.set.prototype.delAllBtnTapped = function () {
+        let _del_key = _tagSetEle.find("#delete_key").val(),
+            _superId = _tagSetEle.find(".delegate-item").data("id"),
+            _param = $.param({del_key: _del_key}),
+            _url = "{0}/{1}/{2}".format(_u.api.tag, _superId, "set");
+        $.delete(_url, _param)
+            .done(function (response, textStatus, jqXHR) {
+                _tag.set.prototype.getSetOfTags(_superId);
+            })
+            .fail(function (response) {
+                _f.alertFailResponse(response);
+            });
+    };
     _tag.add.prototype.flipBtnTapped = function (currEle) {
         let _tableRow = currEle.parent(),
             _tagId = _tableRow.data("id");
@@ -420,26 +469,26 @@ $(document).ready(function () {
     =========================================================================*/
     _tagListEle.on(
         "click",
-        "div.tr, .bt-reset, .up-file, .mod-file",
+        "div.tr, .bt-reset, .btn-submit",
         function (e) {
             let _currEle = $(this);
             if (_currEle.is("div.tr")) {
                 _tag.list.prototype.tableRowTapped(_currEle)
             } else if (_currEle.is(".bt-reset")) {
                 _tag.list.prototype.resetBtnTapped()
-            } else if (_currEle.is(".up-file")) {
-                _tag.list.prototype.upLoadSingleFile(_currEle, "up")
-            } else if (_currEle.is(".mod-file")) {
-                _tag.list.prototype.upLoadSingleFile(_currEle, "mod")
+            } else if (_currEle.is(".btn-submit")) {
+                _tag.list.prototype.upLoadSingleFile(_currEle)
             }
         });
     _tagListEle.on(
         "change",
-        ".select-option",
+        ".select-option, .select-upload",
         function (e) {
             let _currEle = $(this);
             if (_currEle.is(".select-option")) {
                 _tag.list.prototype.optionSelected(_currEle)
+            } else if (_currEle.is(".select-upload")) {
+                _tag.list.prototype.uploadOptSelected(_currEle)
             }
         });
     _tagDetailEle.on(
@@ -478,11 +527,22 @@ $(document).ready(function () {
                 _tag.detail.prototype.division4Selected(_currEle);
             }
         });
+    _tagStepEle.on(
+        "click",
+        ".bt-item, .bt-close",
+        function (e) {
+            let _currEle = $(this);
+            if (_currEle.is(".bt-item")) {
+                _tag.step.prototype.itemBtnTapped(_currEle);
+            } else if (_currEle.is(".bt-close")) {
+                _tag.step.prototype.closeBtnTapped();
+            }
+        });
     _tagSetEle.on(
         "click",
         ".tr-name, .bt-close, .bt-reset, .bt-search, .tr-del, " +
         ".tr-up, .tr-down, .tr-set, .tr-score, .tr-division, " +
-        ".up-img, .is-active",
+        ".up-img, .is-active, .bt-del",
         function (e) {
             let _currEle = $(this);
             if (_currEle.is(".tr-name")) {
@@ -509,6 +569,8 @@ $(document).ready(function () {
                 _tag.set.prototype.upImgBtnTapped(_currEle, 'category', 'png');
             } else if (_currEle.is(".is-active")) {
                 _tag.set.prototype.boolBtnTapped(_currEle, "is-active");
+            } else if (_currEle.is(".bt-del")) {
+                _tag.set.prototype.delAllBtnTapped();
             }
         });
     _tagSetEle.on(

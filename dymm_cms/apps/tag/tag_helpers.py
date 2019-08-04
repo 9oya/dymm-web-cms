@@ -43,6 +43,38 @@ class TagHelper(object):
     # Getters
     # -------------------------------------------------------------------------
     @staticmethod
+    def get_tags_file(tags, file_name, file_extension='xlsx'):
+        columns = ['id', 'tag_type', 'is_active', 'has_set', 'eng_name',
+                   'kor_name', 'jpn_name', 'class1', 'division1', 'division2',
+                   'division3', 'division4', 'division5', 'has_low_div', 'has_icon']
+        if file_extension == 'xlsx':
+            excel_response = excel.make_response_from_query_sets(
+                query_sets=tags, column_names=columns,
+                file_type='xlsx', file_name=file_name)
+        elif file_extension == 'csv':
+            excel_response = excel.make_response_from_query_sets(
+                query_sets=tags, column_names=columns,
+                file_type='csv', file_name=file_name)
+        else:
+            return False
+        return excel_response
+
+    @staticmethod
+    def get_tag_sets_file(tag_sets, file_name, file_extension='xlsx'):
+        columns = ['id', 'super_id', 'sub_id', 'is_active', 'score']
+        if file_extension == 'xlsx':
+            excel_response = excel.make_response_from_query_sets(
+                query_sets=tag_sets, column_names=columns,
+                file_type='xlsx', file_name=file_name)
+        elif file_extension == 'csv':
+            excel_response = excel.make_response_from_query_sets(
+                query_sets=tag_sets, column_names=columns,
+                file_type='csv', file_name=file_name)
+        else:
+            return False
+        return excel_response
+
+    @staticmethod
     def get_tag_type_choices():
         choices = list()
         choices.append(('0', '----'))
@@ -305,16 +337,43 @@ class TagHelper(object):
 
     @staticmethod
     def get_specific_div_tags(tag: Tag, div_num):
-        if tag.class1 == 3:
-            if div_num == 'div3':
-                tags = Tag.query.filter(
-                    Tag.class1 == 3,
-                    Tag.division3 != 0,
-                    Tag.division4 == 0
-                ).all()
-                return tags
-            else:
-                return False
+        if div_num == 'div2':
+            tags = Tag.query.filter(
+                Tag.class1 == tag.class1,
+                Tag.division2 != 0,
+                Tag.division3 == 0,
+                Tag.division4 == 0
+            ).order_by(
+                Tag.division1,
+                Tag.division2
+            ).all()
+            return tags
+        elif div_num == 'div3':
+            tags = Tag.query.filter(
+                Tag.class1 == tag.class1,
+                Tag.division2 != 0,
+                Tag.division3 != 0,
+                Tag.division4 == 0
+            ).order_by(
+                Tag.division1,
+                Tag.division2,
+                Tag.division3
+            ).all()
+            return tags
+        elif div_num == 'div4':
+            tags = Tag.query.filter(
+                Tag.class1 == tag.class1,
+                Tag.division2 != 0,
+                Tag.division3 != 0,
+                Tag.division4 != 0,
+                Tag.division5 == 0
+            ).order_by(
+                Tag.division1,
+                Tag.division2,
+                Tag.division3,
+                Tag.division4
+            ).all()
+            return tags
         else:
             return False
 
@@ -412,20 +471,20 @@ class TagHelper(object):
         return tag_set
 
     @staticmethod
-    def get_tag_sets(super_id, sort_type):
+    def get_tag_sets(super_id, sort_type='eng'):
         if sort_type == 'eng':
             tag_set_list = db_session.query(TagSet). \
-                join(TagSet.tag). \
+                join(TagSet.sub). \
                 filter(TagSet.super_id == super_id). \
                 order_by(Tag.eng_name).all()
         elif sort_type == 'kor':
             tag_set_list = db_session.query(TagSet). \
-                join(TagSet.tag). \
+                join(TagSet.sub). \
                 filter(TagSet.super_id == super_id). \
                 order_by(Tag.kor_name).all()
         elif sort_type == 'jpn':
             tag_set_list = db_session.query(TagSet). \
-                join(TagSet.tag). \
+                join(TagSet.sub). \
                 filter(TagSet.super_id == super_id). \
                 order_by(Tag.jpn_name).all()
         elif sort_type == 'score':
@@ -461,7 +520,7 @@ class TagHelper(object):
     # Create methods
     # -------------------------------------------------------------------------
     @staticmethod
-    def create_tag_w_dicts(dicts):
+    def create_tags_w_dicts(dicts):
         cnt = 0
         for _dict in dicts:
             tag = Tag(
@@ -487,25 +546,47 @@ class TagHelper(object):
         return cnt
 
     @staticmethod
-    def create_tags_file(tags, file_name, file_extension='xlsx'):
-        columns = ['id', 'tag_type', 'is_active', 'has_set', 'eng_name',
-                   'kor_name', 'jpn_name', 'class1', 'division1', 'division2',
-                   'division3', 'division4', 'division5', 'has_low_div']
-        if file_extension == 'xlsx':
-            excel_response = excel.make_response_from_query_sets(
-                query_sets=tags, column_names=columns,
-                file_type='xlsx', file_name=file_name)
-        elif file_extension == 'csv':
-            excel_response = excel.make_response_from_query_sets(
-                query_sets=tags, column_names=columns,
-                file_type='csv', file_name=file_name)
+    def create_tag_sets_w_dicts(dicts, option):
+        cnt = 0
+        if option == 'gen-set-low':
+            for _dict in dicts:
+                tag = TagHelper.get_a_tag(_dict.get('id', None))
+                low_tags = TagHelper.get_low_div_tags(tag_id=tag.id)
+                if len(low_tags) <= 0:
+                    tag.has_set = False
+                    tag.has_low_div = False
+                    db_session.commit()
+                    continue
+                for low_tag in low_tags:
+                    score = TagHelper.gen_tag_set_next_score(super_id=tag.id)
+                    TagHelper.create_a_tag_set(super_id=tag.id,
+                                               sub_id=low_tag.id,
+                                               score=score)
+                cnt += 1
+            return cnt
+        elif option == 'gen-set-eng':
+            for _dict in dicts:
+                sub_tag = Tag.query.filter(
+                    Tag.eng_name == _dict.get('eng_name')
+                ).first()
+                try:
+                    tag = TagSet(
+                        super_id=str_to_none(_dict.get('super_id')),
+                        sub_id=sub_tag.id,
+                        is_active=str_to_bool(_dict.get('is_active', True))
+                    )
+                    db_session.add(tag)
+                    db_session.commit()
+                    cnt += 1
+                except AttributeError:
+                    print(_dict.get('eng_name'))
+            return cnt
         else:
             return False
-        return excel_response
 
     @staticmethod
-    def create_a_tag(form):
-        tag = Tag(tag_type=form.fact_select.data,
+    def create_a_tag(form: TagForm):
+        tag = Tag(tag_type=form.type_select.data,
                   class1=form.class1.data,
                   division1=form.division1.data,
                   division2=form.division2.data,
@@ -536,6 +617,23 @@ class TagHelper(object):
     # Update methods
     # -------------------------------------------------------------------------
     @staticmethod
+    def update_tag_sets_w_dicts(dicts):
+        cnt = 0
+        for _dict in dicts:
+            tag_set = db_session.query(
+                TagSet
+            ).join(
+                TagSet.sub
+            ).filter(
+                Tag.eng_name == _dict.get('eng_name', None)
+            ).first()
+            tag_set.super_id = _dict.get('super_id')
+            tag_set.score = _dict.get('score', None)
+            db_session.commit()
+            cnt += 1
+        return cnt
+
+    @staticmethod
     def update_tags_w_dicts(dicts):
         cnt = 0
         for _dict in dicts:
@@ -554,21 +652,6 @@ class TagHelper(object):
             tag.division5 = _dict.get('division5')
             tag.has_low_div = str_to_bool(_dict.get('has_low_div'))
             tag.has_icon = str_to_bool(_dict.get('has_icon', None))
-            if _dict.get('create_tag_set', None):
-                low_tags = TagHelper.get_low_div_tags(tag_id=tag.id)
-                for low_tag in low_tags:
-                    score = TagHelper.gen_tag_set_next_score(super_id=tag.id)
-                    TagHelper.create_a_tag_set(super_id=tag.id,
-                                               sub_id=low_tag.id,
-                                               score=score)
-            if _dict.get('reset_sub_tags_score', None):
-                low_tags = TagHelper.get_low_div_tags(tag_id=tag.id)
-                for low_tag in low_tags:
-                    score = TagHelper.gen_tag_set_next_score(tag.id)
-                    tag_set = TagHelper.get_a_tag_set(super_id=tag.id,
-                                                      sub_id=low_tag.id)
-                    tag_set.score = score
-                    db_session.commit()
             db_session.commit()
             cnt += 1
         return cnt
@@ -689,3 +772,12 @@ class TagHelper(object):
         db_session.delete(tag_set)
         db_session.commit()
         return True
+
+    @staticmethod
+    def delete_tag_sets(tag_sets):
+        cnt = 0
+        for tag_set in tag_sets:
+            TagHelper.delete_a_tag_set(tag_set)
+            cnt += 1
+        return cnt
+

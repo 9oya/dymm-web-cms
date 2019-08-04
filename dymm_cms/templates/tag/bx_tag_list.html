@@ -1,6 +1,5 @@
 <div class="delegate-item">Tag - List</div>
 <div class="picked-item">
-    <br/>
     <select class="select-option">
         <option value="limit" selected>{{ tags_cnt }} tags</option>
         <option value="all">All tags</option>
@@ -8,28 +7,23 @@
     &nbsp;&nbsp;
     <div class="bt bt-export"><a href="/api/tag/export/limit" download>Export.xlsx</a></div>
 </div>
-<div class="message-fail"></div>
-<div class="message-success"></div>
-<ul class="wrap-bt">
-    <li class="bt bt-reset">Reset</li>
-    <li>
-        <div>
-            <form class="file-form" method=post enctype=multipart/form-data>
-                <input class="up-csv" type=file name=csv>
-                <button class="up-file" type="button">Submit</button>
-            </form>
-        </div>
-    </li>
-    <li>
-        <div>
-            <form class="file-form" method=post enctype=multipart/form-data>
-                <input class="mod-csv" type=file name=csv>
-                <button class="mod-file" type="button">Submit</button>
-            </form>
-        </div>
-    </li>
-</ul>
-
+<div class="up-file">
+    <select class="select-upload">
+        <option value="gen-tag" selected>Gen tag</option>
+        <option value="mod-tag">Mod tag</option>
+        <option value="gen-set-low">Gen set==tag_low</option>
+        <option value="mod-set-id">Mod set==set_id</option>
+        <option value="gen-set-eng">Gen set==name</option>
+        <option value="mod-set-eng">Mod set==name</option>
+    </select>
+    &nbsp;&nbsp;
+    <form class="file-form" method=post enctype=multipart/form-data>
+        <input class="up-csv" type=file name=csv>
+        <button class="btn-submit" type="button">Submit</button>
+    </form>
+</div>
+<div class="msg message-fail"></div>
+<div class="msg message-success"></div>
 <section class="tb">
     <header>
         <div>TagType</div>
@@ -39,7 +33,7 @@
         <div>KorName</div>
         <div>JpnName</div>
         <div>Division</div>
-        <div>HasLow</div>
+        <div class="bt bt-reset">Reset</div>
     </header>
     {% include 'tag/cp_tag_tb.html' %}
 </section>

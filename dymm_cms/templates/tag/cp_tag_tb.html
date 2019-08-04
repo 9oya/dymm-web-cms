@@ -27,9 +27,9 @@
                 {{ tag.class1 }}
                 ({{ tag.division1|e }}-{{ tag.division2|e }}-{{ tag.division3|e }}-{{ tag.division4|e }}-{{ tag.division5|e }})
             </div>
-            <div class="bt tr-flip">
+            <div>
                 {% if tag.has_low_div %}
-                    Spread
+                    <span class="true">Spread</span>
                 {% else %}
                     <span class="false">{{ tag.has_low_div }}</span>
                 {% endif %}
@@ -74,10 +74,11 @@
                 data-id="{{ tag_set.id|e }}"
                 data-tag-id="{{ tag_set.sub_id }}"
         >
+            <div class="gray-bt tr-del">{{ tag_set.id }} &#10007;</div>
             {% if tag_set.is_active %}
                 <div class="green-bt is-active">{{ tag_set.is_active }}</div>
             {% else %}
-                <div class="salmon-bt is-active">{{ tag_set.is_active }}</div>
+                <div class="gray-bt is-active">{{ tag_set.is_active }}</div>
             {% endif %}
             <div>
                 {% if tag_set.sub.has_set %}
@@ -89,19 +90,21 @@
             <div class="red-bt tr-up">&#10224;</div>
             <div class="bt tr-down">&#10225;</div>
             {% if tag_set.score %}
-                <div class="red-bt tr-score">{{ tag_set.score }} &#10007;</div>
+                <div class="gray-bt tr-score">{{ tag_set.score }} &#10007;</div>
             {% else %}
                 <div class="bt tr-set">+ Set</div>
             {% endif %}
             <div class="bt tr-name">{{ tag_set.sub.eng_name or '' }}</div>
             <div>{{ tag_set.sub.kor_name or '' }}</div>
             <div>{{ tag_set.sub.jpn_name or '' }}</div>
-            <div class="bt tr-division">
-                Search
-            </div>
-            <div class="red-bt tr-del">{{ tag_set.sub_id }} &#10007;</div>
+            {% if tag_set.sub.has_low_div %}
+                <div class="bt tr-division">Search</div>
+            {% else %}
+                <span class="false">{{ tag_set.sub.has_low_div }}</span>
+            {% endif %}
             {% if tag_set.sub.has_icon %}
-                <a href="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}" target="_blank">
+                <a href="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}"
+                   target="_blank">
                     <img class="tb-img"
                          src="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}">
                 </a>
