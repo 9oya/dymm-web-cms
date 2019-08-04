@@ -4,7 +4,7 @@ Start base layout style
 
 /* Navigation Bar
 -----------------------------------------------------------------------------*/
-ul#navigation-bar {
+ul#nav-bar {
     list-style-type: none;
     margin: 0 5px 0 5px;
     padding: 0;
@@ -13,11 +13,11 @@ ul#navigation-bar {
     font-family: 'Nanum Gothic', sans-serif;
 }
 
-ul#navigation-bar > li {
+ul#nav-bar > li {
     float: left;
 }
 
-ul#navigation-bar > li > a {
+ul#nav-bar > li > a {
     display: block;
     color: white;
     text-align: center;
@@ -25,7 +25,7 @@ ul#navigation-bar > li > a {
     text-decoration: none;
 }
 
-ul#navigation-bar > li > a:hover {
+ul#nav-bar > li > a:hover {
     background-color: white;
     color: #44487C;
 }
@@ -54,7 +54,6 @@ img.loading {
 /* Content Block
 -----------------------------------------------------------------------------*/
 div#content {
-    margin-bottom: 20px;
     font-family: 'Nanum Gothic', sans-serif;
 }
 
@@ -64,8 +63,7 @@ div#footer {
     background-color: ghostwhite;
     min-height: 80px;
     font-family: 'Nanum Gothic', sans-serif;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 0 5px 0 5px;
 }
 
 p#txt-footer {

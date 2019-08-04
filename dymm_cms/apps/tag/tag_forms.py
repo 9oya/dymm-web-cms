@@ -120,7 +120,7 @@ class TagSortForm(Form):
         ],
         validators=[validators.Optional()]
     )
-    delete_key = PasswordField(
+    delete_key2 = PasswordField(
         label="Delete key",
         validators=[validators.Optional(),
                     validators.Length(min=0, max=50)],

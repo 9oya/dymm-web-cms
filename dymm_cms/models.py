@@ -63,7 +63,7 @@ class AvatarCond(Base):
 
     id = Column(Integer, primary_key=True)
     avatar_id = Column(ForeignKey('avatar.id', ondelete='CASCADE'), nullable=False, index=True)
-    cond_id = Column(ForeignKey('tag.id'), nullable=False, index=True)
+    cond_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
     start_date = Column(Date)
     end_date = Column(Date)
@@ -74,27 +74,11 @@ class AvatarCond(Base):
     cond = relationship('Tag')
 
 
-class AvatarFact(Base):
-    __tablename__ = 'avatar_fact'
-
-    id = Column(Integer, primary_key=True)
-    avatar_id = Column(ForeignKey('avatar.id', ondelete='CASCADE'), nullable=False, index=True)
-    fact_id = Column(ForeignKey('tag.id'), nullable=False, index=True)
-    is_active = Column(Boolean, nullable=False)
-    is_selected = Column(Boolean, nullable=False)
-    score = Column(SmallInteger, nullable=False, server_default=text("0"))
-    created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
-    modified_timestamp = Column(DateTime)
-
-    avatar = relationship('Avatar')
-    fact = relationship('Tag')
-
-
 class Bookmark(Base):
     __tablename__ = 'bookmark'
 
     id = Column(Integer, primary_key=True)
-    avatar_id = Column(ForeignKey('avatar.id'), nullable=False, index=True)
+    avatar_id = Column(ForeignKey('avatar.id', ondelete='CASCADE'), nullable=False, index=True)
     super_tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     sub_tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
@@ -143,6 +127,22 @@ class LogHistory(Base):
     tag = relationship('Tag')
 
 
+class ProfileTag(Base):
+    __tablename__ = 'profile_tag'
+
+    id = Column(Integer, primary_key=True)
+    avatar_id = Column(ForeignKey('avatar.id', ondelete='CASCADE'), nullable=False, index=True)
+    tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
+    is_active = Column(Boolean, nullable=False)
+    is_selected = Column(Boolean, nullable=False)
+    score = Column(SmallInteger, nullable=False, server_default=text("0"))
+    created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
+    modified_timestamp = Column(DateTime)
+
+    avatar = relationship('Avatar')
+    tag = relationship('Tag')
+
+
 class TagSet(Base):
     __tablename__ = 'tag_set'
 
@@ -162,8 +162,8 @@ class TagLog(Base):
     __tablename__ = 'tag_log'
 
     id = Column(Integer, primary_key=True, server_default=text("nextval('tag_log_id_seq'::regclass)"))
-    group_id = Column(ForeignKey('log_group.id'), nullable=False, index=True)
-    tag_id = Column(ForeignKey('tag.id'), nullable=False, index=True)
+    group_id = Column(ForeignKey('log_group.id', ondelete='CASCADE'), nullable=False, index=True)
+    tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
     x_val = Column(SmallInteger)
     y_val = Column(SmallInteger)

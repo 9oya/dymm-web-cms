@@ -308,7 +308,7 @@ $(document).ready(function () {
         }
     };
     _tag.set.prototype.delBtnTapped = function (currEle) {
-        let _del_key = _tagSetEle.find("#delete_key").val(),
+        let _del_key = _tagSetEle.find("#delete_key2").val(),
             _superId = _tagSetEle.find(".delegate-item").data("id"),
             _tagSetId = currEle.parent().data("id"),
             _param = $.param({del_key: _del_key}),
@@ -421,7 +421,7 @@ $(document).ready(function () {
             });
     };
     _tag.set.prototype.delAllBtnTapped = function () {
-        let _del_key = _tagSetEle.find("#delete_key").val(),
+        let _del_key = _tagSetEle.find("#delete_key2").val(),
             _superId = _tagSetEle.find(".delegate-item").data("id"),
             _param = $.param({del_key: _del_key}),
             _url = "{0}/{1}/{2}".format(_u.api.tag, _superId, "set");

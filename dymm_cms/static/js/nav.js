@@ -5,8 +5,8 @@ $(document).ready(function () {
     Import Modules
     ===========================================================================
     */
-    let _navItems = $("ul#navigation-bar > li > a"),
-        _adminBtns = $("ul.wrap-admin-bt"),
+    let _navEle = $("ul#nav-bar > li > a"),
+        _adminEle = $("ul.wrap-admin-bt"),
         _pathName = $(location).attr('pathname').split('/')[1],
         _cookie = Cookies.getJSON('dymm_admin');
 
@@ -16,20 +16,20 @@ $(document).ready(function () {
 
     /*
     ===========================================================================
-    Initializing navigation items and buttons for admin user.
+    Initializing navigation items
     ===========================================================================
     */
     !(function (pathName, navItems) {
         $.each(navItems, function (i, item) {
             let _item = $(item);
-            if (_item.data("path") === _pathName) {
+            if (_item.data("path") === pathName) {
                 _item.css("background-color", "white");
                 _item.css("color", "#2a557f");
             }
             _item.attr("href", "/" + _item.data('path'));
         });
         $("li.admin-name").text(_cookie.first_name);
-    })(_pathName, _navItems);
+    })(_pathName, _navEle);
     let expiration = _cookie.url_token_expiration;
     expiration = moment.tz(expiration, "UTC");
     $('#clock').countdown(expiration.toDate())
@@ -50,27 +50,20 @@ $(document).ready(function () {
             $(this).text('00:00:00')
         });
 
-    /*
-    ===========================================================================
-    Prototype properties for private methods
-    ===========================================================================
-    */
+    /*=========================================================================
+    Private methods for Navigation-Bar Application
+    =========================================================================*/
     let top = {
             nav: function () {},
-            adminBtns: function () {}
+            admin: function () {}
         };
 
-    /*
-    ===========================================================================
-    private methods for RDA
-    ===========================================================================
-    */
-    top.nav.prototype.naviItempTapped = function () {
+    top.nav.prototype.navItemTapped = function () {
         if (Cookies.getJSON('dymm_admin') === undefined) {
             location.assign("/admin/sign-in");
         }
     };
-    top.adminBtns.prototype.refreshBtnTapped = function (cookie) {
+    top.admin.prototype.refreshBtnTapped = function (cookie) {
         let _param = $.param({email: _cookie.email});
         $.post("/api/admin/refresh", _param)
             .done(function (response, textStatus, jqXHR) {
@@ -93,21 +86,19 @@ $(document).ready(function () {
                 }
             });
     };
-    top.adminBtns.prototype.signOutBtnTapped = function () {
+    top.admin.prototype.signOutBtnTapped = function () {
         Cookies.remove('dymm_admin');
         Cookies.remove('dymm_url_token');
         location.assign("/admin/sign-in");
     };
 
-    /*
-    ===========================================================================
+    /*=========================================================================
     Event delegation map
-    ===========================================================================
-    */
-    _navItems.on("click", function (e) {
-        top.nav.prototype.naviItempTapped();
+    =========================================================================*/
+    _navEle.on("click", function (e) {
+        top.nav.prototype.navItemTapped();
     });
-    _adminBtns.on("click", "li.bt-refresh, li.bt-sign-out",
+    _adminEle.on("click", "li.bt-refresh, li.bt-sign-out",
         function (e) {
             let _currEle = $(this);
             _cookie = Cookies.getJSON('dymm_admin');
@@ -115,9 +106,9 @@ $(document).ready(function () {
                 if (_cookie === undefined) {
                     location.assign('/admin/sign-in');
                 }
-                top.adminBtns.prototype.refreshBtnTapped(_cookie);
+                top.admin.prototype.refreshBtnTapped(_cookie);
             } else if (_currEle.is("li.bt-sign-out")) {
-                top.adminBtns.prototype.signOutBtnTapped();
+                top.admin.prototype.signOutBtnTapped();
             }
         })
 });
