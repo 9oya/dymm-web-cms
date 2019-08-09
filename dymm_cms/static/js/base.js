@@ -42,8 +42,9 @@ $(document).ready(function () {
     let _url = {
             api: {
                 admin: "/api/admin",
+                asset: "/api/asset",
                 tag: "/api/tag",
-                asset: "/api/asset"
+                banner: "/api/banner"
             },
             view: {
                 home: "/home",

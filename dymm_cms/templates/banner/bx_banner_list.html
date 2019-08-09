@@ -1,0 +1,32 @@
+<div class="delegate-item">Banner - List</div>
+<div class="picked-item">
+    <select class="select-option">
+        <option value="limit" selected>{{ banners_cnt }} banners</option>
+        <option value="all">All banners</option>
+    </select>
+    &nbsp;&nbsp;
+    <div class="bt bt-export"><a href="/api/banner/export" download>Export.xlsx</a></div>
+</div>
+<div class="up-file">
+    <select class="select-upload">
+        <option value="gen-banner" selected>Gen banner</option>
+        <option value="mod-banner">Mod banner</option>
+    </select>
+    &nbsp;&nbsp;
+    <form class="file-form" method=post enctype=multipart/form-data>
+        <input class="up-csv" type=file name=csv>
+        <button class="btn-submit" type="button">Submit</button>
+    </form>
+</div>
+<div class="msg message-fail"></div>
+<div class="msg message-success"></div>
+<section class="tb">
+    <header>
+        <div>IsActive</div>
+        <div>Score</div>
+        <div>EngTitle</div>
+        <div>ImgName</div>
+        <div>BgColor</div>
+    </header>
+    {% include 'banner/cp_banner_tb.html' %}
+</section>

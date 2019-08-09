@@ -23,6 +23,25 @@ class Avatar(Base):
     modified_timestamp = Column(DateTime)
 
 
+class Banner(Base):
+    __tablename__ = 'banner'
+
+    id = Column(Integer, primary_key=True, server_default=text("nextval('banner_id_seq'::regclass)"))
+    is_active = Column(Boolean, nullable=False)
+    score = Column(SmallInteger)
+    eng_title = Column(String(200))
+    kor_title = Column(String(200))
+    jpn_title = Column(String(200))
+    eng_subtitle = Column(String(300))
+    kor_subtitle = Column(String(300))
+    jpn_subtitle = Column(String(300))
+    img_name = Column(String(100))
+    txt_color = Column(String(100))
+    bg_color = Column(String(100))
+    created_timestamp = Column(DateTime)
+    modified_timestamp = Column(DateTime)
+
+
 class Tag(Base):
     __tablename__ = 'tag'
 

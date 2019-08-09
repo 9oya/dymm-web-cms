@@ -1,0 +1,22 @@
+{% if banner %}
+    <div class="delegate-item" data-id="{{ banner.id|e }}">
+        {{ banner.eng_title }} - Detail
+    </div>
+{% else %}
+    <div class="create-new">Create New</div>
+{% endif %}
+<div class="message-fail"></div>
+<div class="message-success"></div>
+<ul class="wrap-bt off">
+    {% if banner %}
+        <li class="bt bt-reset selected">Reset</li>
+        <li class="bt bt-new">New</li>
+        <li class="gray-bt bt-delete">Delete</li>
+        <li class="bt bt-update">Update</li>
+    {% else %}
+        <li class="bt bt-reset new">Reset</li>
+        <li class="bt bt-create">Create</li>
+    {% endif %}
+</ul>
+
+{% include "banner/cp_banner_form.html" %}

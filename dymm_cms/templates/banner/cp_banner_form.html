@@ -1,0 +1,31 @@
+{% if detail_form %}
+    {% from "helpers/detail_form_macro.html" import render_field %}
+    <form>
+        <div class="tb">
+            <div class="form-tr">
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.id) }}<br/>
+                    {{ render_field(detail_form.score) }}<br/>
+                    {{ render_field(detail_form.is_active) }}<br/>
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.img_name) }}<br/>
+                    {{ render_field(detail_form.bg_color) }}<br/>
+                    {{ render_field(detail_form.txt_color) }}<br/>
+                    {{ render_field(detail_form.eng_title) }}<br/>
+                    {{ render_field(detail_form.kor_title) }}<br/>
+                    {{ render_field(detail_form.jpn_title) }}<br/>
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.eng_subtitle) }}<br/>
+                    {{ render_field(detail_form.kor_subtitle) }}<br/>
+                    {{ render_field(detail_form.jpn_subtitle) }}<br/>
+                    {{ render_field(detail_form.delete_key) }}<br/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endif %}

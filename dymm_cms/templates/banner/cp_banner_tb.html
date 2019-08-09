@@ -1,0 +1,18 @@
+{% for banner in banners %}
+    <div
+            class="tr off"
+            data-id="{{ banner.id|e }}"
+    >
+        <div>
+            {% if banner.is_active %}
+                <span class="true">{{ banner.is_active }}</span>
+            {% else %}
+                <span class="false">{{ banner.is_active }}</span>
+            {% endif %}
+        </div>
+        <div>{{ banner.score or '' }}</div>
+        <div>{{ banner.eng_title|e }}</div>
+        <div>{{ banner.kor_title or '' }}</div>
+        <div>{{ banner.jpn_title or '' }}</div>
+    </div>
+{% endfor %}

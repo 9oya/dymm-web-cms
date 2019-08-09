@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 
 from apps.admin.admin_helpers import AdminHelper
 from apps.tag.tag_helpers import TagHelper
+from apps.banner.banner_helpers import BannerHelper
 from apps.asset.asset_helper import AssetHelper
 
 auth_view = Blueprint('auth_view', __name__, url_prefix='')
@@ -55,4 +56,13 @@ def tag_view():
     form = TagHelper.get_empty_tag_form()
     return render_template('tag/base_tag.html', tags=tags,
                            tags_cnt=len(tags),
+                           detail_form=form)
+
+
+@app_view.route('/banner')
+def banner_view():
+    banners = BannerHelper.get_banners()
+    form = BannerHelper.get_empty_banner_form()
+    return render_template('banner/base_banner.html', banners=banners,
+                           banners_cnt=len(banners),
                            detail_form=form)
