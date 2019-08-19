@@ -9,8 +9,8 @@ class BannerForm(Form):
                     validators.NumberRange(min=0, max=None)],
         description="Autoincrement"
     )
-    score = IntegerField(
-        label="Score",
+    priority = IntegerField(
+        label="Priority",
         validators=[validators.Optional(),
                     validators.NumberRange(min=0, max=None)]
     )

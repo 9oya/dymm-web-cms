@@ -28,7 +28,7 @@ class Banner(Base):
 
     id = Column(Integer, primary_key=True, server_default=text("nextval('banner_id_seq'::regclass)"))
     is_active = Column(Boolean, nullable=False)
-    score = Column(SmallInteger)
+    priority = Column(SmallInteger, nullable=False, server_default=text("0"))
     eng_title = Column(String(200))
     kor_title = Column(String(200))
     jpn_title = Column(String(200))
@@ -36,10 +36,10 @@ class Banner(Base):
     kor_subtitle = Column(String(300))
     jpn_subtitle = Column(String(300))
     img_name = Column(String(100))
-    txt_color = Column(String(100))
-    bg_color = Column(String(100))
-    created_timestamp = Column(DateTime)
+    created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
+    bg_color = Column(String(100))
+    txt_color = Column(String(100))
 
 
 class Tag(Base):
@@ -82,7 +82,7 @@ class AvatarCond(Base):
 
     id = Column(Integer, primary_key=True)
     avatar_id = Column(ForeignKey('avatar.id', ondelete='CASCADE'), nullable=False, index=True)
-    cond_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
+    tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
     start_date = Column(Date)
     end_date = Column(Date)
@@ -90,7 +90,7 @@ class AvatarCond(Base):
     modified_timestamp = Column(DateTime)
 
     avatar = relationship('Avatar')
-    cond = relationship('Tag')
+    tag = relationship('Tag')
 
 
 class Bookmark(Base):
@@ -101,7 +101,7 @@ class Bookmark(Base):
     super_tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     sub_tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
-    created_timestamp = Column(DateTime)
+    created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
 
     avatar = relationship('Avatar')
@@ -121,13 +121,13 @@ class LogGroup(Base):
     group_type = Column(SmallInteger, nullable=False, comment='1: Morning, 2: Daytime, 3: Evening, 4: Nighttime')
     is_active = Column(Boolean, nullable=False)
     log_date = Column(Date)
-    has_food = Column(Boolean, nullable=False)
-    has_act = Column(Boolean, nullable=False)
-    has_drug = Column(Boolean, nullable=False)
     has_cond_score = Column(Boolean, nullable=False)
     cond_score = Column(SmallInteger)
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
+    food_cnt = Column(SmallInteger, nullable=False)
+    act_cnt = Column(SmallInteger, nullable=False)
+    drug_cnt = Column(SmallInteger, nullable=False)
 
     avatar = relationship('Avatar')
 
@@ -139,7 +139,7 @@ class LogHistory(Base):
     avatar_id = Column(ForeignKey('avatar.id', ondelete='CASCADE'), nullable=False, index=True)
     tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
-    created_timestamp = Column(DateTime)
+    created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
 
     avatar = relationship('Avatar')
@@ -154,7 +154,7 @@ class ProfileTag(Base):
     tag_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
     is_selected = Column(Boolean, nullable=False)
-    score = Column(SmallInteger, nullable=False, server_default=text("0"))
+    priority = Column(SmallInteger, nullable=False, server_default=text("0"))
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
 
@@ -169,7 +169,7 @@ class TagSet(Base):
     super_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     sub_id = Column(ForeignKey('tag.id', ondelete='CASCADE'), nullable=False, index=True)
     is_active = Column(Boolean, nullable=False)
-    score = Column(Integer, nullable=False, server_default=text("0"))
+    priority = Column(Integer, nullable=False, server_default=text("0"))
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
 
@@ -186,7 +186,7 @@ class TagLog(Base):
     is_active = Column(Boolean, nullable=False)
     x_val = Column(SmallInteger)
     y_val = Column(SmallInteger)
-    create_timestamp = Column(DateTime)
+    create_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
 
     group = relationship('LogGroup')

@@ -25,7 +25,7 @@ class BannerHelper(object):
     def get_banners():
         banners = Banner.query.filter(
             Banner.is_active == True
-        ).order_by(Banner.score.desc()).all()
+        ).order_by(Banner.priority.desc()).all()
         return banners
 
     @staticmethod
@@ -42,7 +42,7 @@ class BannerHelper(object):
         form = BannerForm()
         form.id.data = banner.id
         form.is_active.data = str(banner.is_active)
-        form.score.data = banner.score
+        form.priority.data = banner.priority
         form.img_name.data = banner.img_name
         form.txt_color.data = banner.txt_color
         form.bg_color.data = banner.bg_color
@@ -59,7 +59,7 @@ class BannerHelper(object):
     @staticmethod
     def create_a_banner(form: BannerForm):
         banner = Banner(is_active=str_to_bool(form.is_active.data),
-                        score=form.score.data,
+                        priority=form.priority.data,
                         img_name=form.img_name.data,
                         txt_color=form.txt_color.data,
                         bg_color=form.bg_color.data,
@@ -78,7 +78,7 @@ class BannerHelper(object):
     @staticmethod
     def update_a_banner(banner: Banner, form: BannerForm):
         banner.is_active = str_to_bool(form.is_active.data)
-        banner.score = form.score.data
+        banner.priority = form.priority.data
         banner.img_name = form.img_name.data
         banner.txt_color = form.txt_color.data
         banner.bg_color = form.bg_color.data

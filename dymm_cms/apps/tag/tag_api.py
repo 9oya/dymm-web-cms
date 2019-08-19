@@ -190,8 +190,8 @@ def post_a_tag_set(super_id=None, sub_id=None):
     tag_set = TagHelper.get_a_tag_set(super_id=super_id, sub_id=sub_id)
     if tag_set:
         return forbidden(_m.DUPLICATED.format(sub_id))
-    score = TagHelper.gen_tag_set_next_score(super_id)
-    TagHelper.create_a_tag_set(super_id, sub_id, score)
+    priority = TagHelper.gen_tag_set_next_priority(super_id)
+    TagHelper.create_a_tag_set(super_id, sub_id, priority)
     return ok(_m.OK_POST.format(str(super_id) + "+" + str(sub_id)))
 
 
@@ -215,47 +215,47 @@ def put_a_tag_with_detail_form(tag_id=None):
     return ok(_m.OK_PUT.format(result))
 
 
-@tag_api.route('/set/<int:upper_id>/<int:lower_id>/score/swap',
+@tag_api.route('/set/<int:upper_id>/<int:lower_id>/priority/swap',
                methods=['PUT'])
-def swap_tag_set_scores(upper_id=None, lower_id=None):
+def swap_tag_set_prioritys(upper_id=None, lower_id=None):
     upper_tag_set = TagHelper.get_a_tag_set(upper_id)
-    upper_score = upper_tag_set.score
+    upper_priority = upper_tag_set.priority
     lower_tag_set = TagHelper.get_a_tag_set(lower_id)
-    lower_score = lower_tag_set.score
+    lower_priority = lower_tag_set.priority
     super_id = upper_tag_set.super_id
-    if upper_score is None or upper_score == 0 or \
-            lower_score is None or lower_score == 0:
-        top_score = TagHelper.get_top_score_from_tag_set(super_id)
-        if top_score is None or top_score == 0:
-            TagHelper.update_a_tag_set_score(lower_tag_set, 1000)
-            TagHelper.update_a_tag_set_score(upper_tag_set, 999)
+    if upper_priority is None or upper_priority == 0 or \
+            lower_priority is None or lower_priority == 0:
+        top_priority = TagHelper.get_top_priority_from_tag_set(super_id)
+        if top_priority is None or top_priority == 0:
+            TagHelper.update_a_tag_set_priority(lower_tag_set, 1000)
+            TagHelper.update_a_tag_set_priority(upper_tag_set, 999)
         else:
-            next_score = TagHelper.get_next_score_from_tag_set(super_id)
-            TagHelper.update_a_tag_set_score(lower_tag_set, next_score - 1)
-            TagHelper.update_a_tag_set_score(upper_tag_set, next_score - 2)
-        return ok(_m.OK_PUT.format('fact_set score'))
-    TagHelper.update_a_tag_set_score(lower_tag_set, upper_score)
-    TagHelper.update_a_tag_set_score(upper_tag_set, lower_score)
-    return ok(_m.OK_PUT.format('fact_set score'))
+            next_prior = TagHelper.get_next_priority_from_tag_set(super_id)
+            TagHelper.update_a_tag_set_priority(lower_tag_set, next_prior - 1)
+            TagHelper.update_a_tag_set_priority(upper_tag_set, next_prior - 2)
+        return ok(_m.OK_PUT.format('fact_set priority'))
+    TagHelper.update_a_tag_set_priority(lower_tag_set, upper_priority)
+    TagHelper.update_a_tag_set_priority(upper_tag_set, lower_priority)
+    return ok(_m.OK_PUT.format('fact_set priority'))
 
 
-@tag_api.route('/set/<int:tag_set_id>/score', methods=['PUT'])
-@tag_api.route('/set/<int:tag_set_id>/score/<score>', methods=['PUT'])
-def set_initial_score_into_tag_set(tag_set_id=None, score=None):
+@tag_api.route('/set/<int:tag_set_id>/priority', methods=['PUT'])
+@tag_api.route('/set/<int:tag_set_id>/priority/<priority>', methods=['PUT'])
+def set_initial_priority_into_tag_set(tag_set_id=None, priority=None):
     tag_set = TagHelper.get_a_tag_set(tag_set_id)
     super_id = tag_set.super_id
-    if score is not None:
-        TagHelper.update_a_tag_set_score(tag_set, score)
-        return ok(_m.OK_PUT.format('tag_set score'))
-    top_score = TagHelper.get_top_score_from_tag_set(super_id)
-    if top_score is None or top_score == 0:
-        TagHelper.update_a_tag_set_score(tag_set, 1000)
-        return ok(_m.OK_PUT.format('tag_set score'))
-    if tag_set.score == top_score:
+    if priority is not None:
+        TagHelper.update_a_tag_set_priority(tag_set, priority)
+        return ok(_m.OK_PUT.format('tag_set priority'))
+    top_priority = TagHelper.get_top_priority_from_tag_set(super_id)
+    if top_priority is None or top_priority == 0:
+        TagHelper.update_a_tag_set_priority(tag_set, 1000)
+        return ok(_m.OK_PUT.format('tag_set priority'))
+    if tag_set.priority == top_priority:
         return ok()
-    next_score = TagHelper.get_next_score_from_tag_set(super_id)
-    TagHelper.update_a_tag_set_score(tag_set, next_score - 1)
-    return ok(_m.OK_PUT.format('tag_set score'))
+    next_priority = TagHelper.get_next_priority_from_tag_set(super_id)
+    TagHelper.update_a_tag_set_priority(tag_set, next_priority - 1)
+    return ok(_m.OK_PUT.format('tag_set priority'))
 
 
 @tag_api.route('/set/<int:tag_set_id>/<target>', methods=['PUT'])

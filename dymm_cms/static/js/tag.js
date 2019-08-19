@@ -263,7 +263,7 @@ $(document).ready(function () {
         }
     };
     _tag.set.prototype.getSetOfTags = function (superId, sortType) {
-        sortType = sortType || "score";
+        sortType = sortType || "priority";
         $.get(_u.api.tag + "/" + superId + "/set/" + sortType)
             .done(function (response, textStatus, jqXHR) {
                 _tagSetEle.html(response);
@@ -326,12 +326,12 @@ $(document).ready(function () {
             _sortType = currEle.val();
         _tag.set.prototype.getSetOfTags(_superId, _sortType);
     };
-    _tag.set.prototype.setTagSetScore = function (tagSetId, score) {
+    _tag.set.prototype.setTagSetScore = function (tagSetId, priority) {
         let _superId = _tagSetEle.find(".delegate-item").data("id"),
             _sortType = _tagSetEle.find("select#sort_select").val(),
-            _uri = _u.api.tag + "/set/" + tagSetId + "/score";
-        if (score >= 0 && score !== undefined) {
-            _uri = _u.api.tag + "/set/" + tagSetId + "/score/" + score
+            _uri = _u.api.tag + "/set/" + tagSetId + "/priority";
+        if (priority >= 0 && priority !== undefined) {
+            _uri = _u.api.tag + "/set/" + tagSetId + "/priority/" + priority
         }
         $.put(_uri)
             .done(function (response, textStatus, jqXHR) {
@@ -344,7 +344,7 @@ $(document).ready(function () {
     _tag.set.prototype.swapTagSetScores = function (upperId, lowerId) {
         let _superId = _tagSetEle.find(".delegate-item").data("id"),
             _sortType = _tagSetEle.find("select#sort_select").val();
-        $.put(_u.api.tag + "/set/" + upperId + "/" + lowerId + "/score/swap")
+        $.put(_u.api.tag + "/set/" + upperId + "/" + lowerId + "/priority/swap")
             .done(function (response, textStatus, jqXHR) {
                 _tag.set.prototype.getSetOfTags(_superId, _sortType);
             })
@@ -376,7 +376,7 @@ $(document).ready(function () {
         let _tagSetId = currEle.parent().data("id");
         _tag.set.prototype.setTagSetScore(_tagSetId);
     };
-    _tag.set.prototype.scoreBtnTapped = function (currEle) {
+    _tag.set.prototype.priorityBtnTapped = function (currEle) {
         let _tagSetId = currEle.parent().data("id");
         _tag.set.prototype.setTagSetScore(_tagSetId, 0);
     };
@@ -541,7 +541,7 @@ $(document).ready(function () {
     _tagSetEle.on(
         "click",
         ".tr-name, .bt-close, .bt-reset, .bt-search, .tr-del, " +
-        ".tr-up, .tr-down, .tr-set, .tr-score, .tr-division, " +
+        ".tr-up, .tr-down, .tr-set, .tr-priority, .tr-division, " +
         ".up-img, .is-active, .bt-del",
         function (e) {
             let _currEle = $(this);
@@ -561,8 +561,8 @@ $(document).ready(function () {
                 _tag.set.prototype.downBtnTapped(_currEle);
             } else if (_currEle.is(".tr-set")) {
                 _tag.set.prototype.setBtnTapped(_currEle);
-            } else if (_currEle.is(".tr-score")) {
-                _tag.set.prototype.scoreBtnTapped(_currEle);
+            } else if (_currEle.is(".tr-priority")) {
+                _tag.set.prototype.priorityBtnTapped(_currEle);
             } else if (_currEle.is(".tr-division")) {
                 _tag.set.prototype.tableRowDivisionTapped(_currEle);
             } else if (_currEle.is(".up-img")) {

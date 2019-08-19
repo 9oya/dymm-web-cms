@@ -12,17 +12,17 @@ class TagHelper(object):
     # Generators
     # -------------------------------------------------------------------------
     @staticmethod
-    def gen_tag_set_next_score(super_id) -> int:
+    def gen_tag_set_next_priority(super_id) -> int:
         tag_set = TagSet.query.filter(
             TagSet.super_id == super_id,
             TagSet.is_active == True,
-            TagSet.score != 0
-        ).order_by(TagSet.score).first()
+            TagSet.priority != 0
+        ).order_by(TagSet.priority).first()
         try:
-            score = tag_set.score
+            priority = tag_set.priority
         except AttributeError:
             return 1000
-        return score - 1
+        return priority - 1
 
     # Validators
     # -------------------------------------------------------------------------
@@ -61,7 +61,7 @@ class TagHelper(object):
 
     @staticmethod
     def get_tag_sets_file(tag_sets, file_name, file_extension='xlsx'):
-        columns = ['id', 'super_id', 'sub_id', 'is_active', 'score']
+        columns = ['id', 'super_id', 'sub_id', 'is_active', 'priority']
         if file_extension == 'xlsx':
             excel_response = excel.make_response_from_query_sets(
                 query_sets=tag_sets, column_names=columns,
@@ -487,33 +487,33 @@ class TagHelper(object):
                 join(TagSet.sub). \
                 filter(TagSet.super_id == super_id). \
                 order_by(Tag.jpn_name).all()
-        elif sort_type == 'score':
+        elif sort_type == 'priority':
             tag_set_list = db_session.query(TagSet). \
                 filter(TagSet.super_id == super_id). \
-                order_by(TagSet.score.desc()).all()
+                order_by(TagSet.priority.desc()).all()
         else:
             return False
         return tag_set_list
 
     @staticmethod
-    def get_top_score_from_tag_set(super_id):
+    def get_top_priority_from_tag_set(super_id):
         tag_set = TagSet.query.filter(
             TagSet.super_id == super_id,
-            TagSet.score != None
-        ).order_by(TagSet.score.desc()).first()
+            TagSet.priority != None
+        ).order_by(TagSet.priority.desc()).first()
         try:
-            return tag_set.score
+            return tag_set.priority
         except AttributeError:
             return None
 
     @staticmethod
-    def get_next_score_from_tag_set(super_id):
+    def get_next_priority_from_tag_set(super_id):
         tag_set = TagSet.query.filter(
             TagSet.super_id == super_id,
-            TagSet.score != 0
-        ).order_by(TagSet.score).first()
+            TagSet.priority != 0
+        ).order_by(TagSet.priority).first()
         try:
-            return tag_set.score
+            return tag_set.priority
         except AttributeError:
             return None
 
@@ -558,10 +558,10 @@ class TagHelper(object):
                     db_session.commit()
                     continue
                 for low_tag in low_tags:
-                    score = TagHelper.gen_tag_set_next_score(super_id=tag.id)
+                    priority = TagHelper.gen_tag_set_next_priority(super_id=tag.id)
                     TagHelper.create_a_tag_set(super_id=tag.id,
                                                sub_id=low_tag.id,
-                                               score=score)
+                                               priority=priority)
                 cnt += 1
             return cnt
         elif option == 'gen-set-eng':
@@ -605,11 +605,11 @@ class TagHelper(object):
         return tag.eng_name
 
     @staticmethod
-    def create_a_tag_set(super_id, sub_id, score):
+    def create_a_tag_set(super_id, sub_id, priority):
         tag_set = TagSet(super_id=super_id,
                          sub_id=sub_id,
                          is_active=True,
-                         score=score)
+                         priority=priority)
         db_session.add(tag_set)
         db_session.commit()
         return True
@@ -628,7 +628,7 @@ class TagHelper(object):
                 Tag.eng_name == _dict.get('eng_name', None)
             ).first()
             tag_set.super_id = _dict.get('super_id')
-            tag_set.score = _dict.get('score', None)
+            tag_set.priority = _dict.get('priority', None)
             db_session.commit()
             cnt += 1
         return cnt
@@ -727,13 +727,13 @@ class TagHelper(object):
     @staticmethod
     def update_a_tag_set(tag_set, form):
         tag_set.is_active = str_to_bool(form.is_active.data)
-        tag_set.score = form.score.data
+        tag_set.priority = form.priority.data
         db_session.commit()
         return tag_set.tag.eng_name
 
     @staticmethod
-    def update_a_tag_set_score(tag_set, score):
-        tag_set.score = score
+    def update_a_tag_set_priority(tag_set, priority):
+        tag_set.priority = priority
         db_session.commit()
         return True
 

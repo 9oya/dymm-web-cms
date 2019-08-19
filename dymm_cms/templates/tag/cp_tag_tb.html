@@ -89,8 +89,8 @@
             </div>
             <div class="red-bt tr-up">&#10224;</div>
             <div class="bt tr-down">&#10225;</div>
-            {% if tag_set.score %}
-                <div class="gray-bt tr-score">{{ tag_set.score }} &#10007;</div>
+            {% if tag_set.priority %}
+                <div class="gray-bt tr-priority">{{ tag_set.priority }} &#10007;</div>
             {% else %}
                 <div class="bt tr-set">+ Set</div>
             {% endif %}
