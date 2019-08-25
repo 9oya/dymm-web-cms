@@ -1,8 +1,8 @@
 from flask import Blueprint
 
-from patterns import MessagePattern, RegularExpressionPattern, URIPattern
+from patterns import MsgPattern, RegExPattern, URIPattern
 
 asset_api = Blueprint('asset_api', __name__, url_prefix='/api/asset')
-_m = MessagePattern()
-_r = RegularExpressionPattern()
+_m = MsgPattern()
+_r = RegExPattern()
 _u = URIPattern()

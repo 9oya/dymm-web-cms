@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    let _code = $.base.code,
-        _adminFieldEle = $("div#admin-div");
+    let _adminFieldEle = $("div#admin-div"),
+        _recentMail = Cookies.getJSON('dymm_admin_recent_mail');
 
     /*
     ===========================================================================
@@ -9,6 +9,9 @@ $(document).ready(function () {
     */
     let _admin = function () {};
 
+    if (_recentMail !== undefined) {
+        _adminFieldEle.find("input#email").val(_recentMail)
+    }
     /*
     ===========================================================================
     Private methods for Admin
@@ -36,6 +39,9 @@ $(document).ready(function () {
                 Cookies.set('dymm_admin', response.data.admin_info, {
                     expires: _in30Minutes
                 });
+                Cookies.set('dymm_admin_recent_mail',
+                    response.data.admin_info.email,
+                    {expires: 7});
                 location.assign("/home");
             })
             .fail(function (response) {
@@ -43,13 +49,16 @@ $(document).ready(function () {
                 _formEle.show();
                 _msgFail.show();
                 if (response.status === 400) {
-                    _msgFail.text(JSON.stringify(response.responseJSON.message,
+                    _msgFail.text(
+                        JSON.stringify(response.responseJSON.message,
                         null, "\t"));
                 } else if (response.status === 401) {
-                    _msgFail.text(JSON.stringify(response.responseJSON.message,
+                    _msgFail.text(
+                        JSON.stringify(response.responseJSON.message,
                         null, "\t"));
                 } else if (response.status === 403) {
-                    _msgFail.text(JSON.stringify(response.responseJSON.message,
+                    _msgFail.text(
+                        JSON.stringify(response.responseJSON.message,
                         null, "\t"));
                 } else if (response.status === 500) {
                     alert(_msg.error.server);
@@ -74,6 +83,9 @@ $(document).ready(function () {
                 Cookies.set('dymm_admin', response.data.admin_info, {
                     expires: _in30Minutes
                 });
+                Cookies.set('dymm_admin_recent_mail',
+                    response.data.admin_info.email,
+                    {expires: 7});
                 location.assign("/home");
             })
             .fail(function (response) {

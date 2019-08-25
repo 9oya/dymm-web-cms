@@ -5,6 +5,7 @@
                 data-has-sub="{{ tag.has_low_div|e }}"
                 data-id="{{ tag.id|e }}"
         >
+            <div>{{ tag.id }}</div>
             <div>{{ tag.tag_type or "" }}</div>
             <div>
                 {% if tag.is_active %}

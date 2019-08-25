@@ -1,9 +1,10 @@
 import datetime, pytz
 
-from dymm_cms import b_crypt
-from database import db_session
+from dymm_cms import b_crypt, db
 from models import Avatar
 from .admin_forms import SignUpAdminForm, SignInAdminForm
+
+db_session = db.session
 
 
 class AdminHelper(object):

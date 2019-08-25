@@ -3,10 +3,10 @@ from itsdangerous import URLSafeTimedSerializer
 
 from errors import forbidden
 from dymm_cms import app
-from patterns import ForbiddenPattern, MessagePattern
+from patterns import ErrorPattern, MsgPattern
 
-msg_lib = MessagePattern()
-code_lib = ForbiddenPattern()
+msg_lib = MsgPattern()
+code_lib = ErrorPattern()
 
 
 def generate_url_token(seed):

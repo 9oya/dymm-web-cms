@@ -1,12 +1,12 @@
 from sqlalchemy import text
 
-from dymm_cms import excel
-from database import db_session
+from dymm_cms import excel, db
 from models import Tag, TagSet
 from patterns import TagType
 from helpers.string_helpers import str_to_bool, str_to_none
 from .tag_forms import TagForm
 
+db_session = db.session
 
 class TagHelper(object):
     # Generators
@@ -201,10 +201,9 @@ class TagHelper(object):
         return tags
 
     @staticmethod
-    def get_low_div_tags(tag_id=None, class1=None, division1=None,
+    def get_low_div_tags(tag=None, class1=None, division1=None,
                          division2=None, division3=None, division4=None):
-        if tag_id:
-            tag = TagHelper.get_a_tag(tag_id)
+        if tag:
             if tag.division1 == 0:
                 tags = Tag.query.filter(
                     Tag.class1 == tag.class1,
@@ -284,8 +283,7 @@ class TagHelper(object):
         return tags
 
     @staticmethod
-    def get_all_low_div_tags(tag_id):
-        tag = TagHelper.get_a_tag(tag_id)
+    def get_all_low_div_tags(tag: Tag):
         if tag.division1 == 0:
             tags = Tag.query.filter(
                 Tag.class1 == tag.class1,
@@ -551,7 +549,7 @@ class TagHelper(object):
         if option == 'gen-set-low':
             for _dict in dicts:
                 tag = TagHelper.get_a_tag(_dict.get('id', None))
-                low_tags = TagHelper.get_low_div_tags(tag_id=tag.id)
+                low_tags = TagHelper.get_low_div_tags(tag)
                 if len(low_tags) <= 0:
                     tag.has_set = False
                     tag.has_low_div = False

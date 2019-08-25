@@ -1,11 +1,11 @@
 from sqlalchemy import text
 
-from dymm_cms import excel
-from database import db_session
+from dymm_cms import db
 from models import Banner
-from patterns import TagType
 from helpers.string_helpers import str_to_bool, str_to_none
 from .banner_forms import BannerForm
+
+db_session = db.session
 
 
 class BannerHelper(object):

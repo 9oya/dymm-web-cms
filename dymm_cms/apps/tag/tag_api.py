@@ -25,10 +25,10 @@ def export_tags_file(tag_id=None, option=None):
     else:
         tag = TagHelper.get_a_tag(tag_id)
         if option == 'all':
-            tags = TagHelper.get_all_low_div_tags(tag_id)
+            tags = TagHelper.get_all_low_div_tags(tag)
             file_name = 'tag_{}_all'.format(tag.eng_name.lower())
         elif option == 'limit':
-            tags = TagHelper.get_low_div_tags(tag_id)
+            tags = TagHelper.get_low_div_tags(tag)
             file_name = 'tag_' + tag.eng_name.lower()
         else:
             tag = TagHelper.get_a_tag(tag_id)
@@ -81,7 +81,8 @@ def fetch_initial_tags(target=None):
 def fetch_sub_tags(tag_id=None, target=None):
     if tag_id is None:
         return bad_req(_m.EMPTY_PARAM.format('tag_id'))
-    tags = TagHelper.get_low_div_tags(tag_id)
+    tag = TagHelper.get_a_tag(tag_id)
+    tags = TagHelper.get_low_div_tags(tag)
     if target == 'add':
         return render_template('tag/cp_tag_tb.html', tags_w_add=tags)
     return render_template('tag/cp_tag_tb.html', tags=tags)
@@ -94,7 +95,7 @@ def fetch_a_fact_and_pick_template(tag_id=None):
     tag = TagHelper.get_a_tag(tag_id)
     if not tag:
         return forbidden(_m.NONEXISTENT.format(tag_id))
-    sub_facts = TagHelper.get_low_div_tags(tag_id)
+    sub_facts = TagHelper.get_low_div_tags(tag)
     return render_template('tag/cp_tag_pick.html', tag=tag,
                            tags_cnt=len(sub_facts))
 

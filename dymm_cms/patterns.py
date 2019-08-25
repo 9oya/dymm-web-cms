@@ -4,11 +4,11 @@ class URIPattern:
     ASSET = 'dymm_cms/static/asset'
 
 
-class ForbiddenPattern:
+class ErrorPattern:
     EXPR_TOKEN = 'expired-token'
 
 
-class MessagePattern:
+class MsgPattern:
     BAD_PARAM = 'Bad request, Wrong pattern parameters has been passed.'
     EMPTY_PARAM = "Bad request, Parameter {} is Empty."
     EXPIRED = 'Forbidden, Expired token has been passed.'
@@ -25,7 +25,7 @@ class MessagePattern:
     UN_AUTH = 'Unauthorized, Wrong {} has been passed.'
 
 
-class RegularExpressionPattern:
+class RegExPattern:
     NUMERIC_ID = '^[0-9]+$'
 
 
