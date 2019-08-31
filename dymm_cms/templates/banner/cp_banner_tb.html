@@ -10,9 +10,10 @@
                 <span class="false">{{ banner.is_active }}</span>
             {% endif %}
         </div>
-        <div>{{ banner.score or '' }}</div>
+        <div>{{ banner.priority or '' }}</div>
         <div>{{ banner.eng_title|e }}</div>
-        <div>{{ banner.kor_title or '' }}</div>
-        <div>{{ banner.jpn_title or '' }}</div>
+        <div>{{ banner.img_name or '' }}</div>
+        <div>{{ banner.txt_color or '' }}</div>
+        <div>{{ banner.bg_color or '' }}</div>
     </div>
 {% endfor %}
