@@ -6,8 +6,10 @@
 /dymm_cms/static/jquery-3.3.1.min.js
 /dymm_cms/static/moment.min.js
 /dymm_cms/static/jquery.countdown.min.js
+/dymm_cms/static/js.cookie.min.js
 /venv/
 /.idea/
 /build/
 /dist/
 /dymm_cms/static/asset/
+

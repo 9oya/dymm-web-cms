@@ -18,7 +18,6 @@ setup(
         'pyexcel-xls',
         'pyexcel-xlsx',
         'pyexcel-handsontable',
-        'raven',
         'jsonschema',
         'Flask-Bcrypt',
         'Flask-JWT-Extended',
