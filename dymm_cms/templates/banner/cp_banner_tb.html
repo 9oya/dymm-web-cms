@@ -13,7 +13,7 @@
         <div>{{ banner.priority or '' }}</div>
         <div>{{ banner.eng_title|e }}</div>
         <div>{{ banner.img_name or '' }}</div>
-        <div>{{ banner.txt_color or '' }}</div>
-        <div>{{ banner.bg_color or '' }}</div>
+        <div style="color:{{ banner.txt_color or '' }};">{{ banner.txt_color or '' }}</div>
+        <div style="color:{{ banner.bg_color or '' }};">{{ banner.bg_color or '' }}</div>
     </div>
 {% endfor %}
