@@ -116,7 +116,7 @@ class TagSortForm(Form):
     sort_select = SelectField(
         label="Sort type select",
         choices=[
-            ('eng', 'Eng'), ('kor', 'Kor'), ('jpn', 'Jpn'), ('score', 'Score')
+            ('eng', 'Eng'), ('kor', 'Kor'), ('jpn', 'Jpn'), ('priority', 'Priority')
         ],
         validators=[validators.Optional()]
     )

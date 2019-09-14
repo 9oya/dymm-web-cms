@@ -8,6 +8,7 @@ from .tag_forms import TagForm
 
 db_session = db.session
 
+
 class TagHelper(object):
     # Generators
     # -------------------------------------------------------------------------
@@ -40,7 +41,7 @@ class TagHelper(object):
             return True
         return False
 
-    # Getters
+    # Get methods
     # -------------------------------------------------------------------------
     @staticmethod
     def get_tags_file(tags, file_name, file_extension='xlsx'):
