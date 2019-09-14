@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template
 
-from apps.admin.admin_helpers import AdminHelper
-from apps.tag.tag_helpers import TagHelper
-from apps.banner.banner_helpers import BannerHelper
-from apps.asset.asset_helper import AssetHelper
+from .apps.admin.admin_helpers import AdminHelper
+from .apps.tag.tag_helpers import TagHelper
+from .apps.banner.banner_helpers import BannerHelper
+from .apps.asset.asset_helper import AssetHelper
 
 auth_view = Blueprint('auth_view', __name__, url_prefix='')
 app_view = Blueprint('app_view', __name__, url_prefix='')

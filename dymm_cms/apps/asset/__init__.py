@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from patterns import MsgPattern, RegExPattern, URIPattern
+from dymm_cms.patterns import MsgPattern, RegExPattern, URIPattern
 
 asset_api = Blueprint('asset_api', __name__, url_prefix='/api/asset')
 _m = MsgPattern()

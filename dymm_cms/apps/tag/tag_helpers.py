@@ -1,9 +1,8 @@
 from sqlalchemy import text
 
 from dymm_cms import excel, db
-from models import Tag, TagSet
-from patterns import TagType
-from helpers.string_helpers import str_to_bool, str_to_none
+from dymm_cms.models import Tag, TagSet
+from dymm_cms.helpers.string_helpers import str_to_bool, str_to_none
 from .tag_forms import TagForm
 
 db_session = db.session

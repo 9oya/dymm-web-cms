@@ -1,10 +1,9 @@
 from flask import request
 
-from dymm_cms import b_crypt
-from dymm_cms import app
-from patterns import ErrorPattern, MsgPattern
-from errors import bad_req, forbidden, ok
-from helpers.token_helpers import generate_url_token, confirm_url_token
+from dymm_cms import app, b_crypt
+from dymm_cms.patterns import ErrorPattern, MsgPattern
+from dymm_cms.errors import bad_req, forbidden, ok
+from dymm_cms.helpers.token_helpers import generate_url_token, confirm_url_token
 from . import admin_api
 from .admin_forms import SignInAdminForm, SignUpAdminForm
 from .admin_helpers import AdminHelper

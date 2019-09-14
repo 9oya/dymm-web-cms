@@ -1,7 +1,7 @@
 import datetime, pytz
 
 from dymm_cms import b_crypt, db
-from models import Avatar
+from dymm_cms.models import Avatar
 from .admin_forms import SignUpAdminForm, SignInAdminForm
 
 db_session = db.session

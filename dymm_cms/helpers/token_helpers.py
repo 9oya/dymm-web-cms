@@ -1,9 +1,9 @@
 from flask import request, redirect
 from itsdangerous import URLSafeTimedSerializer
 
-from errors import forbidden
 from dymm_cms import app
-from patterns import ErrorPattern, MsgPattern
+from dymm_cms.errors import forbidden
+from dymm_cms.patterns import ErrorPattern, MsgPattern
 
 msg_lib = MsgPattern()
 code_lib = ErrorPattern()

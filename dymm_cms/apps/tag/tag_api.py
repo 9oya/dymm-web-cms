@@ -1,8 +1,8 @@
 from flask import request, render_template
 
 from dymm_cms import app
-from errors import bad_req, forbidden, ok, unauthorized
-from helpers.string_helpers import str_to_bool
+from dymm_cms.errors import bad_req, forbidden, ok, unauthorized
+from dymm_cms.helpers.string_helpers import str_to_bool
 from . import tag_api, _m, _r
 from .tag_helpers import TagHelper
 from .tag_forms import TagSortForm

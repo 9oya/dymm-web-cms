@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from patterns import MsgPattern, RegExPattern
+from dymm_cms.patterns import MsgPattern, RegExPattern
 
 tag_api = Blueprint('tag_api', __name__, url_prefix='/api/tag')
 _m = MsgPattern()

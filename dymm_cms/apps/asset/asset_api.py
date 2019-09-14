@@ -1,7 +1,7 @@
 from werkzeug.utils import secure_filename
 from flask import request, render_template
 
-from errors import bad_req, forbidden, ok
+from dymm_cms.errors import bad_req, forbidden, ok
 from . import asset_api, _m, _r, _u
 from .asset_helper import AssetHelper
 from ..tag.tag_helpers import TagHelper

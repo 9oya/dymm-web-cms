@@ -1,8 +1,8 @@
 from sqlalchemy import text
 
 from dymm_cms import db
-from models import Banner
-from helpers.string_helpers import str_to_bool, str_to_none
+from dymm_cms.models import Banner
+from dymm_cms.helpers.string_helpers import str_to_bool, str_to_none
 from .banner_forms import BannerForm
 
 db_session = db.session
