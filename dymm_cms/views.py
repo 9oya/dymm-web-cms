@@ -26,7 +26,7 @@ def admin_sign_up_view():
 
 @app_view.route('/asset')
 def asset_view():
-    dirname = "category"
+    dirname = "item"
     dir_names = AssetHelper.get_asset_dir_names()
     png_names = AssetHelper.get_file_names(dirname, 'png', False)
     pdf_names = AssetHelper.get_file_names(dirname, 'pdf', False)

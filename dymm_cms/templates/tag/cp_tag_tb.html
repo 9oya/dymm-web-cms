@@ -101,13 +101,13 @@
             {% if tag_set.sub.has_low_div %}
                 <div class="bt tr-division">Search</div>
             {% else %}
-                <span class="false">{{ tag_set.sub.has_low_div }}</span>
+                <div><span class="false">{{ tag_set.sub.has_low_div }}</span></div>
             {% endif %}
             {% if tag_set.sub.has_icon %}
-                <a href="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}"
+                <a href="{{ url_for('static', filename="asset/tag/png/tag-" + tag_set.sub_id|string + ".png") }}"
                    target="_blank">
                     <img class="tb-img"
-                         src="{{ url_for('static', filename="asset/category/png/tagId-" + tag_set.sub_id|string + ".png") }}">
+                         src="{{ url_for('static', filename="asset/tag/png/tag-" + tag_set.sub_id|string + ".png") }}">
                 </a>
             {% else %}
                 <div>

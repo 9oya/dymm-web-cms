@@ -44,10 +44,10 @@ $(document).ready(function () {
             _dirSelect = _imgListEle.find("select#dir_select"),
             _dirname = _dirSelect.find("option:selected").val(),
             _name = currEle.parent().parent().data("name").split(".")[0],
-            _tagId = _name.split("-")[1],
+            _tagId = _name.split("-")[1].split("@")[0],
             _uri = _u.api.asset + "/import/{0}/{1}/{2}".format(_dirname,
                 target, _tagId);
-        if (_dirname !== 'category') {
+        if (_dirname !== 'tag') {
             _uri = _u.api.asset + "/import/{0}/{1}/{2}".format(_dirname,
                 target, _name);
         }
@@ -62,10 +62,10 @@ $(document).ready(function () {
             _dirSelect = _imgListEle.find("select#dir_select"),
             _dirname = _dirSelect.find("option:selected").val(),
             _uri = _u.api.asset + "/import/{0}/{1}".format(_dirname, target);
-        if (_dirname === 'category') {
-            alert("Use tag-set-api when upload category images.");
-            return false;
-        }
+        // if (_dirname === 'tag') {
+        //     alert("Use tag-set-api when upload tag images.");
+        //     return false;
+        // }
         _form.attr("action", _uri);
         _form.ajaxSubmit(function () {
             _asset.list.prototype.getAssets(_dirname);
@@ -95,10 +95,10 @@ $(document).ready(function () {
             _newDir = currEle.val(),
             _filename = currEle.parent().parent().prev().data("name")
                 .split(".")[0];
-        if (_newDir === 'category' || _newDir === 'archive') {
+        if (_newDir === 'tag' || _newDir === 'archive') {
             alert("Dir you select is not allowed to move any file.\n" +
                 "Use 'Archive.x' button when create zip file.\n" +
-                "Use tag-set-api when upload category images.");
+                "Use tag-set-api when upload tag images.");
             return false;
         }
         $.put(_u.api.asset + "/{0}/{1}/move/{2}".format(_oldDir, _filename,
@@ -121,6 +121,15 @@ $(document).ready(function () {
                 _f.alertFailResponse(response);
             });
     };
+    _asset.list.prototype.genCodeLines = function () {
+        let _dirSelect = _imgListEle.find("select#dir_select"),
+            _dirname = _dirSelect.find("option:selected").val();
+        let popUp = window.open(
+            _u.api.asset + "/gen-line/" + _dirname,
+            "_blank",
+            "width=700,height=700"
+        );
+    };
 
     /*=========================================================================
     Event delegation map
@@ -128,7 +137,7 @@ $(document).ready(function () {
     _imgListEle.on(
         "click",
         ".up-pdf, .up-svg, .up-imgs, .del-all, .del-svg, .del-pdf, .del-zip, " +
-        ".zip-png, .zip-svg, .zip-pdf",
+        ".zip-png, .zip-svg, .zip-pdf, .gen-swift",
         function (event) {
             let _currEle = $(this);
             if (_currEle.is(".up-pdf")) {
@@ -151,6 +160,8 @@ $(document).ready(function () {
                 _asset.list.prototype.archiveBtnTapped(_currEle, 'svg')
             } else if (_currEle.is(".zip-pdf")) {
                 _asset.list.prototype.archiveBtnTapped(_currEle, 'pdf')
+            } else if (_currEle.is(".gen-swift")) {
+                _asset.list.prototype.genCodeLines()
             }
         });
     _imgListEle.on(

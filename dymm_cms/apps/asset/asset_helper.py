@@ -1,6 +1,7 @@
 import os, shutil, datetime, pytz
 from werkzeug.utils import secure_filename
 
+from dymm_cms.helpers.string_helpers import to_camel_case
 from . import _u
 from .asset_forms import AssetDirForm
 
@@ -54,6 +55,16 @@ class AssetHelper(object):
             json[name] = name
         return json
 
+    @staticmethod
+    def convert_file_names_into_app_code(names: list):
+        gen_lines = list()
+        for file_name in names:
+            asset_name = file_name.split('.')[0]
+            gen_line = "static let {0} = UIImage(named: \"{1}\")!".format(
+                to_camel_case(asset_name, '-'), asset_name)
+            gen_lines.append(gen_line)
+        return gen_lines
+
     # Getters
     # -------------------------------------------------------------------------
     @staticmethod
@@ -65,7 +76,7 @@ class AssetHelper(object):
         return names
 
     @staticmethod
-    def get_file_names(dirname, target, reverse: bool):
+    def get_file_names(dirname, target, reverse=False):
         names = list()
         if target == 'zip':
             location = "{0}/{1}".format(_u.ASSET, dirname)
@@ -108,7 +119,13 @@ class AssetHelper(object):
         cnt = 0
         for file in files:
             if file and AssetHelper.is_allowed_file_type(file.filename, 'png'):
-                filename = secure_filename(file.filename)
+                str_list = file.filename.split('.')
+                try:
+                    option = dirname.split('@')[1]
+                    filename = "{0}@{1}.{2}".format(str_list[0], option,
+                                                    str_list[1])
+                except IndexError:
+                    filename = secure_filename(file.filename)
                 path = _u.ASSET + "/{0}/{1}".format(dirname, file_type)
                 file.save(os.path.join(path, filename))
                 cnt += 1

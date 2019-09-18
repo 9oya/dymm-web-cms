@@ -566,7 +566,7 @@ $(document).ready(function () {
             } else if (_currEle.is(".tr-division")) {
                 _tag.set.prototype.tableRowDivisionTapped(_currEle);
             } else if (_currEle.is(".up-img")) {
-                _tag.set.prototype.upImgBtnTapped(_currEle, 'category', 'png');
+                _tag.set.prototype.upImgBtnTapped(_currEle, 'tag', 'png');
             } else if (_currEle.is(".is-active")) {
                 _tag.set.prototype.boolBtnTapped(_currEle, "is-active");
             } else if (_currEle.is(".bt-del")) {

@@ -9,6 +9,9 @@
         <div class="bt zip-png">Archive.png</div>
         <div class="bt zip-svg">Archive.svg</div>
         <div class="bt zip-pdf">Archive.pdf</div>
+        {% if dirname == 'item' %}
+            <div class="bt gen-swift">Gen.swift</div>
+        {% endif %}
         <form class="file-form" method=post enctype=multipart/form-data>
             <br/>
             <input class="choose-imgs" type=file name=files multiple>

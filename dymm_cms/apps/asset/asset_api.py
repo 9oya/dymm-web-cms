@@ -19,9 +19,9 @@ def import_file(dirname=None, target=None, id_or_name=None):
     file = request.files[target]
     if not file or not AssetHelper.is_allowed_file_type(file.filename, target):
         return bad_req(_m.BAD_PARAM)
-    if dirname == 'category':
+    if dirname == 'tag':
         tag_id = int(id_or_name)
-        filename = 'tagId-{}.{}'.format(tag_id, target)
+        filename = 'tag-{0}.{1}'.format(tag_id, target)
         if target == 'png':
             tag = TagHelper.get_a_tag(tag_id)
             TagHelper.update_tag_has_icon(tag)
@@ -29,6 +29,8 @@ def import_file(dirname=None, target=None, id_or_name=None):
         filename = '{0}.{1}'.format(id_or_name, target)
     else:
         filename = secure_filename(file.filename)
+        # str_list = file.filename.split('.')
+        # filename = "{0}.{1}".format(str_list[0], str_list[1])
     location = _u.ASSET + "/{0}/{1}".format(dirname, target)
     AssetHelper.upload_single_file(file, location, filename)
     return ok(_m.OK_UPLOAD.format(filename, target))
@@ -64,6 +66,13 @@ def fetch_assets(dirname=None):
     return render_template('asset/bx_asset_list.html', dirname=dirname,
                            dirform=dir_form, assets=assets,
                            imgs_cnt=len(assets))
+
+
+@asset_api.route('/gen-line/<dirname>', methods=['GET'])
+def fetch_native_app_code_set(dirname=None):
+    png_names = AssetHelper.get_file_names(dirname, 'png', False)
+    gen_lines = AssetHelper.convert_file_names_into_app_code(png_names)
+    return render_template('asset/pop_asset_line.html', gen_lines=gen_lines)
 
 
 @asset_api.route('/<dirname>/<old_name>/rename/<new_name>', methods=['PUT'])
