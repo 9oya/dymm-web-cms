@@ -19,14 +19,14 @@ def import_file(dirname=None, target=None, id_or_name=None):
     file = request.files[target]
     if not file or not AssetHelper.is_allowed_file_type(file.filename, target):
         return bad_req(_m.BAD_PARAM)
-    if dirname == 'tag':
+    if isinstance(id_or_name, str):
+        filename = '{0}.{1}'.format(id_or_name, target)
+    elif dirname == 'tag':
         tag_id = int(id_or_name)
         filename = 'tag-{0}.{1}'.format(tag_id, target)
         if target == 'png':
             tag = TagHelper.get_a_tag(tag_id)
             TagHelper.update_tag_has_icon(tag)
-    elif target != 'png' and isinstance(id_or_name, str):
-        filename = '{0}.{1}'.format(id_or_name, target)
     else:
         filename = secure_filename(file.filename)
         # str_list = file.filename.split('.')

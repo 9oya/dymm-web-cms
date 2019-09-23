@@ -59,12 +59,13 @@ div.edit-asset {
     color: dodgerblue;
 }
 
-.choose-svg, .choose-pdf {
+.choose-svg, .choose-pdf, .change-png {
     max-width: 150px;
 }
 
 .choose-svg::-webkit-file-upload-button,
 .choose-pdf::-webkit-file-upload-button,
+.change-png::-webkit-file-upload-button,
 .choose-imgs::-webkit-file-upload-button {
     visibility: hidden;
 }
@@ -81,6 +82,12 @@ div.edit-asset {
     color: lightsteelblue;
 }
 
+.change-png::before {
+    content: 'Change.png';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
 .choose-imgs::before {
     content: 'Choose images';
     cursor: pointer;
@@ -88,6 +95,6 @@ div.edit-asset {
 }
 
 .choose-svg:hover::before, .choose-pdf:hover::before,
-.choose-imgs:hover::before {
+.change-png:hover::before, .choose-imgs:hover::before {
     color: gold;
 }

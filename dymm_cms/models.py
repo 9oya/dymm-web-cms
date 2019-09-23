@@ -1,5 +1,5 @@
 from sqlalchemy import (Boolean, Column, Date, DateTime, ForeignKey, Integer,
-                        SmallInteger, String, text, Text)
+                        SmallInteger, String, text, Text, CHAR)
 from sqlalchemy.orm import relationship
 from dymm_cms import db
 
@@ -19,11 +19,12 @@ class Avatar(Base):
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     ph_number = Column(String(50))
-    profile_type = Column(Integer, nullable=False)
+    color_code = Column(Integer, nullable=False)
     introduction = Column(String(200))
+    date_of_birth = Column(CHAR(10))
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
-    date_of_birth = Column(Date)
+    photo_name = Column(String(100))
 
 
 class Banner(Base):
@@ -128,9 +129,9 @@ class LogGroup(Base):
     act_cnt = Column(SmallInteger, nullable=False)
     drug_cnt = Column(SmallInteger, nullable=False)
     cond_score = Column(SmallInteger)
+    note = Column(Text)
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
-    note = Column(Text)
 
     avatar = relationship('Avatar')
 

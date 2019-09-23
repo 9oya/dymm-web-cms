@@ -44,13 +44,8 @@ $(document).ready(function () {
             _dirSelect = _imgListEle.find("select#dir_select"),
             _dirname = _dirSelect.find("option:selected").val(),
             _name = currEle.parent().parent().data("name").split(".")[0],
-            _tagId = _name.split("-")[1].split("@")[0],
-            _uri = _u.api.asset + "/import/{0}/{1}/{2}".format(_dirname,
-                target, _tagId);
-        if (_dirname !== 'tag') {
             _uri = _u.api.asset + "/import/{0}/{1}/{2}".format(_dirname,
                 target, _name);
-        }
         _form.attr("action", _uri);
         _form.ajaxSubmit(function () {
             _asset.list.prototype.getAssets(_dirname);
@@ -137,13 +132,15 @@ $(document).ready(function () {
     _imgListEle.on(
         "click",
         ".up-pdf, .up-svg, .up-imgs, .del-all, .del-svg, .del-pdf, .del-zip, " +
-        ".zip-png, .zip-svg, .zip-pdf, .gen-swift",
+        ".zip-png, .zip-svg, .zip-pdf, .gen-swift, .up-png",
         function (event) {
             let _currEle = $(this);
             if (_currEle.is(".up-pdf")) {
                 _asset.list.prototype.upLoadSingleFile(_currEle, "pdf")
             } else if (_currEle.is(".up-svg")) {
                 _asset.list.prototype.upLoadSingleFile(_currEle, "svg")
+            } else if (_currEle.is(".up-png")) {
+                _asset.list.prototype.upLoadSingleFile(_currEle, "png")
             } else if (_currEle.is(".up-imgs")) {
                 _asset.list.prototype.upLoadMultiFiles(_currEle, "files")
             } else if (_currEle.is(".del-all")) {

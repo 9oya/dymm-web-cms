@@ -57,7 +57,7 @@ class AdminHelper(object):
                        first_name=form.first_name.data,
                        last_name=form.last_name.data,
                        password_hash=password_hash,
-                       profile_type=1)
+                       color_code=1)
         db_session.add(admin)
         db_session.commit()
         return admin
