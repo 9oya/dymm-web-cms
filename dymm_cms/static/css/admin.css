@@ -11,9 +11,9 @@ form#admin-form {
 }
 
 img.loading {
-    max-width: 80px;
-    max-height: 80px;
-    -webkit-animation: rotation 5s infinite linear;
+    max-width: 120px;
+    max-height: 120px;
+    -webkit-animation: rotation 3s infinite linear;
 }
 
 @-webkit-keyframes rotation {

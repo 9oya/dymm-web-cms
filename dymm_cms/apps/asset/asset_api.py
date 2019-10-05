@@ -3,7 +3,7 @@ from flask import request, render_template
 
 from dymm_cms.errors import bad_req, forbidden, ok
 from . import asset_api, _m, _r, _u
-from .asset_helper import AssetHelper
+from .asset_helpers import AssetHelper
 from ..tag.tag_helpers import TagHelper
 
 

@@ -43,6 +43,7 @@ $(document).ready(function () {
             api: {
                 admin: "/api/admin",
                 asset: "/api/asset",
+                avatar: "/api/avatar",
                 tag: "/api/tag",
                 banner: "/api/banner"
             },

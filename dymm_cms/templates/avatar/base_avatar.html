@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Avatar - Dymm CMS{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href=
+            "{{ url_for('static', filename='css/avatar.css') }}">
+    <script src="{{ url_for('static', filename='js/avatar.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <section class="wrap-box">
+        <div class="box" id="bx-avatar-list">
+            {% include 'avatar/bx_avatar_list.html' %}
+        </div>
+        <div class="box off" id="bx-avatar-detail" style="display: none;"></div>
+    </section>
+{% endblock %}

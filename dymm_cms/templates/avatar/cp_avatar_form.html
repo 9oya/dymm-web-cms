@@ -1,0 +1,33 @@
+{% if detail_form %}
+    {% from "helpers/detail_form_macro.html" import render_field %}
+    <form>
+        <div class="tb">
+            <div class="form-tr">
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.is_active) }}
+                    {{ render_field(detail_form.is_admin) }}
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.is_blocked) }}
+                    {{ render_field(detail_form.is_confirmed) }}
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.email) }}<br/>
+                    {{ render_field(detail_form.first_name) }}<br/>
+                    {{ render_field(detail_form.last_name) }}<br/>
+                    <br/>
+                </div>
+                <div>
+                    <br/>
+                    {{ render_field(detail_form.created_timestamp) }}<br/>
+                    {{ render_field(detail_form.modified_timestamp) }}<br/>
+                    {{ render_field(detail_form.delete_key) }}<br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endif %}

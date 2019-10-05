@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 from .apps.admin.admin_helpers import AdminHelper
 from .apps.tag.tag_helpers import TagHelper
 from .apps.banner.banner_helpers import BannerHelper
-from .apps.asset.asset_helper import AssetHelper
+from .apps.asset.asset_helpers import AssetHelper
+from .apps.avatar.avatar_helpers import AvatarHelper
 
 auth_view = Blueprint('auth_view', __name__, url_prefix='')
 app_view = Blueprint('app_view', __name__, url_prefix='')
@@ -22,6 +23,17 @@ def admin_sign_up_view():
     form = AdminHelper.get_empty_admin_sign_up_form()
     return render_template('admin/base_admin.html', pattern="sign-up",
                            form=form)
+
+
+@app_view.route('/avatar')
+def avatar_view():
+    page = request.args.get('page')
+    if not page:
+        page = 1
+    avatars = AvatarHelper.get_avatars(sort_type='date', page=int(page))
+    # form = AvatarHelper.get_empty_avatar_form()
+    return render_template('avatar/base_avatar.html', avatars=avatars,
+                           avatars_cnt=len(avatars.items))
 
 
 @app_view.route('/asset')

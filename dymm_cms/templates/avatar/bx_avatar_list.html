@@ -1,0 +1,39 @@
+<div class="delegate-item">Avatar - List</div>
+<div class="picked-item">
+    <select class="select-option">
+        <option value="limit" selected>{{ avatars_cnt }} avatars</option>
+        <option value="all">All avatars</option>
+    </select>
+    &nbsp;&nbsp;
+    <div class="bt bt-export"><a href="/api/avatar/export" download>Export.xlsx</a></div>
+</div>
+<div class="up-file">
+    <select class="select-upload">
+        <option value="gen-avatar" selected>Gen avatar</option>
+        <option value="mod-avatar">Mod avatar</option>
+    </select>
+    &nbsp;&nbsp;
+    <form class="file-form" method=post enctype=multipart/form-data>
+        <input class="up-csv" type=file name=csv>
+        <button class="btn-submit" type="button">Submit</button>
+    </form>
+</div>
+<div class="msg message-fail"></div>
+<div class="msg message-success"></div>
+<section class="tb">
+    <header>
+        <div>IsAdmin</div>
+        <div>IsActive</div>
+        <div>IsBlock</div>
+        <div>IsConf</div>
+        <div>Email</div>
+        <div>FristName</div>
+        <div>LastName</div>
+    </header>
+    {% include 'avatar/cp_avatar_tb.html' %}
+</section>
+{% from "helpers/pagination_macro.html" import render_pagination %}
+<div class="pages">
+    {{ render_pagination(avatars, 'app_view.avatar_view') }}
+</div>
+

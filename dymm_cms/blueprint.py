@@ -4,6 +4,7 @@ def register_blueprint(app):
     from .apps.tag.tag_api import tag_api
     from .apps.asset.asset_api import asset_api
     from .apps.banner.banner_api import banner_api
+    from .apps.avatar.avatar_api import avatar_api
     from .helpers.token_helpers import (validate_token_and_redirect,
                                         validate_token_before_request)
 
@@ -18,3 +19,4 @@ def register_blueprint(app):
     app.register_blueprint(tag_api)
     app.register_blueprint(banner_api)
     app.register_blueprint(asset_api)
+    app.register_blueprint(avatar_api)

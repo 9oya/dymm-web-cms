@@ -37,8 +37,8 @@ img.loading {
     top: 30%;
     left: 50%;
     z-index: 2;
-    max-width: 80px;
-    max-height: 80px;
+    max-width: 120px;
+    max-height: 120px;
     -webkit-animation: rotation 5s infinite linear;
 }
 
@@ -87,6 +87,16 @@ section.bx-wrap {
     border-color: darkgrey;
     border-width: 1px;
 }
+
+.pages {
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+}
+
+/*.pages > div {*/
+/*    text-align: center;*/
+/*}*/
 
 /* Delegate Item Element
 -----------------------------------------------------------------------------*/
