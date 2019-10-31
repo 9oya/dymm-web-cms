@@ -88,15 +88,32 @@ section.bx-wrap {
     border-width: 1px;
 }
 
-.pages {
+/* Pagination Element
+-----------------------------------------------------------------------------*/
+.pagination {
     margin: auto;
     padding: 10px;
     text-align: center;
 }
 
-/*.pages > div {*/
-/*    text-align: center;*/
-/*}*/
+.pagination > a {
+    padding: 5px 5px 5px 5px;
+}
+
+.pagination > a:link {
+    color: cornflowerblue;
+    text-decoration: none;
+}
+
+.pagination > a:visited {
+    color: cornflowerblue;
+    text-decoration: none;
+}
+
+.pagination > a:hover {
+    color: gold;
+    text-decoration: none;
+}
 
 /* Delegate Item Element
 -----------------------------------------------------------------------------*/

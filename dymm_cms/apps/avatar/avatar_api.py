@@ -53,3 +53,18 @@ def put_a_banner_with_detail_form(avatar_id=None):
         return forbidden(_m.NONEXISTENT.format(avatar_id))
     AvatarHelper.update_a_avatar(avatar, form)
     return ok(_m.OK_PUT.format('Avatar'))
+
+
+# DELETE services
+# -----------------------------------------------------------------------------
+@avatar_api.route('/<int:avatar_id>', methods=['DELETE'])
+def delete_a_avatar(avatar_id=None):
+    if request.values.get('del_key') != app.config['DELETE_KEY']:
+        return unauthorized(_m.UN_AUTH.format('del_key'))
+    if avatar_id is None:
+        return bad_req(_m.EMPTY_PARAM.format('avatar_id'))
+    avatar = AvatarHelper.get_a_avatar(avatar_id)
+    if not avatar:
+        return forbidden(_m.NONEXISTENT.format(avatar_id))
+    AvatarHelper.delete_a_avatar(avatar)
+    return ok(_m.OK_DELETE.format(avatar_id))

@@ -13,7 +13,7 @@
         <option value="mod-avatar">Mod avatar</option>
     </select>
     &nbsp;&nbsp;
-    <form class="file-form" method=post enctype=multipart/form-data>
+    <form class="file-form" method=post enctype=multipart/form-data action="/api/avatar/import/gen-avatar">
         <input class="up-csv" type=file name=csv>
         <button class="btn-submit" type="button">Submit</button>
     </form>
@@ -33,7 +33,5 @@
     {% include 'avatar/cp_avatar_tb.html' %}
 </section>
 {% from "helpers/pagination_macro.html" import render_pagination %}
-<div class="pages">
-    {{ render_pagination(avatars, 'app_view.avatar_view') }}
-</div>
+{{ render_pagination(avatars, 'app_view.avatar_view') }}
 

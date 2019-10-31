@@ -218,7 +218,7 @@ def put_a_tag_with_detail_form(tag_id=None):
 
 @tag_api.route('/set/<int:upper_id>/<int:lower_id>/priority/swap',
                methods=['PUT'])
-def swap_tag_set_prioritys(upper_id=None, lower_id=None):
+def swap_tag_set_priority(upper_id=None, lower_id=None):
     upper_tag_set = TagHelper.get_a_tag_set(upper_id)
     upper_priority = upper_tag_set.priority
     lower_tag_set = TagHelper.get_a_tag_set(lower_id)

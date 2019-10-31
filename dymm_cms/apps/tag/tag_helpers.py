@@ -778,4 +778,3 @@ class TagHelper(object):
             TagHelper.delete_a_tag_set(tag_set)
             cnt += 1
         return cnt
-

@@ -106,3 +106,11 @@ class AvatarHelper(object):
         avatar.modified_timestamp = text("timezone('utc'::text, now())")
         db_session.commit()
         return True
+
+    # Delete methods
+    # -------------------------------------------------------------------------
+    @staticmethod
+    def delete_a_avatar(avatar):
+        db_session.delete(avatar)
+        db_session.commit()
+        return True
