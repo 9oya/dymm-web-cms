@@ -39,3 +39,22 @@ class TagType:
     bookmark = 13
     diary = 14
     history = 15
+
+
+class TagId:
+    act = 2
+    cond = 3
+    drug = 4
+    food = 5
+    profile = 19
+    language = 20
+    supp = 1040
+    date_of_birth = 23
+    password = 14641
+    theme = 14645
+    light = 14646
+    eng = 30
+    kor = 35
+    male = 36
+    female = 37
+    gender = 22

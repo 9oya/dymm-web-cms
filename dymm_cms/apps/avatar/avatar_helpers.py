@@ -1,14 +1,26 @@
+import random
+
 from sqlalchemy import text
 
 from dymm_cms import db, b_crypt
-from dymm_cms.models import Avatar
+from dymm_cms.models import Avatar, ProfileTag, Tag, TagSet
 from dymm_cms.helpers.string_helpers import str_to_bool, str_to_none
+from dymm_cms.patterns import TagId
 from .avatar_forms import AvatarForm
 
 db_session = db.session
 
 
 class AvatarHelper(object):
+
+    # Generators
+    # -------------------------------------------------------------------------
+    @staticmethod
+    def gen_random_profile_color() -> int:
+        profile_colors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        random.shuffle(profile_colors)
+        random.shuffle(profile_colors)
+        return profile_colors[5]
 
     # GET methods
     # -------------------------------------------------------------------------
@@ -50,6 +62,64 @@ class AvatarHelper(object):
         form.modified_timestamp.render_kw = {'disabled': True}
         return form
 
+    @staticmethod
+    def get_tag_sets(super_id: int, sort_type, page=None, per_page=40):
+        if sort_type == 'eng':
+            if page:
+                tag_sets = TagSet.query.join(TagSet.sub).filter(
+                    TagSet.super_id == super_id,
+                    TagSet.is_active == True
+                ).order_by(
+                    Tag.eng_name
+                ).paginate(page, per_page, False).items
+                return tag_sets
+            tag_sets = db_session.query(TagSet).join(TagSet.sub).filter(
+                TagSet.super_id == super_id,
+                TagSet.is_active == True
+            ).order_by(Tag.eng_name).all()
+        elif sort_type == 'kor':
+            if page:
+                tag_sets = TagSet.query.join(TagSet.sub).filter(
+                    TagSet.super_id == super_id,
+                    TagSet.is_active == True
+                ).order_by(
+                    Tag.kor_name
+                ).paginate(page, per_page, False).items
+                return tag_sets
+            tag_sets = db_session.query(TagSet).join(TagSet.sub).filter(
+                TagSet.super_id == super_id,
+                TagSet.is_active == True
+            ).order_by(Tag.kor_name).all()
+        elif sort_type == 'jpn':
+            if page:
+                tag_sets = TagSet.query.join(TagSet.sub).filter(
+                    TagSet.super_id == super_id,
+                    TagSet.is_active == True
+                ).order_by(
+                    Tag.jpn_name
+                ).paginate(page, per_page, False).items
+                return tag_sets
+            tag_sets = db_session.query(TagSet).join(TagSet.sub).filter(
+                TagSet.super_id == super_id,
+                TagSet.is_active == True
+            ).order_by(Tag.jpn_name).all()
+        elif sort_type == 'priority':
+            if page:
+                tag_sets = db_session.query(TagSet).filter(
+                    TagSet.super_id == super_id,
+                    TagSet.is_active == True
+                ).order_by(
+                    TagSet.priority.desc()
+                ).paginate(page, per_page, False).items
+                return tag_sets
+            tag_sets = db_session.query(TagSet).filter(
+                TagSet.super_id == super_id,
+                TagSet.is_active == True
+            ).order_by(TagSet.priority.desc()).all()
+        else:
+            return False
+        return tag_sets
+
     # Create methods
     # -------------------------------------------------------------------------
     @staticmethod
@@ -67,12 +137,50 @@ class AvatarHelper(object):
                 password_hash=password_hash,
                 first_name=str_to_none(_dict.get('first_name', None)),
                 last_name=str_to_none(_dict.get('last_name', None)),
-                color_code=str_to_none(_dict.get('color_code', None))
+                color_code=AvatarHelper.gen_random_profile_color()
             )
             db_session.add(avatar)
             db_session.commit()
+            AvatarHelper.create_def_profile_tags(avatar.id, TagId.eng)
             cnt += 1
         return cnt
+
+    @staticmethod
+    def create_profile_tag(avatar_id, super_tag_id, sub_tag_id, is_selected):
+        profile_tag = ProfileTag(
+            avatar_id=avatar_id,
+            super_tag_id=super_tag_id,
+            sub_tag_id=sub_tag_id,
+            is_active=True,
+            is_selected=is_selected
+        )
+        db_session.add(profile_tag)
+        db_session.commit()
+        return profile_tag
+
+    @staticmethod
+    def create_def_profile_tags(avatar_id, language_id):
+        tag_sets = AvatarHelper.get_tag_sets(super_id=TagId.profile,
+                                             sort_type='priority')
+        for tag_set in tag_sets:
+            if tag_set.sub_id == TagId.language:
+                AvatarHelper.create_profile_tag(avatar_id=avatar_id,
+                                                super_tag_id=tag_set.sub_id,
+                                                sub_tag_id=language_id,
+                                                is_selected=True)
+                continue
+            elif tag_set.sub_id == TagId.theme:
+                AvatarHelper.create_profile_tag(avatar_id=avatar_id,
+                                                super_tag_id=tag_set.sub_id,
+                                                sub_tag_id=TagId.light,
+                                                is_selected=True)
+                continue
+            else:
+                AvatarHelper.create_profile_tag(avatar_id=avatar_id,
+                                                super_tag_id=tag_set.sub_id,
+                                                sub_tag_id=tag_set.sub_id,
+                                                is_selected=False)
+        return True
 
     # UPDATE methods
     # -------------------------------------------------------------------------

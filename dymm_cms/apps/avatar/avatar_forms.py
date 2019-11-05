@@ -42,7 +42,8 @@ class AvatarForm(Form):
     )
     modified_timestamp = StringField(
         label="Modified timestamp",
-        validators=[validators.Length(min=2, max=200)]
+        validators=[validators.Optional(),
+                    validators.Length(min=0, max=200)]
     )
     delete_key = PasswordField(
         label="Delete key",
