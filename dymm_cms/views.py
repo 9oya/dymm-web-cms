@@ -1,4 +1,6 @@
+import os
 from flask import Blueprint, render_template, request
+from google.cloud import storage
 
 from .apps.admin.admin_helpers import AdminHelper
 from .apps.tag.tag_helpers import TagHelper
@@ -37,7 +39,7 @@ def avatar_view():
 
 
 @app_view.route('/asset')
-def asset_view():
+def asset_view_file_system():
     dirname = "item"
     dir_names = AssetHelper.get_asset_dir_names()
     png_names = AssetHelper.get_file_names(dirname, 'png', False)

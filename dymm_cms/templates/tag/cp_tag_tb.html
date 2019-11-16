@@ -103,20 +103,19 @@
             {% else %}
                 <div><span class="false">{{ tag_set.sub.has_low_div }}</span></div>
             {% endif %}
-            {% if tag_set.sub.has_icon %}
-                <a href="{{ url_for('static', filename="asset/tag/png/tag-" + tag_set.sub_id|string + ".png") }}"
-                   target="_blank">
-                    <img class="tb-img"
-                         src="{{ url_for('static', filename="asset/tag/png/tag-" + tag_set.sub_id|string + ".png") }}">
-                </a>
-            {% else %}
-                <div>
-                    <form class="file-form" method=post enctype=multipart/form-data>
-                        <input class="choose-png" type=file name=png>
-                        <button class="up-img" type="button">Submit</button>
-                    </form>
-                </div>
-            {% endif %}
+            <a href="{{ url_for('static', filename="asset/tag/png/tag-" + tag_set.sub_id|string + ".png") }}"
+               target="_blank">
+                <img class="tb-img"
+                     src="{{ url_for('static', filename="asset/tag/png/tag-" + tag_set.sub_id|string + ".png") }}"
+                     onerror="this.src='{{ url_for('static', filename="asset/other/png/empty.png") }}';"
+                >
+            </a>
+            <div>
+                <form class="file-form" method=post enctype=multipart/form-data>
+                    <input class="choose-png" type=file name=png>
+                    <button class="up-img" type="button">Submit</button>
+                </form>
+            </div>
         </div>
     {% endfor %}
 {% endif %}

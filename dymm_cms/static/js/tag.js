@@ -27,7 +27,6 @@ $(document).ready(function () {
         add: function () {
         }
     };
-
     _tag.list.prototype.uploadOptSelected = function (currEle) {
         let _form = _tagListEle.find("form.file-form"),
             _option = currEle.find("option:selected").val(),
@@ -312,7 +311,7 @@ $(document).ready(function () {
             _superId = _tagSetEle.find(".delegate-item").data("id"),
             _tagSetId = currEle.parent().data("id"),
             _param = $.param({del_key: _del_key}),
-            _url ="{0}/{1}/{2}".format(_u.api.tag, "set", _tagSetId);
+            _url = "{0}/{1}/{2}".format(_u.api.tag, "set", _tagSetId);
         $.delete(_url, _param)
             .done(function (response, textStatus, jqXHR) {
                 _tag.set.prototype.getSetOfTags(_superId);
@@ -400,7 +399,7 @@ $(document).ready(function () {
         let _superId = _tagSetEle.find(".delegate-item").data("id"),
             _form = currEle.parent(),
             _tagId = currEle.parent().parent().parent().data("tagId"),
-            _uri = _u.api.asset + "/import/{0}/{1}/{2}".format(dirname,
+            _uri = _u.api.asset + "/import/{0}/{1}/id/{2}".format(dirname,
                 target, _tagId);
         _form.attr("action", _uri);
         _form.ajaxSubmit(function () {

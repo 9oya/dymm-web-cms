@@ -9,3 +9,8 @@ class AssetDirForm(Form):
     path_select = SelectField(
         validators=[validators.Optional()]
     )
+    delete_key = PasswordField(
+        label="Delete key",
+        validators=[validators.Optional(),
+                    validators.Length(min=0, max=50)]
+    )

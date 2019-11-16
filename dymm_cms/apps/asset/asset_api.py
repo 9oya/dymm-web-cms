@@ -1,41 +1,14 @@
 from werkzeug.utils import secure_filename
 from flask import request, render_template
 
-from dymm_cms.errors import bad_req, forbidden, ok
+from dymm_cms import app
+from dymm_cms.errors import bad_req, forbidden, ok, unauthorized
 from . import asset_api, _m, _r, _u
 from .asset_helpers import AssetHelper
-from ..tag.tag_helpers import TagHelper
 
 
-@asset_api.route('/import/<dirname>/<target>', methods=['POST'])
-@asset_api.route('/import/<dirname>/<target>/<id_or_name>', methods=['POST'])
-def import_file(dirname=None, target=None, id_or_name=None):
-    if target == 'files':
-        _files = request.files.getlist(target)
-        if not _files:
-            return bad_req()
-        cnt = AssetHelper.upload_multi_files(_files, dirname, 'png')
-        return ok(_m.OK_UPLOAD.format(cnt, target))
-    file = request.files[target]
-    if not file or not AssetHelper.is_allowed_file_type(file.filename, target):
-        return bad_req(_m.BAD_PARAM)
-    if isinstance(id_or_name, str):
-        filename = '{0}.{1}'.format(id_or_name, target)
-    elif dirname == 'tag':
-        tag_id = int(id_or_name)
-        filename = 'tag-{0}.{1}'.format(tag_id, target)
-        if target == 'png':
-            tag = TagHelper.get_a_tag(tag_id)
-            TagHelper.update_tag_has_icon(tag)
-    else:
-        filename = secure_filename(file.filename)
-        # str_list = file.filename.split('.')
-        # filename = "{0}.{1}".format(str_list[0], str_list[1])
-    location = _u.ASSET + "/{0}/{1}".format(dirname, target)
-    AssetHelper.upload_single_file(file, location, filename)
-    return ok(_m.OK_UPLOAD.format(filename, target))
-
-
+# GET services
+# -----------------------------------------------------------------------------
 @asset_api.route('/pop/import/<dirname>/<target>', methods=['GET'])
 @asset_api.route('/pop/import/<dirname>/<target>/<tag_id>', methods=['GET'])
 def pop_upload_file_form(dirname=None, target=None, tag_id=None):
@@ -75,6 +48,42 @@ def fetch_native_app_code_set(dirname=None):
     return render_template('asset/pop_asset_line.html', gen_lines=gen_lines)
 
 
+# POST services
+# -----------------------------------------------------------------------------
+@asset_api.route('/import/<dirname>/<target>', methods=['POST'])
+@asset_api.route('/import/<dirname>/<target>/file-name/<file_name>',
+                 methods=['POST'])
+@asset_api.route('/import/<dirname>/<target>/id/<int:tag_id>',
+                 methods=['POST'])
+def import_file(dirname=None, target=None, file_name=None, tag_id=None):
+    if target == 'files':
+        _files = request.files.getlist(target)
+        if not _files:
+            return bad_req()
+        cnt = AssetHelper.upload_multi_files(_files, dirname, 'png')
+        return ok(_m.OK_UPLOAD.format(cnt, target))
+    file = request.files[target]
+    if not file or not AssetHelper.is_allowed_file_type(file.filename, target):
+        return bad_req(_m.BAD_PARAM)
+    if dirname == 'tag' and tag_id is not None:
+        filename = 'tag-{0}.{1}'.format(tag_id, target)
+    elif isinstance(file_name, str):
+        filename = '{0}.{1}'.format(file_name, target)
+    else:
+        filename = secure_filename(file.filename)
+    location = _u.ASSET + "/{0}/{1}".format(dirname, target)
+    AssetHelper.upload_single_file(file, location, filename)
+    return ok(_m.OK_UPLOAD.format(filename, target))
+
+
+@asset_api.route('/zip/<dirname>/<target>', methods=['POST'])
+def post_asset_directory_zip(dirname=None, target=None):
+    AssetHelper.create_directory_zip(dirname, target)
+    return ok(_m.OK_POST.format(dirname))
+
+
+# PUT services
+# -----------------------------------------------------------------------------
 @asset_api.route('/<dirname>/<old_name>/rename/<new_name>', methods=['PUT'])
 def put_asset_name(dirname=None, old_name=None, new_name=None):
     if new_name is None:
@@ -91,6 +100,8 @@ def put_asset_dir(old_dir=None, filename=None, new_dir=None):
     return ok(_m.OK_PUT.format('asset dir'))
 
 
+# DELETE services
+# -----------------------------------------------------------------------------
 @asset_api.route('/<dirname>/<filename>/del/<target>', methods=['DELETE'])
 def delete_asset(dirname=None, filename=None, target=None):
     if not dirname and not filename and not target:
@@ -104,7 +115,11 @@ def delete_asset(dirname=None, filename=None, target=None):
     return ok(_m.OK_DELETE.format(filename + target))
 
 
-@asset_api.route('/zip/<dirname>/<target>', methods=['POST'])
-def post_asset_directory_zip(dirname=None, target=None):
-    AssetHelper.create_directory_zip(dirname, target)
-    return ok(_m.OK_POST.format(dirname))
+@asset_api.route('/<dirname>/empty', methods=['DELETE'])
+def empty_asset_dir(dirname=None):
+    if request.values.get('del_key') != app.config['DELETE_KEY']:
+        return unauthorized(_m.UN_AUTH.format('del_key'))
+    if not dirname:
+        return bad_req(_m.EMPTY_PARAM.format('params'))
+    AssetHelper.empty_asset_dir(dirname)
+    return ok()

@@ -12,6 +12,10 @@
         {% if dirname == 'item' %}
             <div class="bt gen-swift">Gen.swift</div>
         {% endif %}
+        {% if dirname == 'item@2x' or dirname == 'tag@2x' %}
+            <div class="gray-bt empty-dir">Empty.dir</div>
+            {{ render_field(dirform.delete_key) }}
+        {% endif %}
         <form class="file-form" method=post enctype=multipart/form-data>
             <br/>
             <input class="choose-imgs" type=file name=files multiple>

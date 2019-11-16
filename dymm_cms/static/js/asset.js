@@ -44,7 +44,7 @@ $(document).ready(function () {
             _dirSelect = _imgListEle.find("select#dir_select"),
             _dirname = _dirSelect.find("option:selected").val(),
             _name = currEle.parent().parent().data("name").split(".")[0],
-            _uri = _u.api.asset + "/import/{0}/{1}/{2}".format(_dirname,
+            _uri = _u.api.asset + "/import/{0}/{1}/file-name/{2}".format(_dirname,
                 target, _name);
         _form.attr("action", _uri);
         _form.ajaxSubmit(function () {
@@ -125,6 +125,20 @@ $(document).ready(function () {
             "width=700,height=700"
         );
     };
+    _asset.list.prototype.emptyDir = function () {
+        let _dirSelect = _imgListEle.find("select#dir_select"),
+            _dirname = _dirSelect.find("option:selected").val(),
+            _del_key = _imgListEle.find("input#delete_key").val(),
+            _param = $.param({del_key: _del_key}),
+            _url = "{0}/{1}/empty".format(_u.api.asset, _dirname);
+        $.delete(_url, _param)
+            .done(function (response, textStatus, jqXHR) {
+                _asset.list.prototype.getAssets(_dirname);
+            })
+            .fail(function (response) {
+                _f.alertFailResponse(response);
+            });
+    };
 
     /*=========================================================================
     Event delegation map
@@ -132,7 +146,7 @@ $(document).ready(function () {
     _imgListEle.on(
         "click",
         ".up-pdf, .up-svg, .up-imgs, .del-all, .del-svg, .del-pdf, .del-zip, " +
-        ".zip-png, .zip-svg, .zip-pdf, .gen-swift, .up-png",
+        ".zip-png, .zip-svg, .zip-pdf, .gen-swift, .up-png, .empty-dir",
         function (event) {
             let _currEle = $(this);
             if (_currEle.is(".up-pdf")) {
@@ -159,6 +173,8 @@ $(document).ready(function () {
                 _asset.list.prototype.archiveBtnTapped(_currEle, 'pdf')
             } else if (_currEle.is(".gen-swift")) {
                 _asset.list.prototype.genCodeLines()
+            } else if (_currEle.is(".empty-dir")) {
+                _asset.list.prototype.emptyDir()
             }
         });
     _imgListEle.on(

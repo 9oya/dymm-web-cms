@@ -1,5 +1,6 @@
 import os, shutil, datetime, pytz
 from werkzeug.utils import secure_filename
+from google.cloud import storage
 
 from dymm_cms.helpers.string_helpers import to_camel_case
 from . import _u
@@ -177,4 +178,14 @@ class AssetHelper(object):
             os.remove(_path)
         except FileNotFoundError:
             return False
+        return True
+
+    @staticmethod
+    def empty_asset_dir(dirname):
+        _path = '{0}/{1}'.format(_u.ASSET, dirname)
+        shutil.rmtree(_path)
+        os.makedirs(_path)
+        os.makedirs(_path + '/png')
+        os.makedirs(_path + '/svg')
+        os.makedirs(_path + '/pdf')
         return True

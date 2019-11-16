@@ -23,5 +23,6 @@ setup(
         'Flask-JWT-Extended',
         'Flask-Mail',
         'sqlacodegen'
+        'google-cloud-storage'
     ]
 )
