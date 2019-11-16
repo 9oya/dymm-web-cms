@@ -85,11 +85,6 @@ class TagForm(Form):
         choices=[('True', 'True'), ('False', 'False')],
         validators=[validators.DataRequired()]
     )
-    has_icon = RadioField(
-        label="Has icon?",
-        choices=[('True', 'True'), ('False', 'False')],
-        validators=[validators.DataRequired()]
-    )
     eng_name = StringField(
         label="English name",
         validators=[validators.DataRequired("Please Enter English Name."),

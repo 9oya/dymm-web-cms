@@ -64,7 +64,6 @@ class Tag(Base):
     division4 = Column(SmallInteger)
     division5 = Column(SmallInteger)
     has_low_div = Column(Boolean)
-    has_icon = Column(Boolean)
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
 
