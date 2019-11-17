@@ -12,7 +12,7 @@
         {% if dirname == 'item' %}
             <div class="bt gen-swift">Gen.swift</div>
         {% endif %}
-        {% if dirname == 'item@2x' or dirname == 'tag@2x' %}
+        {% if dirname == 'item@2x' or dirname == 'tag@2x' or dirname == 'photo@2x' %}
             <div class="gray-bt empty-dir">Empty.dir</div>
             {{ render_field(dirform.delete_key) }}
         {% endif %}

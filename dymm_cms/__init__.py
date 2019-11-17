@@ -7,8 +7,8 @@ import flask_excel as excel
 from .blueprint import register_blueprint
 
 app = Flask('dymm_cms')
-app.config.from_object('dymm_cms.config.ProductionConfig')
-# app.config.from_object('dymm_cms.config.DevelopmentConfig')
+# app.config.from_object('dymm_cms.config.ProductionConfig')
+app.config.from_object('dymm_cms.config.DevelopmentConfig')
 
 db = SQLAlchemy(app)
 b_crypt = Bcrypt(app)

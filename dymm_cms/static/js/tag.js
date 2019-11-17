@@ -541,7 +541,7 @@ $(document).ready(function () {
         "click",
         ".tr-name, .bt-close, .bt-reset, .bt-search, .tr-del, " +
         ".tr-up, .tr-down, .tr-set, .tr-priority, .tr-division, " +
-        ".up-img, .is-active, .bt-del",
+        ".up-img, .up-photo, .is-active, .bt-del",
         function (e) {
             let _currEle = $(this);
             if (_currEle.is(".tr-name")) {
@@ -566,6 +566,8 @@ $(document).ready(function () {
                 _tag.set.prototype.tableRowDivisionTapped(_currEle);
             } else if (_currEle.is(".up-img")) {
                 _tag.set.prototype.upImgBtnTapped(_currEle, 'tag', 'png');
+            } else if (_currEle.is(".up-photo")) {
+                _tag.set.prototype.upImgBtnTapped(_currEle, 'photo', 'png');
             } else if (_currEle.is(".is-active")) {
                 _tag.set.prototype.boolBtnTapped(_currEle, "is-active");
             } else if (_currEle.is(".bt-del")) {

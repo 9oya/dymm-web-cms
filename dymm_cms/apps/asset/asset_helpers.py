@@ -11,17 +11,19 @@ class AssetHelper(object):
     # Generators
     # -------------------------------------------------------------------------
     @staticmethod
-    def gen_matching_assets(png_names: list, license_dict: dict,
-                            svg_dict: dict) -> list:
+    def gen_matching_assets(png_names: list, pdf_dict: dict = None,
+                            svg_dict: dict = None) -> list:
         assets = list()
         for png_name in png_names:
             asset = dict(png_name=png_name)
             try:
                 name = png_name.split('.')
                 key = name[0] + ".pdf"
-                license_name = license_dict[key]
+                license_name = pdf_dict[key]
                 asset["pdf_name"] = license_name
             except KeyError:
+                asset["pdf_name"] = None
+            except TypeError:
                 asset["pdf_name"] = None
             try:
                 name = png_name.split('.')
@@ -29,6 +31,8 @@ class AssetHelper(object):
                 svg_name = svg_dict[key]
                 asset["svg_name"] = svg_name
             except KeyError:
+                asset["svg_name"] = None
+            except TypeError:
                 asset["svg_name"] = None
             assets.append(asset)
         return assets

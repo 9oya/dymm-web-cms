@@ -116,6 +116,19 @@
                     <button class="up-img" type="button">Submit</button>
                 </form>
             </div>
+            <a href="{{ url_for('static', filename="asset/photo/png/photo-" + tag_set.sub.class1|string + "-" + tag_set.sub.division1|string + "-" + tag_set.sub.division2|string + "-" + tag_set.sub.division3|string + "-" + tag_set.sub.division4|string + "-" + tag_set.sub.division5|string + ".png") }}"
+               target="_blank">
+                <img class="tb-img"
+                     src="{{ url_for('static', filename="asset/photo/png/photo-" + tag_set.sub.class1|string + "-" + tag_set.sub.division1|string + "-" + tag_set.sub.division2|string + "-" + tag_set.sub.division3|string + "-" + tag_set.sub.division4|string + "-" + tag_set.sub.division5|string + ".png") }}"
+                     onerror="this.src='{{ url_for('static', filename="asset/other/png/empty.png") }}';"
+                >
+            </a>
+            <div>
+                <form class="file-form" method=post enctype=multipart/form-data>
+                    <input class="choose-png" type=file name=png>
+                    <button class="up-photo" type="button">Submit</button>
+                </form>
+            </div>
         </div>
     {% endfor %}
 {% endif %}

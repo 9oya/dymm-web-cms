@@ -5,6 +5,7 @@ from dymm_cms import app
 from dymm_cms.errors import bad_req, forbidden, ok, unauthorized
 from . import asset_api, _m, _r, _u
 from .asset_helpers import AssetHelper
+from ..tag.tag_helpers import TagHelper
 
 
 # GET services
@@ -31,6 +32,12 @@ def fetch_assets(dirname=None):
                                dirform=dir_form, zip_names=zip_names,
                                imgs_cnt=len(zip_names))
     png_names = AssetHelper.get_file_names(dirname, 'png', False)
+    if dirname == 'photo' or dirname == 'photo@2x':
+        assets = AssetHelper.gen_matching_assets(png_names, pdf_dict=None,
+                                                 svg_dict=None)
+        return render_template('asset/bx_asset_list.html', dirname=dirname,
+                               dirform=dir_form, assets=assets,
+                               imgs_cnt=len(assets))
     pdf_names = AssetHelper.get_file_names(dirname, 'pdf', False)
     svg_names = AssetHelper.get_file_names(dirname, 'svg', False)
     pdf_dict = AssetHelper.convert_file_names_into_json(pdf_names)
@@ -45,17 +52,17 @@ def fetch_assets(dirname=None):
 def fetch_native_app_code_set(dirname=None):
     png_names = AssetHelper.get_file_names(dirname, 'png', False)
     gen_lines = AssetHelper.convert_file_names_into_app_code(png_names)
-    return render_template('asset/pop_asset_line.html', gen_lines=gen_lines)
+    return render_template('asset/pop_asset_gen.html', gen_lines=gen_lines)
 
 
 # POST services
 # -----------------------------------------------------------------------------
 @asset_api.route('/import/<dirname>/<target>', methods=['POST'])
-@asset_api.route('/import/<dirname>/<target>/file-name/<file_name>',
+@asset_api.route('/import/<dirname>/<target>/file-name/<filename>',
                  methods=['POST'])
 @asset_api.route('/import/<dirname>/<target>/id/<int:tag_id>',
                  methods=['POST'])
-def import_file(dirname=None, target=None, file_name=None, tag_id=None):
+def import_file(dirname=None, target=None, filename=None, tag_id=None):
     if target == 'files':
         _files = request.files.getlist(target)
         if not _files:
@@ -66,14 +73,20 @@ def import_file(dirname=None, target=None, file_name=None, tag_id=None):
     if not file or not AssetHelper.is_allowed_file_type(file.filename, target):
         return bad_req(_m.BAD_PARAM)
     if dirname == 'tag' and tag_id is not None:
-        filename = 'tag-{0}.{1}'.format(tag_id, target)
-    elif isinstance(file_name, str):
-        filename = '{0}.{1}'.format(file_name, target)
+        _filename = 'tag-{0}.{1}'.format(tag_id, target)
+    elif dirname == 'photo' and tag_id is not None:
+        tag = TagHelper.get_a_tag(tag_id)
+        _filename = 'photo-{0}-{1}-{2}-{3}-{4}-{5}.{6}'.format(
+            tag.class1, tag.division1, tag.division2, tag.division3,
+            tag.division4, tag.division5, target)
+        # _filename = 'photo-{0}.{1}'.format(tag_id, target)
+    elif isinstance(filename, str):
+        _filename = '{0}.{1}'.format(filename, target)
     else:
-        filename = secure_filename(file.filename)
+        _filename = secure_filename(file.filename)
     location = _u.ASSET + "/{0}/{1}".format(dirname, target)
-    AssetHelper.upload_single_file(file, location, filename)
-    return ok(_m.OK_UPLOAD.format(filename, target))
+    AssetHelper.upload_single_file(file, location, _filename)
+    return ok(_m.OK_UPLOAD.format(_filename, target))
 
 
 @asset_api.route('/zip/<dirname>/<target>', methods=['POST'])

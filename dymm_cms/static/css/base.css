@@ -39,7 +39,7 @@ img.loading {
     z-index: 2;
     max-width: 120px;
     max-height: 120px;
-    -webkit-animation: rotation 5s infinite linear;
+    -webkit-animation: rotation 2s infinite linear;
 }
 
 @-webkit-keyframes rotation {
