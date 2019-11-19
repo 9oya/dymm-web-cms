@@ -1,4 +1,4 @@
-from sqlalchemy import text
+from sqlalchemy import text, func
 
 from dymm_cms import excel, db
 from dymm_cms.models import Tag, TagSet
@@ -469,24 +469,21 @@ class TagHelper(object):
     @staticmethod
     def get_tag_sets(super_id, sort_type='eng'):
         if sort_type == 'eng':
-            tag_set_list = db_session.query(TagSet). \
-                join(TagSet.sub). \
-                filter(TagSet.super_id == super_id). \
-                order_by(Tag.eng_name).all()
+            tag_set_list = db_session.query(TagSet).join(TagSet.sub).filter(
+                TagSet.super_id == super_id
+            ).order_by(Tag.eng_name).all()
         elif sort_type == 'kor':
-            tag_set_list = db_session.query(TagSet). \
-                join(TagSet.sub). \
-                filter(TagSet.super_id == super_id). \
-                order_by(Tag.kor_name).all()
+            tag_set_list = db_session.query(TagSet).join(TagSet.sub).filter(
+                TagSet.super_id == super_id
+            ).order_by(Tag.kor_name).all()
         elif sort_type == 'jpn':
-            tag_set_list = db_session.query(TagSet). \
-                join(TagSet.sub). \
-                filter(TagSet.super_id == super_id). \
-                order_by(Tag.jpn_name).all()
+            tag_set_list = db_session.query(TagSet).join(TagSet.sub).filter(
+                TagSet.super_id == super_id
+            ).order_by(Tag.jpn_name).all()
         elif sort_type == 'priority':
-            tag_set_list = db_session.query(TagSet). \
-                filter(TagSet.super_id == super_id). \
-                order_by(TagSet.priority.desc()).all()
+            tag_set_list = db_session.query(TagSet).filter(
+                TagSet.super_id == super_id
+            ).order_by(TagSet.priority.desc()).all()
         else:
             return False
         return tag_set_list
@@ -512,6 +509,16 @@ class TagHelper(object):
             return tag_set.priority
         except AttributeError:
             return None
+
+    @staticmethod
+    def get_tags_by_keyword(keyword: str):
+        tags = Tag.query.filter(
+            func.lower(Tag.eng_name).contains(keyword.lower(), autoescape=True)
+        ).order_by(
+            Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+            Tag.division4, Tag.division5
+        ).all()
+        return tags
 
     # Create methods
     # -------------------------------------------------------------------------

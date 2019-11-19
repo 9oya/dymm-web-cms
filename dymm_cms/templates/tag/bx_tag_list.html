@@ -1,12 +1,20 @@
 <div class="delegate-item">Tag - List</div>
-<div class="picked-item">
-    <select class="select-option">
-        <option value="limit" selected>{{ tags_cnt }} tags</option>
-        <option value="all">All tags</option>
-    </select>
-    &nbsp;&nbsp;
-    <div class="bt bt-export"><a href="/api/tag/export/limit" download>Export.xlsx</a></div>
-</div>
+<ul class="flex-container">
+    <li class="picked-item">
+        <select class="select-option">
+            <option value="limit" selected>{{ tags_cnt }} tags</option>
+            <option value="all">All tags</option>
+        </select>
+        &nbsp;&nbsp;
+        <div class="bt bt-export"><a href="/api/tag/export/limit" download>Export.xlsx</a></div>
+    </li>
+    <li class="wrap-search">
+        &nbsp;&nbsp;&nbsp;
+        <input id="search-tag" type="text" placeholder="Search" required>
+        &nbsp;&nbsp;
+        <div class="bt bt-export"><a href="#" download>Export.xlsx</a></div>
+    </li>
+</ul>
 <div class="up-file">
     <select class="select-upload">
         <option value="gen-tag" selected>Gen tag</option>
@@ -21,7 +29,7 @@
         <input class="up-csv" type=file name=csv>
         <button class="btn-submit" type="button">Submit</button>
     </form>
-</div>
+</div><br/>
 <div class="msg message-fail"></div>
 <div class="msg message-success"></div>
 <section class="tb">

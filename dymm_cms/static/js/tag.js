@@ -72,6 +72,22 @@ $(document).ready(function () {
                 _f.alertFailResponse(response);
             });
     };
+    _tag.list.prototype.searchEnterKeyTapped = function (currEle) {
+        let _tableHeader = _tagListEle.find("section.tb > header"),
+            _keyword = currEle.val(),
+            _search_url = "{0}/{1}/{2}".format(_u.api.tag, "search", _keyword),
+            _export_url = "{0}/{1}/{2}/{3}".format(_u.api.tag, "export",
+                "search", _keyword);
+        $.get(_search_url)
+            .done(function (response, textStatus, jqXHR) {
+                _tableHeader.nextAll().remove();
+                _tableHeader.after(response);
+            })
+            .fail(function (response) {
+                _f.alertFailResponse(response);
+            });
+        _tagListEle.find("a").attr("href", _export_url);
+    };
     _tag.list.prototype.optionSelected = function (currEle) {
         let _uri = '',
             _tagId = _tagListEle.find(".picked-item").data("id"),
@@ -490,6 +506,15 @@ $(document).ready(function () {
                 _tag.list.prototype.uploadOptSelected(_currEle)
             }
         });
+    _tagListEle.on("keypress", "input#search-tag", function (event) {
+        let _currEle = $(this);
+        if (_currEle.is("input#search-tag")) {
+            let _keyCode = (event.keyCode ? event.keyCode : event.which);
+            if (_keyCode === 13) {
+                _tag.list.prototype.searchEnterKeyTapped(_currEle);
+            }
+        }
+    });
     _tagDetailEle.on(
         "click",
         ".bt-create, .bt-update, .bt-delete, .bt-new, .bt-reset",

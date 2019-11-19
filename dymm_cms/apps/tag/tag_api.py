@@ -12,9 +12,13 @@ from .tag_forms import TagSortForm
 # -----------------------------------------------------------------------------
 @tag_api.route('/<int:tag_id>/export/<option>', methods=['GET'])
 @tag_api.route('/export/<option>', methods=['GET'])
-def export_tags_file(tag_id=None, option=None):
+@tag_api.route('/export/<option>/<keyword>', methods=['GET'])
+def export_tags_file(tag_id=None, option=None, keyword=None):
     if tag_id is None:
-        if option == 'all':
+        if option == 'search' and keyword is not None:
+            tags = TagHelper.get_tags_by_keyword(keyword)
+            file_name = 'tag_keyword_' + keyword
+        elif option == 'all':
             tags = TagHelper.get_all_tags()
             file_name = 'tag_all'
         elif option == 'limit':
@@ -89,7 +93,7 @@ def fetch_sub_tags(tag_id=None, target=None):
 
 
 @tag_api.route('/pick/<int:tag_id>', methods=['GET'])
-def fetch_a_fact_and_pick_template(tag_id=None):
+def fetch_a_tag_and_pick_template(tag_id=None):
     if tag_id is None:
         return bad_req(_m.EMPTY_PARAM.format('tag_id'))
     tag = TagHelper.get_a_tag(tag_id)
@@ -137,6 +141,14 @@ def fetch_tag_step(tag_id=None):
         return bad_req(_m.EMPTY_PARAM.format('tag_id'))
     tag = TagHelper.get_a_tag(tag_id)
     return render_template('tag/cp_tag_item.html', tag=tag)
+
+
+@tag_api.route('/search/<string:keyword>')
+def search_tags_by_keyword(keyword=None):
+    if keyword is None:
+        return bad_req(_m.EMPTY_PARAM.format('keyword'))
+    tags = TagHelper.get_tags_by_keyword(keyword)
+    return render_template('tag/cp_tag_tb.html', tags=tags)
 
 
 # POST services

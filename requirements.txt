@@ -27,14 +27,14 @@ inflect==3.0.2
 itsdangerous==1.1.0
 jdcal==1.4.1
 Jinja2==2.10.3
-jsonschema==3.1.1
+jsonschema==3.2.0
 lml==0.0.9
 MarkupSafe==1.1.1
 more-itertools==7.2.0
 openpyxl==3.0.1
 protobuf==3.10.0
 psycopg2-binary==2.8.4
-pyasn1==0.4.7
+pyasn1==0.4.8
 pyasn1-modules==0.2.7
 pycparser==2.19
 pyecharts-jupyter-installer==0.0.3

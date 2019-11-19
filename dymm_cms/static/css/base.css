@@ -130,16 +130,34 @@ section.bx-wrap {
 
 /* Picked Item Elements
 -----------------------------------------------------------------------------*/
+.flex-container {
+    display: flex;
+    justify-content: center;
+    /*padding: 0 20px 0 20px;*/
+    -webkit-flex-flow: row wrap;
+    list-style-type: none;
+    font-size: 12.5px;
+}
+
 .picked-item, .up-file, .msg {
     /*margin: auto;*/
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     text-align: center;
     font-size: 12.5px;
 }
 
 .picked-item > div, .up-file > form {
     display: inline;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
+}
+
+.wrap-search {
+    /*text-align: right;*/
+    /*float: right;*/
+}
+
+.wrap-search > form, .wrap-search > div {
+    display: inline;
 }
 
 /* Table Elements

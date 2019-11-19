@@ -32,7 +32,8 @@ $(document).ready(function () {
                     return false;
                 }
                 Cookies.remove('dymm_admin');
-                let _in30Minutes = 1 / 48;
+                // let _in30Minutes = 1 / 48;
+                let _in30Minutes = 1 / 24; // 60minutes
                 Cookies.set('dymm_url_token', response.data.url_token, {
                     expires: _in30Minutes
                 });
@@ -76,7 +77,8 @@ $(document).ready(function () {
                     return false;
                 }
                 Cookies.remove('dymm_admin');
-                let _in30Minutes = 1 / 48;
+                // let _in30Minutes = 1 / 48;
+                let _in30Minutes = 1 / 24; // 60minutes
                 Cookies.set('dymm_url_token', response.data.url_token, {
                     expires: _in30Minutes
                 });
