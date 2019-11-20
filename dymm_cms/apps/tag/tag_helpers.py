@@ -44,9 +44,9 @@ class TagHelper(object):
     # -------------------------------------------------------------------------
     @staticmethod
     def get_tags_file(tags, file_name, file_extension='xlsx'):
-        columns = ['id', 'tag_type', 'is_active', 'has_set', 'eng_name',
+        columns = ['id', 'tag_type', 'is_active', 'eng_name',
                    'kor_name', 'jpn_name', 'class1', 'division1', 'division2',
-                   'division3', 'division4', 'division5', 'has_low_div']
+                   'division3', 'division4', 'division5']
         if file_extension == 'xlsx':
             excel_response = excel.make_response_from_query_sets(
                 query_sets=tags, column_names=columns,
@@ -405,8 +405,6 @@ class TagHelper(object):
         form.is_division_modified.label = ''
         form.is_division_modified.render_kw = {'hidden': True}
         form.is_active.data = 'True'
-        form.has_set.data = 'False'
-        form.has_low_div.data = 'False'
         form.delete_key.label = ''
         form.delete_key.render_kw = {'hidden': True}
         return form
@@ -446,8 +444,6 @@ class TagHelper(object):
         form.is_division_modified.data = 'False'
 
         form.is_active.data = str(tag.is_active)
-        form.has_set.data = str(tag.has_set)
-        form.has_low_div.data = str(tag.has_low_div)
         form.eng_name.data = tag.eng_name
         form.kor_name.data = tag.kor_name
         form.jpn_name.data = tag.jpn_name
@@ -530,7 +526,6 @@ class TagHelper(object):
                 id=str_to_none(_dict.get('id', None)),
                 tag_type=str_to_none(_dict.get('tag_type', None)),
                 is_active=str_to_bool(_dict.get('is_active', True)),
-                has_set=str_to_bool(_dict.get('has_set', False)),
                 eng_name=str_to_none(_dict.get('eng_name', None)),
                 kor_name=str_to_none(_dict.get('kor_name', None)),
                 jpn_name=str_to_none(_dict.get('jpn_name', None)),
@@ -539,8 +534,7 @@ class TagHelper(object):
                 division2=_dict.get('division2'),
                 division3=_dict.get('division3'),
                 division4=_dict.get('division4'),
-                division5=_dict.get('division5'),
-                has_low_div=str_to_bool(_dict.get('has_low_div'))
+                division5=_dict.get('division5')
             )
             db_session.add(tag)
             db_session.commit()
@@ -555,9 +549,6 @@ class TagHelper(object):
                 tag = TagHelper.get_a_tag(_dict.get('id', None))
                 low_tags = TagHelper.get_low_div_tags(tag)
                 if len(low_tags) <= 0:
-                    tag.has_set = False
-                    tag.has_low_div = False
-                    db_session.commit()
                     continue
                 for low_tag in low_tags:
                     priority = TagHelper.gen_tag_set_next_priority(super_id=tag.id)
@@ -596,8 +587,6 @@ class TagHelper(object):
                   division4=form.division4.data,
                   division5=form.division5.data,
                   is_active=str_to_bool(form.is_active.data),
-                  has_set=str_to_bool(form.has_set.data),
-                  has_low_div=str_to_bool(form.has_low_div.data),
                   eng_name=form.eng_name.data,
                   kor_name=form.kor_name.data,
                   jpn_name=form.jpn_name.data)
@@ -641,7 +630,6 @@ class TagHelper(object):
             tag = TagHelper.get_a_tag(_dict.get('id', None))
             tag.tag_type = str_to_none(_dict.get('tag_type', None))
             tag.is_active = str_to_bool(_dict.get('is_active'))
-            tag.has_set = str_to_bool(_dict.get('has_set'))
             tag.eng_name = _dict.get('eng_name', None)
             tag.kor_name = _dict.get('kor_name', None)
             tag.jpn_name = _dict.get('jpn_name', None)
@@ -651,7 +639,6 @@ class TagHelper(object):
             tag.division3 = _dict.get('division3')
             tag.division4 = _dict.get('division4')
             tag.division5 = _dict.get('division5')
-            tag.has_low_div = str_to_bool(_dict.get('has_low_div'))
             db_session.commit()
             cnt += 1
         return cnt
@@ -660,14 +647,12 @@ class TagHelper(object):
     def update_a_tag(tag: Tag, form: TagForm):
         tag.tag_type = form.type_select.data
         tag.is_active = str_to_bool(form.is_active.data)
-        tag.has_set = str_to_bool(form.has_set.data)
         tag.class1 = form.class1.data
         tag.division1 = form.division1.data
         tag.division2 = form.division2.data
         tag.division3 = form.division3.data
         tag.division4 = form.division4.data
         tag.division5 = form.division5.data
-        tag.has_low_div = str_to_bool(form.has_low_div.data)
         tag.eng_name = form.eng_name.data
         tag.kor_name = form.kor_name.data
         tag.jpn_name = form.jpn_name.data

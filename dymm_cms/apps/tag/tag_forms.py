@@ -75,16 +75,6 @@ class TagForm(Form):
         choices=[('True', 'True'), ('False', 'False')],
         validators=[validators.DataRequired()]
     )
-    has_set = RadioField(
-        label="Has set?",
-        choices=[('True', 'True'), ('False', 'False')],
-        validators=[validators.DataRequired()]
-    )
-    has_low_div = RadioField(
-        label="Has low division?",
-        choices=[('True', 'True'), ('False', 'False')],
-        validators=[validators.DataRequired()]
-    )
     eng_name = StringField(
         label="English name",
         validators=[validators.DataRequired("Please Enter English Name."),
