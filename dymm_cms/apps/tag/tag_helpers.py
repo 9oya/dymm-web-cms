@@ -1,3 +1,4 @@
+import re
 from sqlalchemy import text, func
 
 from dymm_cms import excel, db
@@ -508,12 +509,47 @@ class TagHelper(object):
 
     @staticmethod
     def get_tags_by_keyword(keyword: str):
-        tags = Tag.query.filter(
-            func.lower(Tag.eng_name).contains(keyword.lower(), autoescape=True)
-        ).order_by(
-            Tag.class1, Tag.division1, Tag.division2, Tag.division3,
-            Tag.division4, Tag.division5
-        ).all()
+        kr_reg = re.compile('[가-힣]')
+        first_letter = keyword[0]
+        last_letter = keyword[-1]
+        if first_letter == '^':
+            # Start with keyword.
+            keyword = keyword.replace('^', '')
+            if kr_reg.match(keyword[0]):
+                tags = Tag.query.filter(
+                    Tag.kor_name.ilike('{0}%'.format(keyword))
+                ).all()
+            else:
+                tags = Tag.query.filter(
+                    Tag.eng_name.ilike('{0}%'.format(keyword))
+                ).all()
+            return tags
+        elif last_letter == '$':
+            # End with keyword.
+            keyword = keyword.replace('$', '')
+            if kr_reg.match(keyword[0]):
+                tags = Tag.query.filter(
+                    Tag.kor_name.ilike('%{0}'.format(keyword))
+                ).all()
+            else:
+                tags = Tag.query.filter(
+                    Tag.eng_name.ilike('%{0}'.format(keyword))
+                ).all()
+            return tags
+        if kr_reg.match(keyword[0]):
+            tags = Tag.query.filter(
+                func.lower(Tag.kor_name).contains(keyword.lower(), autoescape=True)
+            ).order_by(
+                Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+                Tag.division4, Tag.division5
+            ).all()
+        else:
+            tags = Tag.query.filter(
+                func.lower(Tag.eng_name).contains(keyword.lower(), autoescape=True)
+            ).order_by(
+                Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+                Tag.division4, Tag.division5
+            ).all()
         return tags
 
     # Create methods
