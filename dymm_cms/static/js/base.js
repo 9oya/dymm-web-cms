@@ -133,7 +133,7 @@ $(document).ready(function () {
                 let subElsSuperId = subEle.data("id"),
                     subSubEle = subEle.nextAll(".super" + subElsSuperId);
                 _foldSubRowsRecursively(subSubEle);
-                subEle.find("div.tr-flip").text("Spread");
+                // subEle.find("div.tr-flip").text("Spread");
                 subEle.removeClass("on").addClass("off");
             });
             targetEle.hide();
@@ -155,10 +155,10 @@ $(document).ready(function () {
         _toggleTableOfRows = function (tappedEle, url, subElesColor) {
             subElesColor = subElesColor || "beige";
             tappedEle.css("background-color", "paleturquoise");
-            if (tappedEle.data("hasSub") !== "True") {
-                console.log("Current Element has any sub-entities.");
-                return false;
-            }
+            // if (tappedEle.data("hasSub") !== "True") {
+            //     console.log("Current Element has any sub-entities.");
+            //     return false;
+            // }
             let _superId = tappedEle.data("id");
             if (tappedEle.is(".off")) {
                 if (tappedEle.is(".tapped")) {
@@ -166,7 +166,7 @@ $(document).ready(function () {
                 } else {
                     _loadSubRows(tappedEle, url, subElesColor, _superId)
                 }
-                tappedEle.find("div.tr-flip").text("Fold");
+                // tappedEle.find("div.tr-flip").text("Fold");
                 tappedEle.removeClass("off").addClass("on");
             } else if (tappedEle.is(".on")) {
                 let _subEls = tappedEle.nextAll(".super" + _superId);
