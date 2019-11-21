@@ -791,3 +791,12 @@ class TagHelper(object):
             TagHelper.delete_a_tag_set(tag_set)
             cnt += 1
         return cnt
+
+    @staticmethod
+    def delete_tags_w_dicts(dicts):
+        cnt = 0
+        for _dict in dicts:
+            tag = TagHelper.get_a_tag(_dict.get('id', None))
+            TagHelper.delete_a_tag(tag)
+            cnt += 1
+        return cnt

@@ -16,13 +16,15 @@
     </li>
 </ul>
 <div class="up-file">
+    <input id="delete_key" name="delete_key" type="password" placeholder="Delete key">
     <select class="select-upload">
-        <option value="gen-tag" selected>Gen tag</option>
-        <option value="mod-tag">Mod tag</option>
-        <option value="gen-set-low">Gen set==tag_low</option>
-        <option value="mod-set-id">Mod set==set_id</option>
-        <option value="gen-set-eng">Gen set==name</option>
-        <option value="mod-set-eng">Mod set==name</option>
+        <option value="gen-tag" selected>GEN tag</option>
+        <option value="mod-tag">MOD tag==tag_id</option>
+        <option value="del-tag">DEL tag==tag_id</option>
+        <option value="gen-set-low">GEN set==tag_low</option>
+        <option value="mod-set-id">MOD set==set_id</option>
+        <option value="gen-set-eng">GEN set==name</option>
+        <option value="mod-set-eng">MOD set==name</option>
     </select>
     &nbsp;&nbsp;
     <form class="file-form" method=post enctype=multipart/form-data action="/api/tag/import/gen-tag">

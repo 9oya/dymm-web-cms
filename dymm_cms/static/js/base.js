@@ -171,7 +171,7 @@ $(document).ready(function () {
             } else if (tappedEle.is(".on")) {
                 let _subEls = tappedEle.nextAll(".super" + _superId);
                 _foldSubRowsRecursively(_subEls);
-                tappedEle.find("div.tr-flip").text("Spread");
+                // tappedEle.find("div.tr-flip").text("Spread");
                 tappedEle.removeClass("on").addClass("off");
             }
         };

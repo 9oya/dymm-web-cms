@@ -154,7 +154,8 @@ def search_tags_by_keyword(keyword=None):
 # POST services
 # -----------------------------------------------------------------------------
 @tag_api.route('/import/<option>', methods=['POST'])
-def import_tag_list_file(option=None):
+@tag_api.route('/import/<option>/<del_key>', methods=['POST'])
+def import_tag_list_file(option=None, del_key=None):
     if option == 'gen-tag':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
         cnt = TagHelper.create_tags_w_dicts(dicts)
@@ -162,6 +163,12 @@ def import_tag_list_file(option=None):
     elif option == 'mod-tag':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
         cnt = TagHelper.update_tags_w_dicts(dicts)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'del-tag':
+        if del_key != app.config['DELETE_KEY']:
+            return unauthorized(_m.UN_AUTH.format('del_key'))
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.delete_tags_w_dicts(dicts)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     elif option == 'gen-set-low':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')

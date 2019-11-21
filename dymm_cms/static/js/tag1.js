@@ -31,6 +31,15 @@ $(document).ready(function () {
         let _form = _tagListEle.find("form.file-form"),
             _option = currEle.find("option:selected").val(),
             _uri = _u.api.tag + "/import/{0}".format(_option);
+        if (_option === 'del-tag') {
+            let del_key = _tagListEle.find("input#delete_key").val();
+            if (del_key === undefined || del_key === "") {
+                alert("Fill del_key first");
+                location.reload();
+                return
+            }
+            _uri += ("/" + del_key)
+        }
         _form.attr("action", _uri);
     };
     _tag.list.prototype.upLoadSingleFile = function (currEle) {
