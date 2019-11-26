@@ -47,15 +47,27 @@ class Banner(Base):
     modified_timestamp = Column(DateTime)
 
 
+class DrugTemp(Base):
+    __tablename__ = 'drug_temp'
+
+    id = Column(Integer, primary_key=True, server_default=text("nextval('drug_temp_id_seq'::regclass)"))
+    name = Column(String(1000))
+    form = Column(String(200))
+    route = Column(String(200))
+    substance = Column(String(1000))
+    unit_number = Column(String(1000))
+    unit = Column(String(1000))
+
+
 class Tag(Base):
     __tablename__ = 'tag'
 
     id = Column(Integer, primary_key=True)
     tag_type = Column(Integer)
     is_active = Column(Boolean, nullable=False)
-    eng_name = Column(String(200))
-    kor_name = Column(String(200))
-    jpn_name = Column(String(200))
+    eng_name = Column(String(250))
+    kor_name = Column(String(250))
+    jpn_name = Column(String(250))
     class1 = Column(SmallInteger)
     division1 = Column(SmallInteger)
     division2 = Column(SmallInteger)

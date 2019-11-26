@@ -2,7 +2,7 @@ import re
 from sqlalchemy import text, func
 
 from dymm_cms import excel, db
-from dymm_cms.models import Tag, TagSet
+from dymm_cms.models import Tag, TagSet, DrugTemp
 from dymm_cms.helpers.string_helpers import str_to_bool, str_to_none
 from .tag_forms import TagForm
 
@@ -518,10 +518,16 @@ class TagHelper(object):
             if kr_reg.match(keyword[0]):
                 tags = Tag.query.filter(
                     Tag.kor_name.ilike('{0}%'.format(keyword))
+                ).order_by(
+                    Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+                    Tag.division4, Tag.division5
                 ).all()
             else:
                 tags = Tag.query.filter(
                     Tag.eng_name.ilike('{0}%'.format(keyword))
+                ).order_by(
+                    Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+                    Tag.division4, Tag.division5
                 ).all()
             return tags
         elif last_letter == '$':
@@ -530,10 +536,16 @@ class TagHelper(object):
             if kr_reg.match(keyword[0]):
                 tags = Tag.query.filter(
                     Tag.kor_name.ilike('%{0}'.format(keyword))
+                ).order_by(
+                    Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+                    Tag.division4, Tag.division5
                 ).all()
             else:
                 tags = Tag.query.filter(
                     Tag.eng_name.ilike('%{0}'.format(keyword))
+                ).order_by(
+                    Tag.class1, Tag.division1, Tag.division2, Tag.division3,
+                    Tag.division4, Tag.division5
                 ).all()
             return tags
         if kr_reg.match(keyword[0]):
@@ -578,6 +590,114 @@ class TagHelper(object):
         return cnt
 
     @staticmethod
+    def create_drugs_w_dicts_1(dicts):
+        cnt = 0
+        for _dict in dicts:
+            name = _dict.get('name').lower()
+            number = str(_dict.get('number', None))
+            unit = str_to_none(_dict.get('unit', None))
+            if ';' in number:
+                number = ''
+                unit = ''
+                dup_drug = Tag.query.filter(
+                    Tag.eng_name.ilike('%{0}%'.format(name))
+                ).first()
+                if dup_drug is not None:
+                    continue
+            else:
+                dup_drug = Tag.query.filter(
+                    Tag.eng_name.ilike('%{0}%'.format(name)),
+                    # Tag.eng_name == name,
+                    Tag.kor_name == number,
+                ).first()
+                if dup_drug is not None:
+                    continue
+            tag = Tag(
+                tag_type=9,
+                is_active=str_to_bool(_dict.get('is_active', True)),
+                eng_name=name,
+                kor_name=number,
+                jpn_name=unit,
+                class1=4,
+                division1=18,
+                division2=(cnt + 1),
+                division3=0,
+                division4=0,
+                division5=0
+            )
+            db_session.add(tag)
+            db_session.commit()
+            cnt += 1
+        return cnt
+
+    @staticmethod
+    def create_drugs_w_dicts_12(dicts):
+        cnt = 0
+        for _dict in dicts:
+            name = _dict.get('name').lower()
+            # substance = _dict.get('substance').lower()
+            # number = str(_dict.get('number', None))
+            # unit = str_to_none(_dict.get('unit', None))
+            # dup_drug = DrugTemp.query.filter(
+            #     DrugTemp.substance.ilike('%{0}%'.format(substance)),
+            #     DrugTemp.unit_number == number
+            # ).first()
+            dup_drug = DrugTemp.query.filter(
+                DrugTemp.name.ilike('%{0}%'.format(name))
+            ).first()
+            if dup_drug is not None:
+                continue
+            drug = DrugTemp(
+                name=name,
+                form=_dict.get('form')
+                # route=_dict.get('route'),
+                # substance=substance
+                # unit_number=number,
+                # unit=unit
+            )
+            db_session.add(drug)
+            db_session.commit()
+            cnt += 1
+        return cnt
+
+    @staticmethod
+    def create_drugs_w_dicts_2(dicts, class1, division1, name_filter=False):
+        cnt = 0
+        for _dict in dicts:
+            name = _dict.get('name')
+            form = str_to_none(_dict.get('form', None))
+            unit = str_to_none(_dict.get('unit', None))
+            if name_filter is True:
+                dup_drug = Tag.query.filter(
+                    Tag.eng_name == name
+                ).first()
+                if dup_drug is not None:
+                    continue
+            if form is None:
+                eng_name = name
+            elif unit is None:
+                eng_name = "{0}, {1}".format(name, form)
+            else:
+                number = str(_dict.get('number'))
+                eng_name = "{0}, {1}{2}, {3}".format(name, number, unit, form)
+            tag = Tag(
+                tag_type=9,
+                is_active=str_to_bool(_dict.get('is_active', True)),
+                eng_name=eng_name,
+                kor_name=eng_name,
+                class1=class1,
+                division1=division1,
+                division2=(cnt + 1),
+                division3=0,
+                division4=0,
+                division5=0
+            )
+            db_session.add(tag)
+            db_session.commit()
+            cnt += 1
+        return cnt
+
+    @staticmethod
     def create_tag_sets_w_dicts(dicts, option):
         cnt = 0
         if option == 'gen-set-low':
@@ -612,6 +732,40 @@ class TagHelper(object):
             return cnt
         else:
             return False
+
+    @staticmethod
+    def create_drug_sets_w_dicts(dicts, class1, division1):
+        cnt = 0
+        for _dict in dicts:
+            if class1 == 9:
+                name = _dict.get('kor_name')
+            else:
+                name = _dict.get('eng_name')
+            sub_tags = Tag.query.filter(
+                Tag.eng_name.ilike('%{0}%'.format(name)),
+                Tag.class1 == class1,
+                Tag.division1 == division1,
+                Tag.division2 != 0
+            ).order_by(
+                Tag.eng_name
+            ).all()
+            if sub_tags is None:
+                continue
+            if len(sub_tags) <= 0:
+                continue
+            for sub_tag in sub_tags:
+                try:
+                    tag = TagSet(
+                        super_id=_dict.get('id'),
+                        sub_id=sub_tag.id,
+                        is_active=str_to_bool(_dict.get('is_active', True))
+                    )
+                    db_session.add(tag)
+                    db_session.commit()
+                    cnt += 1
+                except AttributeError:
+                    print(_dict.get('eng_name'))
+        return cnt
 
     @staticmethod
     def create_a_tag(form: TagForm):

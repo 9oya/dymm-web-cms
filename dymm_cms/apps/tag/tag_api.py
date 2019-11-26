@@ -160,6 +160,18 @@ def import_tag_list_file(option=None, del_key=None):
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
         cnt = TagHelper.create_tags_w_dicts(dicts)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-us-s-drug':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_drugs_w_dicts_2(dicts, 8, 1)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-us-m-drug':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_drugs_w_dicts_2(dicts, 8, 2)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-kr-drug':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_drugs_w_dicts_2(dicts, 9, 1)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     elif option == 'mod-tag':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
         cnt = TagHelper.update_tags_w_dicts(dicts)
@@ -176,15 +188,27 @@ def import_tag_list_file(option=None, del_key=None):
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     elif option == 'mod-set-id':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
-        cnt = TagHelper.update_tag_sets_w_dicts(dicts, option)
+        cnt = TagHelper.update_tag_sets_w_dicts(dicts)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     elif option == 'gen-set-eng':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
         cnt = TagHelper.create_tag_sets_w_dicts(dicts, option)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-set-us-s-drug':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_drug_sets_w_dicts(dicts, 8, 1)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-set-us-m-drug':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_drug_sets_w_dicts(dicts, 8, 2)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
+    elif option == 'gen-set-kr-drug':
+        dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
+        cnt = TagHelper.create_drug_sets_w_dicts(dicts, 9, 1)
+        return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     elif option == 'mod-set-eng':
         dicts = request.get_records(field_name='csv', encoding='utf-8-sig')
-        cnt = TagHelper.update_tag_sets_w_dicts(dicts, option)
+        cnt = TagHelper.update_tag_sets_w_dicts(dicts)
         return ok(_m.OK_IMPORT.format(cnt, 'tag'))
     else:
         return bad_req(_m.BAD_PARAM.format('option'))
