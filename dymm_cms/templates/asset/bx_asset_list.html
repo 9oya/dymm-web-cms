@@ -6,13 +6,16 @@
     <div>Total &nbsp;{{ imgs_cnt }}</div>
     {% if dirname == 'archive' %}
     {% else %}
-        <div class="bt zip-png">Archive.png</div>
-        <div class="bt zip-svg">Archive.svg</div>
+        &nbsp;&nbsp;
+        <div class="bt zip-png">Archive.png</div>&nbsp;&nbsp;
+        <div class="bt zip-svg">Archive.svg</div>&nbsp;&nbsp;
         <div class="bt zip-pdf">Archive.pdf</div>
         {% if dirname == 'item' %}
+            &nbsp;&nbsp;
             <div class="bt gen-swift">Gen.swift</div>
         {% endif %}
         {% if dirname == 'item@2x' or dirname == 'tag@2x' or dirname == 'photo@2x' %}
+            &nbsp;&nbsp;
             <div class="gray-bt empty-dir">Empty.dir</div>
             {{ render_field(dirform.delete_key) }}
         {% endif %}

@@ -146,10 +146,13 @@ def fetch_tag_step(tag_id=None):
 
 
 @tag_api.route('/search/<string:keyword>')
-def search_tags_by_keyword(keyword=None):
+@tag_api.route('/search/<string:keyword>/<option>')
+def search_tags_by_keyword(keyword=None, option=None):
     if keyword is None:
         return bad_req(_m.EMPTY_PARAM.format('keyword'))
     tags = TagHelper.get_tags_by_keyword(keyword)
+    if option == 'add':
+        return render_template('tag/cp_tag_tb.html', tags_w_add=tags)
     return render_template('tag/cp_tag_tb.html', tags=tags)
 
 

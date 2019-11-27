@@ -487,6 +487,23 @@ $(document).ready(function () {
     _tag.add.prototype.resetBtnTapped = function () {
         _tagSetEle.find("li.bt-search").trigger("click");
     };
+    _tag.add.prototype.searchEnterKeyTapped = function (currEle) {
+        let _tableHeader = _tagAddEle.find("section.tb > header"),
+            _keyword = currEle.val(),
+            _search_url = "{0}/{1}/{2}/add".format(_u.api.tag, "search",
+                _keyword),
+            _export_url = "{0}/{1}/{2}/{3}".format(_u.api.tag, "export",
+                "search", _keyword);
+        $.get(_search_url)
+            .done(function (response, textStatus, jqXHR) {
+                _tableHeader.nextAll().remove();
+                _tableHeader.after(response);
+            })
+            .fail(function (response) {
+                _f.alertFailResponse(response);
+            });
+        _tagAddEle.find("a").attr("href", _export_url);
+    };
 
     /*=========================================================================
     Event delegation map
@@ -515,9 +532,9 @@ $(document).ready(function () {
                 _tag.list.prototype.uploadOptSelected(_currEle)
             }
         });
-    _tagListEle.on("keypress", "input#search-tag", function (event) {
+    _tagListEle.on("keypress", ".search-tag", function (event) {
         let _currEle = $(this);
-        if (_currEle.is("input#search-tag")) {
+        if (_currEle.is(".search-tag")) {
             let _keyCode = (event.keyCode ? event.keyCode : event.which);
             if (_keyCode === 13) {
                 _tag.list.prototype.searchEnterKeyTapped(_currEle);
@@ -632,4 +649,13 @@ $(document).ready(function () {
                 _tag.add.prototype.resetBtnTapped();
             }
         });
+    _tagAddEle.on("keypress", ".search-tag", function (event) {
+        let _currEle = $(this);
+        if (_currEle.is(".search-tag")) {
+            let _keyCode = (event.keyCode ? event.keyCode : event.which);
+            if (_keyCode === 13) {
+                _tag.add.prototype.searchEnterKeyTapped(_currEle);
+            }
+        }
+    });
 });
