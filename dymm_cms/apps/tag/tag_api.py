@@ -87,6 +87,8 @@ def fetch_sub_tags(tag_id=None, target=None):
         return bad_req(_m.EMPTY_PARAM.format('tag_id'))
     tag = TagHelper.get_a_tag(tag_id)
     tags = TagHelper.get_low_div_tags(tag)
+    if len(tags) > 10000:
+        tags = None
     if target == 'add':
         return render_template('tag/cp_tag_tb.html', tags_w_add=tags)
     return render_template('tag/cp_tag_tb.html', tags=tags)

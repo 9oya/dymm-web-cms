@@ -35,6 +35,9 @@ $(document).ready(function () {
         disabled.attr("disabled", "disabled");
         return serialized;
     };
+    $.ajaxSetup({
+        timeout: 1000 * 60 // in milliseconds
+    });
 
     /*=========================================================================
     Public properties

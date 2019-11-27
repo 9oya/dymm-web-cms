@@ -8,7 +8,8 @@ $(document).ready(function () {
     let _navEle = $("ul#nav-bar > li > a"),
         _adminEle = $("ul.wrap-admin-bt"),
         _pathName = $(location).attr('pathname').split('/')[1],
-        _cookie = Cookies.getJSON('dymm_admin');
+        _cookie = Cookies.getJSON('dymm_admin'),
+        _in30Minutes = 1 / 48;
 
     if (_cookie === undefined) {
         location.assign('/admin/sign-in');
@@ -35,22 +36,13 @@ $(document).ready(function () {
     $('#clock').countdown(expiration.toDate())
         .on('update.countdown', function (event) {
             var format = '%H:%M:%S';
-            // if (event.offset.minutes < 30) {
-            //     $(this).css("color", "limegreen");
-            // }
-            // if (event.offset.minutes < 15) {
-            //     $(this).css("color", "orange");
-            // }
-            // if (event.offset.minutes < 5) {
-            //     $(this).css("color", "red");
-            // }
-            if (event.offset.minutes < 60) {
+            if (event.offset.minutes < 30) {
                 $(this).css("color", "limegreen");
             }
-            if (event.offset.minutes < 30) {
+            if (event.offset.minutes < 15) {
                 $(this).css("color", "orange");
             }
-            if (event.offset.minutes < 15) {
+            if (event.offset.minutes < 5) {
                 $(this).css("color", "red");
             }
             $(this).html(event.strftime('%H:%M:%S'));
@@ -82,7 +74,6 @@ $(document).ready(function () {
                     alert(response.message);
                 } else if (jqXHR.status === 200) {
                     Cookies.remove('dymm_admin');
-                    let _in30Minutes = 1 / 48;
                     Cookies.set('dymm_url_token', response.data.url_token, {
                         expires: _in30Minutes
                     });

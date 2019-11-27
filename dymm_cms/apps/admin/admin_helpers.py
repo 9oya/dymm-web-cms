@@ -36,10 +36,8 @@ class AdminHelper(object):
 
     @staticmethod
     def get_admin_info_json(admin: Avatar):
-        # expiration = (datetime.datetime.now(tz=pytz.utc)
-        #               + datetime.timedelta(minutes=30))
         expiration = (datetime.datetime.now(tz=pytz.utc)
-                      + datetime.timedelta(minutes=60))
+                      + datetime.timedelta(minutes=30))
         admin_info = dict(
             email=admin.email,
             first_name=admin.first_name,

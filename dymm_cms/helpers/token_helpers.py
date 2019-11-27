@@ -17,8 +17,7 @@ def generate_url_token(seed):
     return serializer.dumps(seed)
 
 
-# def confirm_url_token(token, expiration=1800):
-def confirm_url_token(token, expiration=3600):
+def confirm_url_token(token, expiration=1800):
     serializer = URLSafeTimedSerializer(
         app.config['SECRET_KEY'],
         salt=app.config['SECURITY_PASSWORD_SALT']

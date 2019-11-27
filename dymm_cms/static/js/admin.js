@@ -1,6 +1,7 @@
 $(document).ready(function () {
     let _adminFieldEle = $("div#admin-div"),
-        _recentMail = Cookies.getJSON('dymm_admin_recent_mail');
+        _recentMail = Cookies.getJSON('dymm_admin_recent_mail'),
+        _in30Minutes = 1 / 48;
 
     /*
     ===========================================================================
@@ -32,8 +33,6 @@ $(document).ready(function () {
                     return false;
                 }
                 Cookies.remove('dymm_admin');
-                // let _in30Minutes = 1 / 48;
-                let _in30Minutes = 1 / 24; // 60minutes
                 Cookies.set('dymm_url_token', response.data.url_token, {
                     expires: _in30Minutes
                 });
@@ -77,8 +76,6 @@ $(document).ready(function () {
                     return false;
                 }
                 Cookies.remove('dymm_admin');
-                // let _in30Minutes = 1 / 48;
-                let _in30Minutes = 1 / 24; // 60minutes
                 Cookies.set('dymm_url_token', response.data.url_token, {
                     expires: _in30Minutes
                 });

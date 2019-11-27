@@ -28,6 +28,10 @@
     color: dodgerblue;
 }
 
+#bx-tag-list {
+    max-height: 500px;
+}
+
 #bx-tag-set {
     height: 600px;
 }
