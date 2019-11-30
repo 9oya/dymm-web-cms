@@ -145,8 +145,9 @@ $(document).ready(function () {
     =========================================================================*/
     _imgListEle.on(
         "click",
-        ".up-pdf, .up-svg, .up-imgs, .del-all, .del-svg, .del-pdf, .del-zip, " +
-        ".zip-png, .zip-svg, .zip-pdf, .gen-swift, .up-png, .empty-dir",
+        ".up-pdf, .up-svg, .up-org, .up-eps, .up-imgs, .del-all, .del-svg, " +
+        ".del-pdf, .del-zip, .zip-png, .zip-svg, .zip-pdf, .gen-swift, " +
+        ".up-png, .empty-dir",
         function (event) {
             let _currEle = $(this);
             if (_currEle.is(".up-pdf")) {
@@ -155,6 +156,10 @@ $(document).ready(function () {
                 _asset.list.prototype.upLoadSingleFile(_currEle, "svg")
             } else if (_currEle.is(".up-png")) {
                 _asset.list.prototype.upLoadSingleFile(_currEle, "png")
+            } else if (_currEle.is(".up-org")) {
+                _asset.list.prototype.upLoadSingleFile(_currEle, "org")
+            } else if (_currEle.is(".up-eps")) {
+                _asset.list.prototype.upLoadSingleFile(_currEle, "eps")
             } else if (_currEle.is(".up-imgs")) {
                 _asset.list.prototype.upLoadMultiFiles(_currEle, "files")
             } else if (_currEle.is(".del-all")) {

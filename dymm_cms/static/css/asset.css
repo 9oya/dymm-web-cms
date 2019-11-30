@@ -59,13 +59,15 @@ div.edit-asset {
     color: dodgerblue;
 }
 
-.choose-svg, .choose-pdf, .change-png {
+.choose-svg, .choose-pdf, .change-png, .choose-org, .choose-eps {
     max-width: 150px;
 }
 
 .choose-svg::-webkit-file-upload-button,
 .choose-pdf::-webkit-file-upload-button,
 .change-png::-webkit-file-upload-button,
+.choose-org::-webkit-file-upload-button,
+.choose-eps::-webkit-file-upload-button,
 .choose-imgs::-webkit-file-upload-button {
     visibility: hidden;
 }
@@ -85,6 +87,18 @@ div.edit-asset {
 .change-png::before {
     content: 'Change.png';
     cursor: pointer;
+    color: mediumseagreen;
+}
+
+.choose-org::before {
+    content: 'Origin.png';
+    cursor: pointer;
+    color: lightsteelblue;
+}
+
+.choose-eps::before {
+    content: 'Choose.eps';
+    cursor: pointer;
     color: lightsteelblue;
 }
 
@@ -95,6 +109,7 @@ div.edit-asset {
 }
 
 .choose-svg:hover::before, .choose-pdf:hover::before,
+.choose-org:hover::before, .choose-eps:hover::before,
 .change-png:hover::before, .choose-imgs:hover::before {
     color: gold;
 }

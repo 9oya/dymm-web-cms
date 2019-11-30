@@ -31,16 +31,23 @@ def fetch_assets(dirname=None):
         return render_template('asset/bx_asset_list.html', dirname=dirname,
                                dirform=dir_form, zip_names=zip_names,
                                imgs_cnt=len(zip_names))
+    pdf_names = AssetHelper.get_file_names(dirname, 'pdf', False)
     png_names = AssetHelper.get_file_names(dirname, 'png', False)
+    pdf_dict = AssetHelper.convert_file_names_into_json(pdf_names)
     if dirname == 'photo' or dirname == 'photo@2x':
-        assets = AssetHelper.gen_matching_assets(png_names, pdf_dict=None,
-                                                 svg_dict=None)
+        org_names = AssetHelper.get_file_names(dirname, 'org', False)
+        eps_names = AssetHelper.get_file_names(dirname, 'eps', False)
+        org_dict = AssetHelper.convert_file_names_into_json(org_names)
+        eps_dict = AssetHelper.convert_file_names_into_json(eps_names)
+        assets = AssetHelper.gen_matching_assets(png_names, pdf_dict,
+                                                 svg_dict=None,
+                                                 org_dict=org_dict,
+                                                 eps_dict=eps_dict)
         return render_template('asset/bx_asset_list.html', dirname=dirname,
                                dirform=dir_form, assets=assets,
                                imgs_cnt=len(assets))
-    pdf_names = AssetHelper.get_file_names(dirname, 'pdf', False)
     svg_names = AssetHelper.get_file_names(dirname, 'svg', False)
-    pdf_dict = AssetHelper.convert_file_names_into_json(pdf_names)
+    # pdf_dict = AssetHelper.convert_file_names_into_json(pdf_names)
     svg_dict = AssetHelper.convert_file_names_into_json(svg_names)
     assets = AssetHelper.gen_matching_assets(png_names, pdf_dict, svg_dict)
     return render_template('asset/bx_asset_list.html', dirname=dirname,
@@ -76,10 +83,14 @@ def import_file(dirname=None, target=None, filename=None, tag_id=None):
         _filename = 'tag-{0}.{1}'.format(tag_id, target)
     elif dirname == 'photo' and tag_id is not None:
         tag = TagHelper.get_a_tag(tag_id)
-        _filename = 'photo-{0}-{1}-{2}-{3}-{4}-{5}.{6}'.format(
-            tag.class1, tag.division1, tag.division2, tag.division3,
-            tag.division4, tag.division5, target)
-        # _filename = 'photo-{0}.{1}'.format(tag_id, target)
+        if target == 'org':
+            _filename = 'photo-{0}-{1}-{2}-{3}-{4}-{5}.{6}'.format(
+                tag.class1, tag.division1, tag.division2, tag.division3,
+                tag.division4, tag.division5, 'png')
+        else:
+            _filename = 'photo-{0}-{1}-{2}-{3}-{4}-{5}.{6}'.format(
+                tag.class1, tag.division1, tag.division2, tag.division3,
+                tag.division4, tag.division5, target)
     elif isinstance(filename, str):
         _filename = '{0}.{1}'.format(filename, target)
     else:

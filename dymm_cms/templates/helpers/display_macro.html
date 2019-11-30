@@ -30,6 +30,22 @@
     </div>
 {% endmacro %}
 
+{% macro org_link(dirname, filename) %}
+    <div class="bt">
+        <a href="{{ url_for('static', filename="asset/" + dirname + "/org/" + filename) }}" target="_blank">
+            {{ filename }}
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro eps_link(dirname, filename) %}
+    <div class="bt">
+        <a href="{{ url_for('static', filename="asset/" + dirname + "/eps/" + filename) }}" target="_blank">
+            {{ filename }}
+        </a>
+    </div>
+{% endmacro %}
+
 {% macro textfield(text) %}
     <input class="asset-name" type="text" value="{{ text or '' }}">
 {% endmacro %}

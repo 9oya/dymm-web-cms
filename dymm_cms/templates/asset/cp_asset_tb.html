@@ -1,6 +1,6 @@
 {% if assets %}
     {% from "helpers/simple_form_macro.html" import render_field %}
-    {% from "helpers/display_macro.html" import display_img, img_link, pdf_link, svg_link, textfield %}
+    {% from "helpers/display_macro.html" import display_img, img_link, pdf_link, svg_link, org_link, eps_link, textfield %}
     {% for asset in assets %}
         <div class="tr off">
             <div data-name="{{ asset.png_name }}">
@@ -10,15 +10,39 @@
                     <input class="change-png" type=file name=png>
                     <button class="up-png" type="button">Submit</button>
                 </form>
-                {% if asset.svg_name %}
-                    <div class="bt">
-                        {{ svg_link(dirname, asset.svg_name) }}
-                    </div>
-                {% else %}
-                    <form class="file-form" method=post enctype=multipart/form-data>
-                        <input class="choose-svg" type=file name=svg>
-                        <button class="up-svg" type="button">Submit</button>
-                    </form>
+                {% if dirname == 'photo' %}
+                    {% if asset.org_name %}
+                        <div class="bt">
+                            {{ org_link(dirname, asset.org_name) }}
+                        </div>
+                    {% else %}
+                        <form class="file-form" method=post enctype=multipart/form-data>
+                            <input class="choose-org" type=file name=org>
+                            <button class="up-org" type="button">Submit</button>
+                        </form>
+                    {% endif %}
+                    {% if asset.eps_name %}
+                        <div class="bt">
+                            {{ eps_link(dirname, asset.eps_name) }}
+                        </div>
+                    {% else %}
+                        <form class="file-form" method=post enctype=multipart/form-data>
+                            <input class="choose-eps" type=file name=eps>
+                            <button class="up-eps" type="button">Submit</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+                {% if dirname != 'photo' %}
+                    {% if asset.svg_name %}
+                        <div class="bt">
+                            {{ svg_link(dirname, asset.svg_name) }}
+                        </div>
+                    {% else %}
+                        <form class="file-form" method=post enctype=multipart/form-data>
+                            <input class="choose-svg" type=file name=svg>
+                            <button class="up-svg" type="button">Submit</button>
+                        </form>
+                    {% endif %}
                 {% endif %}
                 {% if asset.pdf_name %}
                     <div class="bt">
