@@ -667,6 +667,8 @@ class TagHelper(object):
             name = _dict.get('name')
             form = str_to_none(_dict.get('form', None))
             unit = str_to_none(_dict.get('unit', None))
+            if name is None:
+                return False
             if name_filter is True:
                 dup_drug = Tag.query.filter(
                     Tag.eng_name == name

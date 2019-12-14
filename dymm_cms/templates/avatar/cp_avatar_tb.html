@@ -1,38 +1,79 @@
-{% for avatar in avatars.items %}
-    <div
-            class="tr off"
-            data-id="{{ avatar.id|e }}"
-    >
-        <div>
-            {% if avatar.is_admin %}
-                <span class="true">{{ avatar.is_admin }}</span>
-            {% else %}
-                <span class="false">{{ avatar.is_admin }}</span>
-            {% endif %}
+{% if avatars %}
+    {% for avatar in avatars.items %}
+        <div
+                class="tr off"
+                data-id="{{ avatar.id|e }}"
+        >
+            <div>
+                {% if avatar.is_admin %}
+                    <span class="true">{{ avatar.is_admin }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_admin }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if avatar.is_active %}
+                    <span class="true">{{ avatar.is_active }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_active }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if avatar.is_blocked %}
+                    <span class="true">{{ avatar.is_blocked }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_blocked }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if avatar.is_confirmed %}
+                    <span class="true">{{ avatar.is_confirmed }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_confirmed }}</span>
+                {% endif %}
+            </div>
+            <div>{{ avatar.email|e }}</div>
+            <div>{{ avatar.first_name or '' }}</div>
+            <div>{{ avatar.last_name or '' }}</div>
         </div>
-        <div>
-            {% if avatar.is_active %}
-                <span class="true">{{ avatar.is_active }}</span>
-            {% else %}
-                <span class="false">{{ avatar.is_active }}</span>
-            {% endif %}
+    {% endfor %}
+{% elif searched_avatars %}
+    {% for avatar in searched_avatars %}
+        <div
+                class="tr off"
+                data-id="{{ avatar.id|e }}"
+        >
+            <div>
+                {% if avatar.is_admin %}
+                    <span class="true">{{ avatar.is_admin }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_admin }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if avatar.is_active %}
+                    <span class="true">{{ avatar.is_active }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_active }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if avatar.is_blocked %}
+                    <span class="true">{{ avatar.is_blocked }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_blocked }}</span>
+                {% endif %}
+            </div>
+            <div>
+                {% if avatar.is_confirmed %}
+                    <span class="true">{{ avatar.is_confirmed }}</span>
+                {% else %}
+                    <span class="false">{{ avatar.is_confirmed }}</span>
+                {% endif %}
+            </div>
+            <div>{{ avatar.email|e }}</div>
+            <div>{{ avatar.first_name or '' }}</div>
+            <div>{{ avatar.last_name or '' }}</div>
         </div>
-        <div>
-            {% if avatar.is_blocked %}
-                <span class="true">{{ avatar.is_blocked }}</span>
-            {% else %}
-                <span class="false">{{ avatar.is_blocked }}</span>
-            {% endif %}
-        </div>
-        <div>
-            {% if avatar.is_confirmed %}
-                <span class="true">{{ avatar.is_confirmed }}</span>
-            {% else %}
-                <span class="false">{{ avatar.is_confirmed }}</span>
-            {% endif %}
-        </div>
-        <div>{{ avatar.email|e }}</div>
-        <div>{{ avatar.first_name or '' }}</div>
-        <div>{{ avatar.last_name or '' }}</div>
-    </div>
-{% endfor %}
+    {% endfor %}
+{% endif %}

@@ -1,16 +1,35 @@
 <div class="delegate-item">Avatar - List</div>
-<div class="picked-item">
-    <select class="select-option">
-        <option value="limit" selected>{{ avatars_cnt }} avatars</option>
-        <option value="all">All avatars</option>
-    </select>
-    &nbsp;&nbsp;
-    <div class="bt bt-export"><a href="/api/avatar/export" download>Export.xlsx</a></div>
-</div>
+<ul class="flex-container">
+    <li class="picked-item">
+        <select class="select-option">
+            <option value="limit" selected>{{ avatars_cnt }} avatars</option>
+            <option value="all">All avatars</option>
+        </select>
+        &nbsp;&nbsp;
+        <div class="bt bt-export"><a href="/api/avatar/export/limit/page/{{ cur_page }}" download>Export.xlsx</a></div>
+    </li>
+    <li class="wrap-search">
+        &nbsp;&nbsp;&nbsp;
+        <select class="select-search">
+            <option value="first-name" selected>First name</option>
+            <option value="last-name">Last name</option>
+            <option value="email-addr">Email address</option>
+            <option value="admin">IsAdmin==True</option>
+            <option value="inactive">IsActive==False</option>
+            <option value="block">IsBlocked==True</option>
+            <option value="unconf">IsConf==False</option>
+        </select>
+        <input class="search-avatar" type="text" placeholder="Search" required>
+        &nbsp;&nbsp;
+        <div class="bt bt-export"><a href="#" download>Export.xlsx</a></div>
+    </li>
+</ul>
 <div class="up-file">
+    <input id="delete_key" name="delete_key" type="password" placeholder="Delete key">
     <select class="select-upload">
-        <option value="gen-avatar" selected>Gen avatar</option>
-        <option value="mod-avatar">Mod avatar</option>
+        <option value="gen-avatar" selected>Gen avatars</option>
+        <option value="mod-avatar">Mod avatars</option>
+        <option value="del-avatar">Del avatars</option>
     </select>
     &nbsp;&nbsp;
     <form class="file-form" method=post enctype=multipart/form-data action="/api/avatar/import/gen-avatar">
@@ -20,6 +39,7 @@
 </div>
 <div class="msg message-fail"></div>
 <div class="msg message-success"></div>
+<br/>
 <section class="tb">
     <header>
         <div>IsAdmin</div>

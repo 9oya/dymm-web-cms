@@ -34,7 +34,7 @@ def fetch_assets(dirname=None):
     pdf_names = AssetHelper.get_file_names(dirname, 'pdf', False)
     png_names = AssetHelper.get_file_names(dirname, 'png', False)
     pdf_dict = AssetHelper.convert_file_names_into_json(pdf_names)
-    if dirname == 'photo' or dirname == 'photo@2x':
+    if dirname == 'photo':
         org_names = AssetHelper.get_file_names(dirname, 'org', False)
         eps_names = AssetHelper.get_file_names(dirname, 'eps', False)
         org_dict = AssetHelper.convert_file_names_into_json(org_names)

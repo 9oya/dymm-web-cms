@@ -35,7 +35,7 @@ def avatar_view():
     avatars = AvatarHelper.get_avatars(sort_type='date', page=int(page))
     # form = AvatarHelper.get_empty_avatar_form()
     return render_template('avatar/base_avatar.html', avatars=avatars,
-                           avatars_cnt=len(avatars.items))
+                           avatars_cnt=len(avatars.items), cur_page=page)
 
 
 @app_view.route('/asset')

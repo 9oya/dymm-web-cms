@@ -1,8 +1,8 @@
-import random
+import random, re
 
-from sqlalchemy import text
+from sqlalchemy import text, func
 
-from dymm_cms import db, b_crypt
+from dymm_cms import db, b_crypt, excel
 from dymm_cms.models import Avatar, ProfileTag, Tag, TagSet
 from dymm_cms.helpers.string_helpers import str_to_bool, str_to_none
 from dymm_cms.patterns import TagId
@@ -120,6 +120,77 @@ class AvatarHelper(object):
             return False
         return tag_sets
 
+    @staticmethod
+    def get_avatars_file(avatars, file_name, file_extension='xlsx'):
+        columns = ['id', 'is_active', 'is_blocked', 'is_confirmed', 'email',
+                   'first_name', 'last_name', 'created_timestamp',
+                   'modified_timestamp']
+        if file_extension == 'xlsx':
+            excel_response = excel.make_response_from_query_sets(
+                query_sets=avatars, column_names=columns,
+                file_type='xlsx', file_name=file_name)
+        elif file_extension == 'csv':
+            excel_response = excel.make_response_from_query_sets(
+                query_sets=avatars, column_names=columns,
+                file_type='csv', file_name=file_name)
+        else:
+            return False
+        return excel_response
+
+    @staticmethod
+    def get_avatars_by_keyword(keyword: str, option):
+        if option == 'first-name':
+            avatars = Avatar.query.filter(
+                Avatar.first_name.ilike('{0}%'.format(keyword))
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        elif option == 'last-name':
+            avatars = Avatar.query.filter(
+                Avatar.last_name.ilike('{0}%'.format(keyword))
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        elif option == 'email-addr':
+            avatars = Avatar.query.filter(
+                Avatar.email.ilike('{0}%'.format(keyword))
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        else:
+            return False
+        return avatars
+
+    @staticmethod
+    def get_avatars_by_selected_option(option):
+        if option == 'admin':
+            avatars = Avatar.query.filter(
+                Avatar.is_admin == True
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        elif option == 'inactive':
+            avatars = Avatar.query.filter(
+                Avatar.is_active == False
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        elif option == 'block':
+            avatars = Avatar.query.filter(
+                Avatar.is_blocked == True
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        elif option == 'unconf':
+            avatars = Avatar.query.filter(
+                Avatar.is_confirmed == False
+            ).order_by(
+                Avatar.created_timestamp.desc()
+            ).all()
+        else:
+            return False
+        return avatars
+
     # Create methods
     # -------------------------------------------------------------------------
     @staticmethod
@@ -201,7 +272,7 @@ class AvatarHelper(object):
             db_session.commit()
             cnt += 1
         return cnt
-    
+
     @staticmethod
     def update_a_avatar(avatar: Avatar, form: AvatarForm):
         avatar.is_active = str_to_bool(form.is_active.data)
@@ -222,3 +293,12 @@ class AvatarHelper(object):
         db_session.delete(avatar)
         db_session.commit()
         return True
+
+    @staticmethod
+    def delete_avatars_w_dicts(dicts):
+        cnt = 0
+        for _dict in dicts:
+            avatar = AvatarHelper.get_a_avatar(_dict.get('id', None))
+            AvatarHelper.delete_a_avatar(avatar)
+            cnt += 1
+        return cnt
