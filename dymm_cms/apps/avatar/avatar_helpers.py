@@ -261,13 +261,11 @@ class AvatarHelper(object):
         for _dict in dicts:
             avatar = AvatarHelper.get_a_avatar(_dict.get('id', None))
             avatar.is_active = str_to_bool(_dict.get('is_active'))
-            avatar.is_admin = str_to_bool(_dict.get('is_admin'))
             avatar.is_blocked = str_to_bool(_dict.get('is_blocked'))
             avatar.is_confirmed = str_to_bool(_dict.get('is_confirmed'))
             avatar.email = _dict.get('email', None)
             avatar.first_name = _dict.get('first_name', None)
             avatar.last_name = _dict.get('last_name', None)
-            avatar.color_code = _dict.get('color_code')
             avatar.modified_timestamp = text("timezone('utc'::text, now())")
             db_session.commit()
             cnt += 1

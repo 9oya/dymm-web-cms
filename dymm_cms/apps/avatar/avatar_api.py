@@ -13,7 +13,7 @@ from .avatar_forms import AvatarForm
 @avatar_api.route('/export/<option>/page/<int:page_num>', methods=['GET'])
 @avatar_api.route('/export/<option>/<keyword>/<target>', methods=['GET'])
 @avatar_api.route('/export/<option>/<target>', methods=['GET'])
-def export_tags_file(option=None, keyword=None, page_num=None, target=None):
+def export_avatars_file(option=None, keyword=None, page_num=None, target=None):
     if option == 'search' and keyword is not None:
         avatars = AvatarHelper.get_avatars_by_keyword(keyword, target)
         file_name = 'avatar_keyword_' + keyword
@@ -101,6 +101,9 @@ def put_a_banner_with_detail_form(avatar_id=None):
     avatar = AvatarHelper.get_a_avatar(avatar_id)
     if not avatar:
         return forbidden(_m.NONEXISTENT.format(avatar_id))
+    if str_to_bool(form.is_admin.data):
+        if request.values.get('del_key') != app.config['DELETE_KEY']:
+            return unauthorized(_m.UN_AUTH.format('del_key'))
     AvatarHelper.update_a_avatar(avatar, form)
     return ok(_m.OK_PUT.format('Avatar'))
 
