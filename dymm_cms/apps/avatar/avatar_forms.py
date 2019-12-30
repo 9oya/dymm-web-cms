@@ -25,11 +25,11 @@ class AvatarForm(Form):
     )
     first_name = StringField(
         label="First name",
-        validators=[validators.Length(min=2, max=100)]
+        validators=[validators.Length(min=1, max=100)]
     )
     last_name = StringField(
         label="Last name",
-        validators=[validators.Length(min=2, max=100)]
+        validators=[validators.Length(min=1, max=100)]
     )
     email = StringField(
         label="Email address",

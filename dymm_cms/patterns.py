@@ -58,3 +58,9 @@ class TagId:
     male = 36
     female = 37
     gender = 22
+
+
+class AvatarType:
+    email = 1
+    facebook = 2
+    google = 3

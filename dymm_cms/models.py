@@ -15,7 +15,7 @@ class Avatar(Base):
     is_blocked = Column(Boolean, nullable=False)
     is_confirmed = Column(Boolean, nullable=False)
     email = Column(String(255), nullable=False)
-    password_hash = Column(String(200), nullable=False)
+    password_hash = Column(String(200))
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
     ph_number = Column(String(50))
@@ -26,6 +26,7 @@ class Avatar(Base):
     photo_name = Column(String(100))
     full_lifespan = Column(Integer)
     date_of_birth = Column(Date)
+    avatar_type = Column(SmallInteger)
 
 
 class Banner(Base):
@@ -45,18 +46,6 @@ class Banner(Base):
     bg_color = Column(String(100))
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
-
-
-class DrugTemp(Base):
-    __tablename__ = 'drug_temp'
-
-    id = Column(Integer, primary_key=True, server_default=text("nextval('drug_temp_id_seq'::regclass)"))
-    name = Column(String(1000))
-    form = Column(String(200))
-    route = Column(String(200))
-    substance = Column(String(1000))
-    unit_number = Column(String(1000))
-    unit = Column(String(1000))
 
 
 class Tag(Base):
@@ -142,6 +131,7 @@ class LogGroup(Base):
     note = Column(Text)
     created_timestamp = Column(DateTime, server_default=text("timezone('utc'::text, now())"))
     modified_timestamp = Column(DateTime)
+    year_forweekofyear = Column(SmallInteger)
 
     avatar = relationship('Avatar')
 
