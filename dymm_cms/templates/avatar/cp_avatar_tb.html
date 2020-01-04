@@ -4,6 +4,14 @@
                 class="tr off"
                 data-id="{{ avatar.id|e }}"
         >
+            <div>{{ avatar.id }}</div>
+            {% if avatar.avatar_type == 2 %}
+                <div>Facebook</div>
+            {% elif avatar.avatar_type == 3 %}
+                <div>Google</div>
+            {% else %}
+                <div>Email</div>
+            {% endif %}
             <div>
                 {% if avatar.is_admin %}
                     <span class="true">{{ avatar.is_admin }}</span>
@@ -43,6 +51,14 @@
                 class="tr off"
                 data-id="{{ avatar.id|e }}"
         >
+            <div>{{ avatar.id }}</div>
+            {% if avatar.avatar_type == 2 %}
+                <div>Facebook</div>
+            {% elif avatar.avatar_type == 3 %}
+                <div>Google</div>
+            {% else %}
+                <div>Email</div>
+            {% endif %}
             <div>
                 {% if avatar.is_admin %}
                     <span class="true">{{ avatar.is_admin }}</span>

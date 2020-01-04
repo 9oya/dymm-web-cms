@@ -2,7 +2,7 @@ import re
 from sqlalchemy import text, func
 
 from dymm_cms import excel, db
-from dymm_cms.models import Tag, TagSet, DrugTemp
+from dymm_cms.models import Tag, TagSet
 from dymm_cms.helpers.string_helpers import str_to_bool, str_to_none
 from .tag_forms import TagForm
 
@@ -626,36 +626,6 @@ class TagHelper(object):
                 division5=0
             )
             db_session.add(tag)
-            db_session.commit()
-            cnt += 1
-        return cnt
-
-    @staticmethod
-    def create_drugs_w_dicts_12(dicts):
-        cnt = 0
-        for _dict in dicts:
-            name = _dict.get('name').lower()
-            # substance = _dict.get('substance').lower()
-            # number = str(_dict.get('number', None))
-            # unit = str_to_none(_dict.get('unit', None))
-            # dup_drug = DrugTemp.query.filter(
-            #     DrugTemp.substance.ilike('%{0}%'.format(substance)),
-            #     DrugTemp.unit_number == number
-            # ).first()
-            dup_drug = DrugTemp.query.filter(
-                DrugTemp.name.ilike('%{0}%'.format(name))
-            ).first()
-            if dup_drug is not None:
-                continue
-            drug = DrugTemp(
-                name=name,
-                form=_dict.get('form')
-                # route=_dict.get('route'),
-                # substance=substance
-                # unit_number=number,
-                # unit=unit
-            )
-            db_session.add(drug)
             db_session.commit()
             cnt += 1
         return cnt
